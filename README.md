@@ -13,7 +13,7 @@ This project is designed for self-study and aims to simulate a real-world backen
 - Optional: frontend using Blazor, MAUI, or another framework
 
 ## Tech Stack
-- ASP.NET Core 8
+- ASP.NET Core 9
 - Entity Framework Core
 - SQLite / SQL Server LocalDB
 - Swagger for API testing
