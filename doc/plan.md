@@ -36,7 +36,7 @@
 ## Progress
 - 🔄 Planning phase — project not yet started
 - 🧠 Architecture and features defined
-- 🧰 Technology stack chosen: .NET 8, EF Core, SQLite/SQL Server
+- 🧰 Technology stack chosen: .NET 9, EF Core, SQLite/SQL Server
 
 ## Current Goal
 Start by setting up the project and building the Transaction & Category models
