@@ -1,4 +1,4 @@
-﻿# Budget Tracker Web API with .NET 8
+# Budget Tracker Web API with .NET 8
 
 ## Notes
 - User is a .NET developer with 1 year of experience and a Unity background
@@ -11,12 +11,12 @@
 ## Task List
 - [x] Create ASP.NET Core Web API project
 - [x] Install and configure EF Core with SQLite or SQL Server LocalDB
-- [ ] Create `Transaction` model with properties:
+- [x] Create `Transaction` model with properties:
     - Id, Title, Amount, Date, Type (Income/Expense), CategoryId
-- [ ] Create `Category` model with properties:
+- [x] Create `Category` model with properties:
     - Id, Name
-- [ ] Configure `ApplicationDbContext` and register DbSets
-- [ ] Create initial migration and apply it to the database
+- [x] Configure `ApplicationDbContext` and register DbSets
+- [x] Create initial migration and apply it to the database
 - [ ] Add CRUD endpoints for transactions
 - [ ] Add CRUD endpoints for categories
 - [ ] Implement basic validation in models and DTOs
@@ -34,9 +34,15 @@
 - [ ] Optional: Build frontend using Blazor Server, MAUI, or another UI framework
 
 ## Progress
-- 🔄 Planning phase — project not yet started
-- 🧠 Architecture and features defined
-- 🧰 Technology stack chosen: .NET 9, EF Core, SQLite/SQL Server
+- Models for Transaction and Category implemented (basic structure).
+- SqlLiteContext set up for EF Core and SQLite.
+- Ready for CRUD and filtering features.
+- Improvements needed:
+    - Consider using an enum for Transaction.Type instead of string.
+
+## Next Steps
+- Implement CRUD endpoints for Transaction and Category.
+- Continue with filtering, summaries, and optional features.
 
 ## Current Goal
 Start by setting up the project and building the Transaction & Category models
