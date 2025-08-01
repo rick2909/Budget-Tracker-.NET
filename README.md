@@ -19,12 +19,6 @@ This project is designed for self-study and aims to simulate a real-world backen
 - Swagger for API testing
 - (Optional) JWT authentication
 
-## Status
-🚧 Project is in the early development phase (planning & setup)
-
-## Author
-Rick van Nieuwland
-
 ## Database Management
 
 To manage database migrations and updates, use the following commands:
@@ -45,3 +39,9 @@ To manage database migrations and updates, use the following commands:
   ```sh
   dotnet ef migrations remove --project BudgetTracker.Infrastructure --startup-project BudgetTracker.API
   ```
+
+## Status
+🚧 Project is in the early development phase (planning & setup)
+
+## Author
+Rick van Nieuwland
