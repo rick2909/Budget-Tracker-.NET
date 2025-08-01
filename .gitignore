@@ -58,8 +58,5 @@ nunit-*.xml
 .idea/
 *.suo/
 
-# Entity Framework Migrations
-*/Migrations/*
-
 # SQLite Database
 *.db
