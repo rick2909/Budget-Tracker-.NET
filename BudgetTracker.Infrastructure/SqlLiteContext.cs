@@ -7,7 +7,7 @@ public class SqlLiteContext : DbContext
 {
     // TODO: Replace with your actual entity classes
     public DbSet<Transaction> Transactions { get; set; }
-    // public DbSet<Category> Categories { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     public SqlLiteContext(DbContextOptions<SqlLiteContext> options) : base(options)
     {
