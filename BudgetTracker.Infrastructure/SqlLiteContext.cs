@@ -1,7 +1,7 @@
-using Budget_Tracker.Infrastructure.Models;
+using BudgetTracker.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Budget_Tracker.Infrastructure;
+namespace BudgetTracker.Infrastructure;
 
 public class SqlLiteContext : DbContext
 {

@@ -9,8 +9,8 @@
 - Optional: add authentication and a frontend (Blazor, MAUI, or React) later
 
 ## Task List
-- [ ] Create ASP.NET Core Web API project
-- [ ] Install and configure EF Core with SQLite or SQL Server LocalDB
+- [x] Create ASP.NET Core Web API project
+- [x] Install and configure EF Core with SQLite or SQL Server LocalDB
 - [ ] Create `Transaction` model with properties:
     - Id, Title, Amount, Date, Type (Income/Expense), CategoryId
 - [ ] Create `Category` model with properties:

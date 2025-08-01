@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget Tracker.API", "Budget Tracker.API\Budget Tracker.API.csproj", "{2249E4AB-A485-49D8-BE50-D28261BFA7CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.API", "BudgetTracker.API\BudgetTracker.API.csproj", "{2249E4AB-A485-49D8-BE50-D28261BFA7CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget Tracker.Infrastructure", "Budget Tracker.Infrastructure\Budget Tracker.Infrastructure.csproj", "{FFF2B2DD-EAF2-4FC0-9CF0-290282DEC88F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Infrastructure", "BudgetTracker.Infrastructure\BudgetTracker.Infrastructure.csproj", "{FFF2B2DD-EAF2-4FC0-9CF0-290282DEC88F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget Tracker.Logic", "Budget Tracker.Logic\Budget Tracker.Logic.csproj", "{CC24C920-35D8-48B6-96D2-6AFC3FCE6189}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Logic", "BudgetTracker.Logic\BudgetTracker.Logic.csproj", "{CC24C920-35D8-48B6-96D2-6AFC3FCE6189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
