@@ -21,10 +21,28 @@ public class SqlLiteContext : DbContext
             optionsBuilder.UseSqlite("Data Source=budget_tracker.db");
         }
     }
-}
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Transaction>(transaction =>
+        {
+            transaction.HasKey(t => t.Id);
+            transaction.Property(t => t.Title).IsRequired().HasMaxLength(100);
+            transaction.Property(t => t.Amount).IsRequired().HasColumnType("decimal(18,2)");
+            transaction.Property(t => t.Date).IsRequired();
+            transaction.Property(t => t.Type).IsRequired().HasMaxLength(20);
+            
+            // Define foreign key relationship with Category
+            transaction.HasOne(t => t.Category)
+                .WithMany()
+                .HasForeignKey(t => t.CategoryId);
+        });
 
-// NOTE: Install these NuGet packages in your project:
-// - Microsoft.EntityFrameworkCore
-// - Microsoft.EntityFrameworkCore.Sqlite
-//
-// And define your entity classes (e.g., Transaction, Category) in the appropriate folder.
+        modelBuilder.Entity<Category>(category =>
+        {
+            category.HasKey(c => c.Id);
+            category.Property(c => c.Name).IsRequired().HasMaxLength(50);
+            category.Property(c => c.Description).HasMaxLength(200);
+        });
+    }
+}
