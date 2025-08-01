@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BudgetTracker.Infrastructure.Migrations
 {
-    [DbContext(typeof(SqlLiteContext))]
+    [DbContext(typeof(SqliteContext))]
     partial class SqlLiteContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

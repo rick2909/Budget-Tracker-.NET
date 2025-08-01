@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.Infrastructure;
 
-public class SqlLiteContext : DbContext
+public class SqliteContext : DbContext
 {
     // TODO: Replace with your actual entity classes
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Category> Categories { get; set; }
 
-    public SqlLiteContext(DbContextOptions<SqlLiteContext> options) : base(options)
+    public SqliteContext(DbContextOptions<SqliteContext> options) : base(options)
     {
     }
 

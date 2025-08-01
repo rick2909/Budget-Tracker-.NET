@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BudgetTracker.Infrastructure.Migrations
 {
-    [DbContext(typeof(SqlLiteContext))]
+    [DbContext(typeof(SqliteContext))]
     [Migration("20250801135413_InitialCreate")]
     partial class InitialCreate
     {

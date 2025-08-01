@@ -3,7 +3,7 @@ using BudgetTracker.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // add database context
-builder.Services.AddDbContext<SqlLiteContext>();
+builder.Services.AddDbContext<SqliteContext>();
 
 // Add services to the container.
 
