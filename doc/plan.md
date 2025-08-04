@@ -41,8 +41,23 @@
     - Consider using an enum for Transaction.Type instead of string.
 
 ## Next Steps
+- Fix Category model access modifiers.
+- Add user support if authentication/per-user data is required.
 - Implement CRUD endpoints for Transaction and Category.
+- Apply EF Core migrations and test database.
 - Continue with filtering, summaries, and optional features.
+
+### New: CRUD Logic Layer for Transaction
+- Create folders in `.Logic`:
+    - `Services/Interfaces`
+    - `Services/Implementations`
+    - `Dtos`
+    - `Results`
+- Define `ITransactionService` interface in `Services/Interfaces`.
+- Implement `TransactionService` in `Services/Implementations`.
+- Create DTOs for Transaction (e.g., `CreateTransactionDto`, `UpdateTransactionDto`) in `Dtos`.
+- Create result classes for Transaction (e.g., `TransactionResult`) in `Results`.
+- Ensure all CRUD logic for Transaction is in `.Logic` and uses DTOs for input and result classes for output.
 
 ## Current Goal
 Start by setting up the project and building the Transaction & Category models
