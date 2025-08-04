@@ -1,4 +1,6 @@
 using BudgetTracker.Infrastructure;
+using BudgetTracker.Logic.Services.Interfaces;
+using BudgetTracker.Logic.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SqliteContext>();
 
 // Add services to the container.
-
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IRecurringTransactionService, RecurringTransactionService>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
