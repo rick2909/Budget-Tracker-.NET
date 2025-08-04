@@ -1,6 +1,7 @@
 using BudgetTracker.Logic.Dtos;
 using BudgetTracker.Logic.Results;
 using BudgetTracker.Infrastructure;
+using BudgetTracker.Infrastructure.Models;
 using BudgetTracker.Logic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,32 +13,74 @@ namespace BudgetTracker.Logic.Services.Implementations
 
         public async Task<TransactionResult> GetTransactionByIdAsync(int id)
         {
-            // TODO: Implement logic
-            return null;
+            var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == id);
+            
+            if (transaction == null)
+            {
+                return TransactionResult.Fail(404, "Transaction not found");
+            }
+            
+            return TransactionResult.Success(transaction);
         }
 
         public async Task<IEnumerable<TransactionResult>> GetAllTransactionsAsync()
         {
-            // TODO: Implement logic
-            return null;
+            var transactions = await _context.Transactions.ToListAsync();
+            
+            return transactions.Select(t => TransactionResult.Success(t));
         }
 
         public async Task<TransactionResult> CreateTransactionAsync(CreateTransactionDto dto)
         {
-            // TODO: Implement logic
-            return null;
+            // convert dto to entity
+            var transaction = new Transaction
+            {
+                Title = dto.Title,
+                Amount = dto.Amount,
+                Date = dto.Date,
+                Type = dto.Type,
+                CategoryId = dto.CategoryId
+            };
+            
+            context.Transactions.Add(transaction);
+            await context.SaveChangesAsync();
+            
+            return TransactionResult.Success(transaction);
         }
 
         public async Task<TransactionResult> UpdateTransactionAsync(int id, UpdateTransactionDto dto)
         {
-            // TODO: Implement logic
-            return null;
+            var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == id);
+            
+            if (transaction == null)
+            {
+                return TransactionResult.Fail(404, "Transaction not found");
+            }
+            
+            transaction.Title = dto.Title ?? transaction.Title;
+            transaction.Amount = dto.Amount ?? transaction.Amount;
+            transaction.Date = dto.Date ?? transaction.Date;
+            transaction.Type = dto.Type ?? transaction.Type;
+            transaction.CategoryId = dto.CategoryId ?? transaction.CategoryId;
+            
+            await _context.SaveChangesAsync();
+            
+            return TransactionResult.Success(transaction);
         }
 
-        public async Task<bool> DeleteTransactionAsync(int id)
+        public async Task<TransactionResult> DeleteTransactionAsync(int id)
         {
-            // TODO: Implement logic
-            return false;
+            var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == id);
+            
+            if (transaction == null)
+            {
+                return TransactionResult.Fail(404, "Transaction not found");
+            }
+            
+            _context.Transactions.Remove(transaction);
+            await _context.SaveChangesAsync();
+            
+            return TransactionResult.Success(null, 202, "Transaction deleted");
         }
     }
 }

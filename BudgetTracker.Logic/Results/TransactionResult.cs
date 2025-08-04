@@ -18,7 +18,7 @@ public class TransactionResult : IResult
         Transaction = transaction;
     }
 
-    public static TransactionResult Success(Transaction? transaction, string message = "Success", int statusCode = 200)
+    public static TransactionResult Success(Transaction? transaction, int statusCode = 200, string message = "Success")
     {
         return new TransactionResult(true, statusCode, message, transaction);
     }

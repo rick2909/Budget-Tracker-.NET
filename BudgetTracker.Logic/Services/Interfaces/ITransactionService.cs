@@ -11,6 +11,6 @@ namespace BudgetTracker.Logic.Services.Interfaces
         Task<IEnumerable<TransactionResult>> GetAllTransactionsAsync();
         Task<TransactionResult> CreateTransactionAsync(CreateTransactionDto dto);
         Task<TransactionResult> UpdateTransactionAsync(int id, UpdateTransactionDto dto);
-        Task<bool> DeleteTransactionAsync(int id);
+        Task<TransactionResult> DeleteTransactionAsync(int id);
     }
 }
