@@ -13,11 +13,32 @@ This project is designed for self-study and aims to simulate a real-world backen
 - Optional: frontend using Blazor, MAUI, or another framework
 
 ## Tech Stack
-- ASP.NET Core 8
+- ASP.NET Core 9
 - Entity Framework Core
 - SQLite / SQL Server LocalDB
 - Swagger for API testing
 - (Optional) JWT authentication
+
+## Database Management
+
+To manage database migrations and updates, use the following commands:
+
+- Add a migration:
+  ```sh
+  dotnet ef migrations add InitialCreate --project BudgetTracker.Infrastructure --startup-project BudgetTracker.API
+  ```
+- Update the database:
+  ```sh
+  dotnet ef database update --project BudgetTracker.Infrastructure --startup-project BudgetTracker.API
+  ```
+- Drop the database:
+  ```sh
+  dotnet ef database drop --project BudgetTracker.Infrastructure --startup-project BudgetTracker.API
+  ```
+- Undo the last migration:
+  ```sh
+  dotnet ef migrations remove --project BudgetTracker.Infrastructure --startup-project BudgetTracker.API
+  ```
 
 ## Status
 🚧 Project is in the early development phase (planning & setup)

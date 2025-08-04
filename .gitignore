@@ -57,3 +57,6 @@ nunit-*.xml
 .vscode/
 .idea/
 *.suo/
+
+# SQLite Database
+*.db
