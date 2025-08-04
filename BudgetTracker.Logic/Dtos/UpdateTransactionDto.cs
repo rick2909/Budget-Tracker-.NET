@@ -1,4 +1,5 @@
-﻿using BudgetTracker.Infrastructure.Models;
+﻿using BudgetTracker.Infrastructure.Enums;
+using BudgetTracker.Infrastructure.Models;
 
 namespace BudgetTracker.Logic.Dtos;
 
