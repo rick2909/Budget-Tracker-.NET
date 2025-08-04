@@ -115,6 +115,23 @@ public class SqliteContext(DbContextOptions<SqliteContext> options) : DbContext(
             category.HasKey(c => c.Id);
             category.Property(c => c.Name).IsRequired().HasMaxLength(50);
             category.Property(c => c.Description).HasMaxLength(200);
+            category.HasData(
+                new Category { Id = 1, Name = "Groceries", Description = "Food and supermarket purchases" },
+                new Category { Id = 2, Name = "Utilities", Description = "Electricity, water, gas, etc." },
+                new Category { Id = 3, Name = "Transport", Description = "Public transport, fuel, etc." },
+                new Category { Id = 4, Name = "Leisure", Description = "Entertainment and hobbies" },
+                new Category { Id = 5, Name = "Other", Description = "Miscellaneous expenses" },
+                new Category { Id = 6, Name = "Travel", Description = "Trips, vacations, hotels, flights" },
+                new Category { Id = 7, Name = "Health", Description = "Medical, pharmacy, insurance" },
+                new Category { Id = 8, Name = "Services", Description = "Professional and personal services" },
+                new Category { Id = 9, Name = "Insurance", Description = "Insurance premiums and payments" },
+                new Category { Id = 10, Name = "Assets", Description = "Crypto, shares, investments" },
+                new Category { Id = 11, Name = "Loan", Description = "Loan payments and repayments" },
+                new Category { Id = 12, Name = "Donation", Description = "Charity and donations" },
+                new Category { Id = 13, Name = "Salary", Description = "Income from employment" },
+                new Category { Id = 14, Name = "Gifts", Description = "Received or given gifts" },
+                new Category { Id = 15, Name = "Interest", Description = "Interest income or expenses" }
+            );
         });
     }
 }
