@@ -20,7 +20,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BudgetTracker.Infrastructure\BudgetTracker.Infrastructure.csproj" />
-      <ProjectReference Include="..\BudgetTracker.Logic\BudgetTracker.Logic.csproj" />
     </ItemGroup>
 
 </Project>
