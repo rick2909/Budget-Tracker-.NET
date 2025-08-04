@@ -1,18 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BudgetTracker.Infrastructure.Enums;
 using BudgetTracker.Infrastructure.Models;
 using BudgetTracker.Logic.Attributes;
 
 namespace BudgetTracker.Logic.Dtos;
 
-public class CreateTransactionDto
+public class CreateTransactionDto : BaseTransactionDto
 {
-    [MaxLength(100)]
-    public required  string Title { get; set; }
-    [Decimal(18, 2, "This field must be a decimal with up to 18 digits in total maximum of 2 decimal places.")]
-    public required decimal Amount { get; set; }
+    [Required, DataType(DataType.Date)]
     public required  DateTime Date { get; set; }
-    public required TransactionType Type { get; set; }
-    public int CategoryId { get; set; }
-    
-    public Category? Category { get; set; }
 }
