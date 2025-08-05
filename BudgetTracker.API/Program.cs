@@ -10,6 +10,8 @@ builder.Services.AddDbContext<SqliteContext>();
 // Add services to the container.
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IRecurringTransactionService, RecurringTransactionService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
