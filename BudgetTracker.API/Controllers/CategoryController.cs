@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetTracker.API.Controllers;
 
+[ApiController]
+[Route("api/categories")]
 public class CategoryController(ICategoryService categoryService) : ControllerBase
 {
     [HttpGet]
