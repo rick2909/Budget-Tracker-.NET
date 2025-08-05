@@ -19,8 +19,9 @@
 - [x] Create initial migration and apply it to the database
 - [x] Add CRUD endpoints for transactions
 - [ ] Optional: Add CRUD endpoints for categories
-- [ ] Implement basic validation in models and DTOs
-- [ ] Add filtering endpoint (by date range, type, category)
+- [x] Implement basic validation in models and DTOs
+- [x] Add filtering endpoint for transactions (by date range, type(s), category(s))
+- [x] Add filtering endpoint for recurring transactions (by date range, type(s), category(s))
 - [ ] Add monthly summary endpoint (total income/expenses per month)
 - [ ] Add category summary endpoint (total spent per category)
 - [ ] Add Swagger documentation for all endpoints
@@ -43,7 +44,8 @@
 ## Next Steps
 - Fix Category model access modifiers.
 - Add user support if authentication/per-user data is required.
-- Implement CRUD endpoints for Transaction and Category.
+- Implement CRUD endpoints for Transaction.
+- (Optional, for later) Implement CRUD endpoints for Category.
 - Apply EF Core migrations and test database.
 - Continue with filtering, summaries, and optional features.
 
@@ -60,4 +62,5 @@
 - Ensure all CRUD logic for Transaction is in `.Logic` and uses DTOs for input and result classes for output.
 
 ## Current Goal
-Start by setting up the project and building the Transaction & Category models
+Start by setting up the project and building the Transaction model.
+(Optional, for later) Build the Category model and add Category CRUD endpoints.

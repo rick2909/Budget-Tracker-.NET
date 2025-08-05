@@ -82,5 +82,32 @@ namespace BudgetTracker.Logic.Services.Implementations
             
             return TransactionResult.Success(null, 202, "Transaction deleted");
         }
+        public async Task<IEnumerable<TransactionResult>> FilterTransactionsAsync(TransactionFilterDto filterDto)
+        {
+            var query = _context.Transactions.AsQueryable();
+
+            if (filterDto.DateFrom.HasValue)
+            {
+                query = query.Where(t => t.Date >= filterDto.DateFrom.Value);
+            }
+
+            if (filterDto.DateTo.HasValue)
+            {
+                query = query.Where(t => t.Date <= filterDto.DateTo.Value);
+            }
+
+            if (filterDto.Types != null && filterDto.Types.Any())
+            {
+                query = query.Where(t => filterDto.Types.Contains(t.Type));
+            }
+
+            if (filterDto.CategoryIds != null && filterDto.CategoryIds.Any())
+            {
+                query = query.Where(t => filterDto.CategoryIds.Contains<int>(t.CategoryId));
+            }
+
+            var transactions = await query.ToListAsync();
+            return transactions.Select(t => TransactionResult.Success(t));
+        }
     }
 }

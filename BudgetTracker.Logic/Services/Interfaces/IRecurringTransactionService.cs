@@ -12,4 +12,5 @@ public interface IRecurringTransactionService
     Task<RecurringTransactionResult> CreateRecurringTransactionAsync(CreateRecurringTransactionDto dto);
     Task<RecurringTransactionResult> UpdateRecurringTransactionAsync(int id, UpdateRecurringTransactionDto dto);
     Task<RecurringTransactionResult> DeleteRecurringTransactionAsync(int id);
+    Task<IEnumerable<RecurringTransactionResult>> FilterRecurringTransactionsAsync(RecurringTransactionFilterDto filterDto);
 }

@@ -9,6 +9,13 @@ namespace BudgetTracker.API.Controllers;
 [Route("api/transaction/recurring")]
 public class RecurringTransactionController(IRecurringTransactionService recurringTransactionService) : ControllerBase
 {
+    [HttpGet("filter")]
+    public async Task<IActionResult> Filter([FromQuery] RecurringTransactionFilterDto filterDto)
+    {
+        var results = await recurringTransactionService.FilterRecurringTransactionsAsync(filterDto);
+        return Ok(results);
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

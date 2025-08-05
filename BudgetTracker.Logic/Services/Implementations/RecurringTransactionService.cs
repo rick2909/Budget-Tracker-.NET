@@ -82,4 +82,32 @@ public class RecurringTransactionService(SqliteContext context) : IRecurringTran
         await _context.SaveChangesAsync();
         return RecurringTransactionResult.Success(null, 202, "Recurring transaction deleted");
     }
+
+    public async Task<IEnumerable<RecurringTransactionResult>> FilterRecurringTransactionsAsync(RecurringTransactionFilterDto filterDto)
+    {
+        var query = _context.RecurringTransactions.AsQueryable();
+
+        if (filterDto.StartDateFrom.HasValue)
+        {
+            query = query.Where(rt => rt.StartDate >= filterDto.StartDateFrom.Value);
+        }
+
+        if (filterDto.StartDateTo.HasValue)
+        {
+            query = query.Where(rt => rt.StartDate <= filterDto.StartDateTo.Value);
+        }
+
+        if (filterDto.Types != null && filterDto.Types.Any())
+        {
+            query = query.Where(rt => filterDto.Types.Contains(rt.Type));
+        }
+
+        if (filterDto.CategoryIds != null && filterDto.CategoryIds.Any())
+        {
+            query = query.Where(rt => filterDto.CategoryIds.Contains<int>(rt.CategoryId));
+        }
+
+        var recurringTransactions = await query.Include(rt => rt.Category).ToListAsync();
+        return recurringTransactions.Select(rt => RecurringTransactionResult.Success(rt));
+    }
 }

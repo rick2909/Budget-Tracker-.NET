@@ -9,6 +9,13 @@ namespace BudgetTracker.API.Controllers;
 [Route("api/transaction")]
 public class TransactionController(ITransactionService transactionService) : ControllerBase
 {
+    [HttpGet("filter")]
+    public async Task<IActionResult> Filter([FromQuery] TransactionFilterDto filterDto)
+    {
+        var results = await transactionService.FilterTransactionsAsync(filterDto);
+        return Ok(results);
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

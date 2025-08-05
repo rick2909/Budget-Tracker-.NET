@@ -11,7 +11,7 @@ public class Transaction
     public required TransactionType Type { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public int? CategoryId { get; set; }
+    public int CategoryId { get; set; }
     public int? RecurringTransactionId { get; set; }
     
     public Category? Category { get; set; }
