@@ -64,7 +64,7 @@ public class SqliteContext(DbContextOptions<SqliteContext> options) : DbContext(
             
             transaction.Property(t => t.CreatedAt).IsRequired();
 
-            transaction.Property(t => t.UpdatedAt) .IsRequired();
+            transaction.Property(t => t.UpdatedAt).IsRequired();
             
             // Define foreign key relationship with Category
             transaction.HasOne(t => t.Category)
@@ -90,7 +90,7 @@ public class SqliteContext(DbContextOptions<SqliteContext> options) : DbContext(
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");
 
-            recurring.Property(r => r.StartDate) .IsRequired();
+            recurring.Property(r => r.StartDate).IsRequired();
 
             recurring.Property(r => r.Pattern)
                 .IsRequired()
@@ -102,7 +102,7 @@ public class SqliteContext(DbContextOptions<SqliteContext> options) : DbContext(
 
             recurring.Property(r => r.CreatedAt).IsRequired();
 
-            recurring.Property(r => r.UpdatedAt) .IsRequired();
+            recurring.Property(r => r.UpdatedAt).IsRequired();
 
             recurring.HasOne(r => r.Category)
                 .WithMany()

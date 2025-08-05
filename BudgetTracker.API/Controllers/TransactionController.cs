@@ -33,7 +33,7 @@ public class TransactionController(ITransactionService transactionService) : Con
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateTransactionDto dto)
+    public async Task<IActionResult> Create(CreateTransactionDto dto)
     {
         var result = await transactionService.CreateTransactionAsync(dto);
         if (!result.IsSuccess)
@@ -42,7 +42,7 @@ public class TransactionController(ITransactionService transactionService) : Con
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateTransactionDto dto)
+    public async Task<IActionResult> Update(int id, UpdateTransactionDto dto)
     {
         var result = await transactionService.UpdateTransactionAsync(id, dto);
         if (!result.IsSuccess)

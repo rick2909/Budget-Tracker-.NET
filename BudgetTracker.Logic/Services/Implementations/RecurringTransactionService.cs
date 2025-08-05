@@ -104,7 +104,7 @@ public class RecurringTransactionService(SqliteContext context) : IRecurringTran
 
         if (filterDto.CategoryIds != null && filterDto.CategoryIds.Any())
         {
-            query = query.Where(rt => filterDto.CategoryIds.Contains<int>(rt.CategoryId));
+            query = query.Where(rt => filterDto.CategoryIds.Contains(rt.CategoryId));
         }
 
         var recurringTransactions = await query.Include(rt => rt.Category).ToListAsync();

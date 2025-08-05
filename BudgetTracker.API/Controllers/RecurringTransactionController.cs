@@ -33,7 +33,7 @@ public class RecurringTransactionController(IRecurringTransactionService recurri
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateRecurringTransactionDto dto)
+    public async Task<IActionResult> Create(CreateRecurringTransactionDto dto)
     {
         var result = await recurringTransactionService.CreateRecurringTransactionAsync(dto);
         if (!result.IsSuccess)
@@ -42,7 +42,7 @@ public class RecurringTransactionController(IRecurringTransactionService recurri
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateRecurringTransactionDto dto)
+    public async Task<IActionResult> Update(int id, UpdateRecurringTransactionDto dto)
     {
         var result = await recurringTransactionService.UpdateRecurringTransactionAsync(id, dto);
         if (!result.IsSuccess)

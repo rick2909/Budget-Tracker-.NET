@@ -103,7 +103,7 @@ namespace BudgetTracker.Logic.Services.Implementations
 
             if (filterDto.CategoryIds != null && filterDto.CategoryIds.Any())
             {
-                query = query.Where(t => filterDto.CategoryIds.Contains<int>(t.CategoryId));
+                query = query.Where(t => filterDto.CategoryIds.Contains(t.CategoryId));
             }
 
             var transactions = await query.ToListAsync();

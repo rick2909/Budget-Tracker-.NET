@@ -1,6 +1,7 @@
 ﻿using BudgetTracker.Infrastructure;
 using BudgetTracker.Logic.Results;
 using BudgetTracker.Logic.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.Logic.Services.Implementations;
 
@@ -8,10 +9,9 @@ public class CategoryService(SqliteContext context) : ICategoryService
 {
     private readonly SqliteContext _context = context;
 
-    public Task<IEnumerable<CategoryResult>> GetAllCategoriesAsync()
+    public async Task<IEnumerable<CategoryResult>> GetAllCategoriesAsync()
     {
-        return Task.FromResult(_context.Categories
-            .Select(c => CategoryResult.Success(c))
-            .AsEnumerable());
+        var categories = await _context.Categories.ToListAsync();
+        return categories.Select(CategoryResult.Success);
     }
 }

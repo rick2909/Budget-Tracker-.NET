@@ -7,9 +7,9 @@ public class CategoryResult : IResult
     public bool IsSuccess { get; }
     public int StatusCode { get; }
     public string Message { get; }
-    public Category Category { get; }
+    public Category? Category { get; }
 
-    private CategoryResult(bool isSuccess, int statusCode, string message, Category category)
+    private CategoryResult(bool isSuccess, int statusCode, string message, Category? category)
     {
         IsSuccess = isSuccess;
         StatusCode = statusCode;
