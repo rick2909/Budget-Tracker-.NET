@@ -1,4 +1,4 @@
-﻿namespace BudgetTracker.Infrastructure.Models;
+﻿namespace BudgetTracker.Infrastructure.Enums;
 
 public enum TransactionType
 {
