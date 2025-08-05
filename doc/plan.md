@@ -17,8 +17,8 @@
     - Id, Name
 - [x] Configure `ApplicationDbContext` and register DbSets
 - [x] Create initial migration and apply it to the database
-- [ ] Add CRUD endpoints for transactions
-- [ ] Add CRUD endpoints for categories
+- [x] Add CRUD endpoints for transactions
+- [ ] Optional: Add CRUD endpoints for categories
 - [ ] Implement basic validation in models and DTOs
 - [ ] Add filtering endpoint (by date range, type, category)
 - [ ] Add monthly summary endpoint (total income/expenses per month)
