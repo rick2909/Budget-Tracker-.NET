@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Fluent 2.0 Color Palette -->
+    <Color x:Key="NeutralBackground1">#F3F2F1</Color>
+    <Color x:Key="NeutralBackground1Dark">#1B1A19</Color>
+    <Color x:Key="NeutralBackground2">#FAFAF9</Color>
+    <Color x:Key="NeutralBackground2Dark">#161514</Color>
+    <Color x:Key="NeutralBackground3">#FFFFFF</Color>
+    <Color x:Key="NeutralBackground3Dark">#0B0A09</Color>
+    
+    <Color x:Key="NeutralForeground1">#242424</Color>
+    <Color x:Key="NeutralForeground1Dark">#FFFFFF</Color>
+    <Color x:Key="NeutralForeground2">#424242</Color>
+    <Color x:Key="NeutralForeground2Dark">#C7C6C5</Color>
+    <Color x:Key="NeutralForeground3">#616161</Color>
+    <Color x:Key="NeutralForeground3Dark">#A19F9D</Color>
+    
+    <Color x:Key="BrandBackground1">#0F6CBD</Color>
+    <Color x:Key="BrandBackground2">#115EA3</Color>
+    <Color x:Key="BrandForeground1">#FFFFFF</Color>
+    
+    <Color x:Key="SuccessBackground">#DFF6DD</Color>
+    <Color x:Key="SuccessBackgroundDark">#0E4B0E</Color>
+    <Color x:Key="SuccessForeground">#0F7B0F</Color>
+    <Color x:Key="SuccessForegroundDark">#54D854</Color>
+    
+    <Color x:Key="DangerBackground">#FDE7E9</Color>
+    <Color x:Key="DangerBackgroundDark">#4C1A1C</Color>
+    <Color x:Key="DangerForeground">#C50E20</Color>
+    <Color x:Key="DangerForegroundDark">#F99B9B</Color>
+    
+    <Color x:Key="NeutralStroke1">#D1D1D1</Color>
+    <Color x:Key="NeutralStroke1Dark">#292827</Color>
+    <Color x:Key="NeutralStroke2">#E0E0E0</Color>
+    <Color x:Key="NeutralStroke2Dark">#3B3A39</Color>
+
+    <!-- Typography Styles -->
+    <Style x:Key="DisplayLarge" TargetType="Label">
+        <Setter Property="FontSize" Value="57" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="64" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="HeadlineLarge" TargetType="Label">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="40" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="HeadlineMedium" TargetType="Label">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="36" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="TitleLarge" TargetType="Label">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="28" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="TitleMedium" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="24" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="BodyLarge" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="24" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="BodyMedium" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+    </Style>
+
+    <Style x:Key="BodySmall" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="LineHeight" Value="16" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground2}, 
+                                        Dark={StaticResource NeutralForeground2Dark}}" />
+    </Style>
+
+    <Style x:Key="CaptionMedium" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="16" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground2}, 
+                                        Dark={StaticResource NeutralForeground2Dark}}" />
+    </Style>
+
+    <!-- Component Styles -->
+    <Style x:Key="SurfaceCard" TargetType="Border">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                        Dark={StaticResource NeutralBackground3Dark}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Margin" Value="0,4" />
+    </Style>
+
+    <Style x:Key="ElevatedCard" TargetType="Border">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                        Dark={StaticResource NeutralBackground3Dark}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+        <Setter Property="Stroke" 
+                Value="{AppThemeBinding Light={StaticResource NeutralStroke2}, 
+                                        Dark={StaticResource NeutralStroke2Dark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Margin" Value="0,4" />
+    </Style>
+
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource BrandBackground1}" />
+        <Setter Property="TextColor" Value="{StaticResource BrandForeground1}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Margin" Value="4" />
+        <Setter Property="HeightRequest" Value="32" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource BrandBackground2}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="BorderColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralStroke1}, 
+                                        Dark={StaticResource NeutralStroke1Dark}}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Margin" Value="4" />
+        <Setter Property="HeightRequest" Value="32" />
+    </Style>
+
+    <Style x:Key="IconButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground2}, 
+                                        Dark={StaticResource NeutralForeground2Dark}}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="4" />
+    </Style>
+
+    <!-- Badge Styles -->
+    <Style x:Key="SuccessBadge" TargetType="Border">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource SuccessBackground}, 
+                                        Dark={StaticResource SuccessBackgroundDark}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="Margin" Value="2" />
+    </Style>
+
+    <Style x:Key="DangerBadge" TargetType="Border">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource DangerBackground}, 
+                                        Dark={StaticResource DangerBackgroundDark}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="Margin" Value="2" />
+    </Style>
+
+    <Style x:Key="NeutralBadge" TargetType="Border">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralBackground2}, 
+                                        Dark={StaticResource NeutralBackground2Dark}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="Margin" Value="2" />
+    </Style>
+
+    <!-- Form Controls -->
+    <Style x:Key="FluentEntry" TargetType="Entry">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                        Dark={StaticResource NeutralBackground3Dark}}" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+        <Setter Property="PlaceholderColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground3}, 
+                                        Dark={StaticResource NeutralForeground3Dark}}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HeightRequest" Value="32" />
+        <Setter Property="Margin" Value="0,4" />
+    </Style>
+
+    <Style x:Key="FluentPicker" TargetType="Picker">
+        <Setter Property="BackgroundColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                        Dark={StaticResource NeutralBackground3Dark}}" />
+        <Setter Property="TextColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                        Dark={StaticResource NeutralForeground1Dark}}" />
+        <Setter Property="TitleColor" 
+                Value="{AppThemeBinding Light={StaticResource NeutralForeground3}, 
+                                        Dark={StaticResource NeutralForeground3Dark}}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HeightRequest" Value="32" />
+        <Setter Property="Margin" Value="0,4" />
+    </Style>
+
+</ResourceDictionary>
