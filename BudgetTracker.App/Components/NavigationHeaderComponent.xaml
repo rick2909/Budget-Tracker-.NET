@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:BudgetTracker.App.Components"
+             x:Class="BudgetTracker.App.Components.NavigationHeaderComponent"
+             x:DataType="components:NavigationHeaderComponent"
+             x:Name="NavigationHeader">
+
+    <!-- Pill Navigation Bar -->
+    <Grid BackgroundColor="#1B1A19" 
+          Padding="20,20" 
+          HeightRequest="110">
+        
+        <!-- Main Navigation Pill Container -->
+        <Border BackgroundColor="#2D2C2A"
+                Stroke="#3B3A39"
+                StrokeShape="RoundRectangle 30"
+                StrokeThickness="1"
+                Padding="12"
+                HorizontalOptions="FillAndExpand">
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Navigation Items Container -->
+                <StackLayout Grid.Column="0" 
+                            Orientation="Horizontal" 
+                            Spacing="6"
+                            VerticalOptions="Center">
+                    
+                    <!-- Dashboard Nav Item -->
+                    <Border BackgroundColor="{Binding DashboardBackgroundColor, Source={x:Reference NavigationHeader}}"
+                            StrokeShape="RoundRectangle 22"
+                            Padding="18,10"
+                            x:Name="DashboardNavItem">
+                        <StackLayout Orientation="Horizontal" 
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+                            <Label Text="🏠" 
+                                   FontSize="18" 
+                                   TextColor="{Binding DashboardTextColor, Source={x:Reference NavigationHeader}}"
+                                   VerticalOptions="Center" />
+                            <Label Text="Dashboard"
+                                   FontSize="15"
+                                   FontAttributes="{Binding DashboardFontAttributes, Source={x:Reference NavigationHeader}}"
+                                   TextColor="{Binding DashboardTextColor, Source={x:Reference NavigationHeader}}"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="DashboardNavTap" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                    
+                    <!-- Transactions Nav Item -->
+                    <Border BackgroundColor="{Binding TransactionsBackgroundColor, Source={x:Reference NavigationHeader}}"
+                            StrokeShape="RoundRectangle 22"
+                            Padding="18,10"
+                            x:Name="TransactionsNavItem">
+                        <StackLayout Orientation="Horizontal" 
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+                            <Label Text="💳" 
+                                   FontSize="18" 
+                                   TextColor="{Binding TransactionsTextColor, Source={x:Reference NavigationHeader}}"
+                                   VerticalOptions="Center" />
+                            <Label Text="Transactions"
+                                   FontSize="15"
+                                   FontAttributes="{Binding TransactionsFontAttributes, Source={x:Reference NavigationHeader}}"
+                                   TextColor="{Binding TransactionsTextColor, Source={x:Reference NavigationHeader}}"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="TransactionsNavTap" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                    
+                    <!-- Settings Nav Item -->
+                    <Border BackgroundColor="{Binding SettingsBackgroundColor, Source={x:Reference NavigationHeader}}"
+                            StrokeShape="RoundRectangle 22"
+                            Padding="18,10"
+                            x:Name="SettingsNavItem">
+                        <StackLayout Orientation="Horizontal" 
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+                            <Label Text="⚙️" 
+                                   FontSize="18" 
+                                   TextColor="{Binding SettingsTextColor, Source={x:Reference NavigationHeader}}"
+                                   VerticalOptions="Center" />
+                            <Label Text="Settings"
+                                   FontSize="15"
+                                   FontAttributes="{Binding SettingsFontAttributes, Source={x:Reference NavigationHeader}}"
+                                   TextColor="{Binding SettingsTextColor, Source={x:Reference NavigationHeader}}"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="SettingsNavTap" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </StackLayout>
+                
+                <!-- Add Expense Button -->
+                <Button Grid.Column="1"
+                        Text="+ Add Expense"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        CornerRadius="22"
+                        Padding="24,14"
+                        Margin="12,0,0,0"
+                        MinimumWidthRequest="140"
+                        x:Name="AddExpenseButton" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>
