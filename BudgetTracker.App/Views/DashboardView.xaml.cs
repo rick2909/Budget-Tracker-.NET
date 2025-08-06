@@ -18,6 +18,30 @@ public partial class DashboardView : ContentPage
         BindingContext = new DashboardViewModel();
     }
     
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+        
+        // Switch layout based on screen width
+        // Desktop: > 1024px, Tablet/Mobile: <= 1024px
+        var desktopLayout = this.FindByName<Grid>("DesktopLayout");
+        var mobileLayout = this.FindByName<Grid>("MobileLayout");
+        
+        if (desktopLayout != null && mobileLayout != null)
+        {
+            if (width > 1024)
+            {
+                desktopLayout.IsVisible = true;
+                mobileLayout.IsVisible = false;
+            }
+            else
+            {
+                desktopLayout.IsVisible = false;
+                mobileLayout.IsVisible = true;
+            }
+        }
+    }
+    
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -28,10 +52,6 @@ public partial class DashboardView : ContentPage
             var addButton = this.FindByName<Button>("AddTransactionButton");
             if (addButton != null)
                 addButton.Clicked += OnAddTransactionClicked;
-                
-            var viewAllButton = this.FindByName<Button>("ViewAllTransactionsButton");
-            if (viewAllButton != null)
-                viewAllButton.Clicked += OnViewAllTransactionsClicked;
                 
             var prevButton = this.FindByName<Button>("PreviousMonthButton");
             if (prevButton != null)
@@ -44,6 +64,19 @@ public partial class DashboardView : ContentPage
             var settingsButton = this.FindByName<Button>("SettingsButton");
             if (settingsButton != null)
                 settingsButton.Clicked += OnSettingsClicked;
+                
+            var accountButton = this.FindByName<Button>("AccountButton");
+            if (accountButton != null)
+                accountButton.Clicked += OnAccountClicked;
+                
+            // Wire up mobile buttons
+            var prevButtonMobile = this.FindByName<Button>("PreviousMonthButtonMobile");
+            if (prevButtonMobile != null)
+                prevButtonMobile.Clicked += OnPreviousMonthClicked;
+                
+            var nextButtonMobile = this.FindByName<Button>("NextMonthButtonMobile");
+            if (nextButtonMobile != null)
+                nextButtonMobile.Clicked += OnNextMonthClicked;
         }
         catch (Exception ex)
         {
@@ -59,10 +92,6 @@ public partial class DashboardView : ContentPage
         if (addButton != null)
             addButton.Clicked -= OnAddTransactionClicked;
 
-        var viewAllButton = this.FindByName<Button>("ViewAllTransactionsButton");
-        if (viewAllButton != null)
-            viewAllButton.Clicked -= OnViewAllTransactionsClicked;
-
         var prevButton = this.FindByName<Button>("PreviousMonthButton");
         if (prevButton != null)
             prevButton.Clicked -= OnPreviousMonthClicked;
@@ -74,6 +103,19 @@ public partial class DashboardView : ContentPage
         var settingsButton = this.FindByName<Button>("SettingsButton");
         if (settingsButton != null)
             settingsButton.Clicked -= OnSettingsClicked;
+            
+        var accountButton = this.FindByName<Button>("AccountButton");
+        if (accountButton != null)
+            accountButton.Clicked -= OnAccountClicked;
+            
+        // Unwire mobile buttons
+        var prevButtonMobile = this.FindByName<Button>("PreviousMonthButtonMobile");
+        if (prevButtonMobile != null)
+            prevButtonMobile.Clicked -= OnPreviousMonthClicked;
+            
+        var nextButtonMobile = this.FindByName<Button>("NextMonthButtonMobile");
+        if (nextButtonMobile != null)
+            nextButtonMobile.Clicked -= OnNextMonthClicked;
     }
 
     // Title bar configuration is now handled at the AppShell level
@@ -84,11 +126,7 @@ public partial class DashboardView : ContentPage
         await Navigation.PushModalAsync(addTransactionView);
     }
 
-    private async void OnViewAllTransactionsClicked(object? sender, EventArgs e)
-    {
-        var transactionsView = new TransactionsView();
-        await Navigation.PushAsync(transactionsView);
-    }
+
 
     private void OnPreviousMonthClicked(object? sender, EventArgs e)
     {
@@ -110,5 +148,11 @@ public partial class DashboardView : ContentPage
     {
         var settingsView = new SettingsView();
         await Navigation.PushAsync(settingsView);
+    }
+    
+    private async void OnAccountClicked(object? sender, EventArgs e)
+    {
+        // Placeholder for account functionality
+        await DisplayAlert("Account", "Account functionality coming soon!", "OK");
     }
 }

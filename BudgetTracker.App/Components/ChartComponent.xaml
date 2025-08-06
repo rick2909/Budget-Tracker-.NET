@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BudgetTracker.App.Components.ChartComponent">
+    
+    <Border BackgroundColor="#2D2C2A" 
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            Padding="16">
+        <StackLayout Spacing="12">
+            <Label Text="Monthly Overview" 
+                   FontSize="14" 
+                   FontAttributes="Bold" 
+                   TextColor="White" />
+            
+            <!-- Coming Soon Placeholder -->
+            <Grid WidthRequest="160" 
+                  HeightRequest="160" 
+                  HorizontalOptions="Center">
+                
+                <!-- Background Circle -->
+                <Ellipse Fill="#3B3A39" 
+                        WidthRequest="160" 
+                        HeightRequest="160" />
+                
+                <!-- Inner Circle -->
+                <Ellipse Fill="#1B1A19" 
+                        WidthRequest="100" 
+                        HeightRequest="100" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" />
+                
+                <!-- Coming Soon Text -->
+                <StackLayout HorizontalOptions="Center" 
+                           VerticalOptions="Center">
+                    <Label Text="📊" 
+                           FontSize="24" 
+                           HorizontalOptions="Center" 
+                           TextColor="#A19F9D" />
+                    <Label Text="Coming Soon" 
+                           FontSize="12" 
+                           FontAttributes="Bold" 
+                           TextColor="#A19F9D" 
+                           HorizontalOptions="Center" 
+                           Margin="0,4,0,0" />
+                </StackLayout>
+            </Grid>
+            
+            <Label Text="Visual breakdown of your spending categories will be available soon." 
+                   FontSize="11" 
+                   TextColor="#A19F9D" 
+                   HorizontalOptions="Center" 
+                   HorizontalTextAlignment="Center" />
+        </StackLayout>
+    </Border>
+    
+</ContentView>
