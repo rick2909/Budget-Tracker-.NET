@@ -42,19 +42,20 @@
             <!-- Add Transaction Button -->
             <StackLayout Grid.Column="1" 
                         Orientation="Vertical" 
-                        Spacing="2" 
-                        Margin="0,0,16,0">
+                        Spacing="4" 
+                        Margin="0,0,12,0">
                 <Button Text="+"
                         BackgroundColor="#0F6CBD"
                         TextColor="White"
-                        FontSize="20"
+                        FontSize="18"
                         FontAttributes="Bold"
-                        WidthRequest="52"
-                        HeightRequest="40"
-                        CornerRadius="8"
+                        WidthRequest="60"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderWidth="0"
                         x:Name="AddTransactionButton" />
                 <Label Text="Add"
-                       FontSize="10"
+                       FontSize="11"
                        TextColor="#A19F9D"
                        HorizontalOptions="Center" />
             </StackLayout>
@@ -62,18 +63,19 @@
             <!-- Account Button -->
             <StackLayout Grid.Column="2" 
                         Orientation="Vertical" 
-                        Spacing="2" 
-                        Margin="0,0,16,0">
+                        Spacing="4" 
+                        Margin="0,0,12,0">
                 <Button Text="👤"
                         BackgroundColor="#2D2C2A"
                         TextColor="White"
-                        FontSize="18"
-                        WidthRequest="52"
-                        HeightRequest="40"
-                        CornerRadius="8"
+                        FontSize="16"
+                        WidthRequest="60"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderWidth="0"
                         x:Name="AccountButton" />
                 <Label Text="Account"
-                       FontSize="10"
+                       FontSize="11"
                        TextColor="#A19F9D"
                        HorizontalOptions="Center" />
             </StackLayout>
@@ -81,17 +83,18 @@
             <!-- Settings Button -->
             <StackLayout Grid.Column="3" 
                         Orientation="Vertical" 
-                        Spacing="2">
+                        Spacing="4">
                 <Button Text="⚙"
                         BackgroundColor="#2D2C2A"
                         TextColor="White"
-                        FontSize="18"
-                        WidthRequest="52"
-                        HeightRequest="40"
-                        CornerRadius="8"
+                        FontSize="16"
+                        WidthRequest="60"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderWidth="0"
                         x:Name="SettingsButton" />
                 <Label Text="Settings"
-                       FontSize="10"
+                       FontSize="11"
                        TextColor="#A19F9D"
                        HorizontalOptions="Center" />
             </StackLayout>
@@ -135,7 +138,8 @@
                                     FontSize="16"
                                     WidthRequest="36"
                                     HeightRequest="36"
-                                    CornerRadius="6"
+                                    CornerRadius="18"
+                                    BorderWidth="0"
                                     x:Name="PreviousMonthButton" />
 
                             <Label Grid.Column="1" 
@@ -153,7 +157,8 @@
                                     FontSize="16"
                                     WidthRequest="36"
                                     HeightRequest="36"
-                                    CornerRadius="6"
+                                    CornerRadius="18"
+                                    BorderWidth="0"
                                     x:Name="NextMonthButton" />
                         </Grid>
                     </StackLayout>
@@ -292,7 +297,8 @@
                                     FontSize="16"
                                     WidthRequest="36"
                                     HeightRequest="36"
-                                    CornerRadius="6"
+                                    CornerRadius="18"
+                                    BorderWidth="0"
                                     x:Name="PreviousMonthButtonMobile" />
 
                             <Label Grid.Column="1" 
@@ -310,7 +316,8 @@
                                     FontSize="16"
                                     WidthRequest="36"
                                     HeightRequest="36"
-                                    CornerRadius="6"
+                                    CornerRadius="18"
+                                    BorderWidth="0"
                                     x:Name="NextMonthButtonMobile" />
                         </Grid>
                     </StackLayout>
