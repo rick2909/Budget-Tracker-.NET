@@ -6,7 +6,8 @@
              x:Class="BudgetTracker.App.Views.AddTransactionView"
              x:DataType="vm:AddTransactionViewModel"
              Title="Add Transaction"
-             BackgroundColor="#80000000">
+             BackgroundColor="#80000000"
+             Shell.NavBarIsVisible="false">
 
     <!-- Responsive Container -->
     <Grid HorizontalOptions="Center" VerticalOptions="Center">

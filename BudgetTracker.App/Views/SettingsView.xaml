@@ -4,8 +4,8 @@
              xmlns:vm="clr-namespace:BudgetTracker.App.ViewModels"
              x:Class="BudgetTracker.App.Views.SettingsView"
              x:DataType="vm:SettingsViewModel"
-             Title="Settings"
-             BackgroundColor="#1B1A19">
+             BackgroundColor="#1B1A19"
+             Shell.NavBarIsVisible="false">
 
     <ScrollView Padding="20">
         <StackLayout Spacing="24">

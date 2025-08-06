@@ -86,7 +86,8 @@ public partial class DashboardView : ContentPage
 
     private async void OnViewAllTransactionsClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(TransactionsView));
+        var transactionsView = new TransactionsView();
+        await Navigation.PushAsync(transactionsView);
     }
 
     private void OnPreviousMonthClicked(object? sender, EventArgs e)
@@ -107,7 +108,7 @@ public partial class DashboardView : ContentPage
 
     private async void OnSettingsClicked(object? sender, EventArgs e)
     {
-        // var settingsView = new SettingsView();
-        await Shell.Current.GoToAsync(nameof(SettingsView));
+        var settingsView = new SettingsView();
+        await Navigation.PushAsync(settingsView);
     }
 }
