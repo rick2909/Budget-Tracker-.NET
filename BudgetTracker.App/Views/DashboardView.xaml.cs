@@ -1,5 +1,6 @@
 using BudgetTracker.App.ViewModels;
 using Microsoft.Maui.Controls;
+using BudgetTracker.App.Components;
 
 #if WINDOWS
 using Microsoft.UI.Xaml;
@@ -49,31 +50,20 @@ public partial class DashboardView : ContentPage
         // Wire up events safely with null checks
         try
         {
-            var addButton = this.FindByName<Button>("AddTransactionButton");
-            if (addButton != null)
-                addButton.Clicked += OnAddTransactionClicked;
-                
+            // Month navigation buttons
             var prevButton = this.FindByName<Button>("PreviousMonthButton");
             if (prevButton != null)
                 prevButton.Clicked += OnPreviousMonthClicked;
-                
+            
             var nextButton = this.FindByName<Button>("NextMonthButton");
             if (nextButton != null)
                 nextButton.Clicked += OnNextMonthClicked;
-                
-            var settingsButton = this.FindByName<Button>("SettingsButton");
-            if (settingsButton != null)
-                settingsButton.Clicked += OnSettingsClicked;
-                
-            var accountButton = this.FindByName<Button>("AccountButton");
-            if (accountButton != null)
-                accountButton.Clicked += OnAccountClicked;
-                
+            
             // Wire up mobile buttons
             var prevButtonMobile = this.FindByName<Button>("PreviousMonthButtonMobile");
             if (prevButtonMobile != null)
                 prevButtonMobile.Clicked += OnPreviousMonthClicked;
-                
+            
             var nextButtonMobile = this.FindByName<Button>("NextMonthButtonMobile");
             if (nextButtonMobile != null)
                 nextButtonMobile.Clicked += OnNextMonthClicked;
@@ -87,46 +77,29 @@ public partial class DashboardView : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-
-        var addButton = this.FindByName<Button>("AddTransactionButton");
-        if (addButton != null)
-            addButton.Clicked -= OnAddTransactionClicked;
-
+            
+        // Month navigation buttons
         var prevButton = this.FindByName<Button>("PreviousMonthButton");
         if (prevButton != null)
             prevButton.Clicked -= OnPreviousMonthClicked;
-
         var nextButton = this.FindByName<Button>("NextMonthButton");
         if (nextButton != null)
             nextButton.Clicked -= OnNextMonthClicked;
 
-        var settingsButton = this.FindByName<Button>("SettingsButton");
-        if (settingsButton != null)
-            settingsButton.Clicked -= OnSettingsClicked;
-            
-        var accountButton = this.FindByName<Button>("AccountButton");
-        if (accountButton != null)
-            accountButton.Clicked -= OnAccountClicked;
-            
-        // Unwire mobile buttons
         var prevButtonMobile = this.FindByName<Button>("PreviousMonthButtonMobile");
         if (prevButtonMobile != null)
             prevButtonMobile.Clicked -= OnPreviousMonthClicked;
-            
+
         var nextButtonMobile = this.FindByName<Button>("NextMonthButtonMobile");
         if (nextButtonMobile != null)
             nextButtonMobile.Clicked -= OnNextMonthClicked;
     }
-
-    // Title bar configuration is now handled at the AppShell level
 
     private async void OnAddTransactionClicked(object? sender, EventArgs e)
     {
         var addTransactionView = new AddTransactionView();
         await Navigation.PushModalAsync(addTransactionView);
     }
-
-
 
     private void OnPreviousMonthClicked(object? sender, EventArgs e)
     {
@@ -144,12 +117,6 @@ public partial class DashboardView : ContentPage
         }
     }
 
-    private async void OnSettingsClicked(object? sender, EventArgs e)
-    {
-        var settingsView = new SettingsView();
-        await Navigation.PushAsync(settingsView);
-    }
-    
     private async void OnAccountClicked(object? sender, EventArgs e)
     {
         // Placeholder for account functionality

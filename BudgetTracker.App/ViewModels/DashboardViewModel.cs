@@ -50,6 +50,27 @@ public class DashboardViewModel : BaseViewModel
         }
     }
 
+    public string IncomeVsExpensesText
+    {
+        get
+        {
+            var difference = TotalIncome - TotalExpenses;
+            return difference >= 0 ? "Surplus" : "Deficit";
+        }
+    }
+
+    public string IncomeVsExpensesPercentage
+    {
+        get
+        {
+            var difference = TotalIncome - TotalExpenses;
+            var percentage = TotalIncome > 0 
+                ? Math.Abs(difference / TotalIncome) * 100 
+                : 0;
+            return $"{percentage:F1}%";
+        }
+    }
+
     public Color IncomeVsExpensesColor
     {
         get
@@ -186,6 +207,8 @@ public class DashboardViewModel : BaseViewModel
 
         // Notify UI of changes
         OnPropertyChanged(nameof(IncomeVsExpenses));
+        OnPropertyChanged(nameof(IncomeVsExpensesText));
+        OnPropertyChanged(nameof(IncomeVsExpensesPercentage));
         OnPropertyChanged(nameof(IncomeVsExpensesColor));
     }
 }

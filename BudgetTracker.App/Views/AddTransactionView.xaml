@@ -99,7 +99,7 @@
                         <Picker x:Name="CategoryPicker" 
                                 Style="{StaticResource FluentPicker}"
                                 ItemsSource="{Binding Categories}"
-                                ItemDisplayBinding="{Binding Name}"
+                                ItemDisplayBinding="{Binding Name, x:DataType=models:Category}"
                                 SelectedItem="{Binding SelectedCategory}" />
                     </StackLayout>
 

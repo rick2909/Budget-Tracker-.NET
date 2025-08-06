@@ -7,16 +7,20 @@
     xmlns:views="using:BudgetTracker.App.Views"
     BackgroundColor="#1B1A19"
     FlyoutBehavior="Disabled">
-
-    <ShellContent
-        ContentTemplate="{DataTemplate views:DashboardView}"
-        Route="MainPage" />
     
     <ShellContent
-        ContentTemplate="{DataTemplate views:SettingsView}"
-        Route="SettingsView" />
+        ContentTemplate="{DataTemplate views:MainLayoutView}"
+        Route="MainPage" />
 
-    <ShellContent
-        ContentTemplate="{DataTemplate views:TransactionsView}"
-        Route="TransactionsView" />
+    <!-- <ShellContent -->
+    <!--     ContentTemplate="{DataTemplate views:DashboardView}" -->
+    <!--     Route="MainPage" /> -->
+    <!-- -->
+    <!-- <ShellContent -->
+    <!--     ContentTemplate="{DataTemplate views:SettingsView}" -->
+    <!--     Route="SettingsView" /> -->
+    <!-- -->
+    <!-- <ShellContent -->
+    <!--     ContentTemplate="{DataTemplate views:TransactionsView}" -->
+    <!--     Route="TransactionsView" /> -->
 </Shell>
