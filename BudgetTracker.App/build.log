@@ -1,0 +1,19 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+  BudgetTracker.Infrastructure -> C:\Projects\Budget-Tracker-.NET\BudgetTracker.Infrastructure\bin\Debug\net9.0\BudgetTracker.Infrastructure.dll
+  BudgetTracker.Logic -> C:\Projects\Budget-Tracker-.NET\BudgetTracker.Logic\bin\Debug\net9.0\BudgetTracker.Logic.dll
+C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\Views\DashboardView.xaml.cs(60,40): error CS1503: Argument 1: cannot convert from 'Microsoft.Maui.Controls.Grid' to 'Microsoft.UI.Xaml.UIElement' [C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\BudgetTracker.App.csproj::TargetFramework=net9.0-windows10.0.19041.0]
+C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\ViewModels\TransactionsViewModel.cs(135,35): warning CS0618: 'Application.MainPage.get' is obsolete: 'This property has been deprecated. For single-window applications, use Windows[0].Page. For multi-window applications, identify and use the appropriate Window object to access the desired Page. Additionally, each element features a Window property, accessible when it's part of the current window.' [C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\BudgetTracker.App.csproj::TargetFramework=net9.0-windows10.0.19041.0]
+C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\ViewModels\TransactionsViewModel.cs(140,48): warning CS0618: 'Application.MainPage.get' is obsolete: 'This property has been deprecated. For single-window applications, use Windows[0].Page. For multi-window applications, identify and use the appropriate Window object to access the desired Page. Additionally, each element features a Window property, accessible when it's part of the current window.' [C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\BudgetTracker.App.csproj::TargetFramework=net9.0-windows10.0.19041.0]
+
+Build FAILED.
+
+C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\ViewModels\TransactionsViewModel.cs(135,35): warning CS0618: 'Application.MainPage.get' is obsolete: 'This property has been deprecated. For single-window applications, use Windows[0].Page. For multi-window applications, identify and use the appropriate Window object to access the desired Page. Additionally, each element features a Window property, accessible when it's part of the current window.' [C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\BudgetTracker.App.csproj::TargetFramework=net9.0-windows10.0.19041.0]
+C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\ViewModels\TransactionsViewModel.cs(140,48): warning CS0618: 'Application.MainPage.get' is obsolete: 'This property has been deprecated. For single-window applications, use Windows[0].Page. For multi-window applications, identify and use the appropriate Window object to access the desired Page. Additionally, each element features a Window property, accessible when it's part of the current window.' [C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\BudgetTracker.App.csproj::TargetFramework=net9.0-windows10.0.19041.0]
+C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\Views\DashboardView.xaml.cs(60,40): error CS1503: Argument 1: cannot convert from 'Microsoft.Maui.Controls.Grid' to 'Microsoft.UI.Xaml.UIElement' [C:\Projects\Budget-Tracker-.NET\BudgetTracker.App\BudgetTracker.App.csproj::TargetFramework=net9.0-windows10.0.19041.0]
+    2 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:07.69
+
+Workload updates are available. Run `dotnet workload list` for more information.

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTracker.App.ViewModels"
+             xmlns:components="clr-namespace:BudgetTracker.App.Components"
+             x:Class="BudgetTracker.App.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel"
+             BackgroundColor="#1B1A19"
+             Shell.NavBarIsVisible="false">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+        
+        <!-- Navigation Header Component -->
+        <!-- <components:NavigationHeaderComponent Grid.Row="0"  -->
+        <!--                                     ActivePage="Settings" -->
+        <!--                                     x:Name="NavigationHeader" /> -->
+
+        <!-- Settings Content -->
+        <ScrollView Grid.Row="1" Padding="20">
+            <StackLayout Spacing="24">
+                
+                <!-- Theme Section -->
+                <Border BackgroundColor="#2B2A29"
+                        Stroke="#3B3A39"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <StackLayout Spacing="16">
+                        <Label Text="Theme" 
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="Dark Theme"
+                                   FontSize="16"
+                                   TextColor="White"
+                                   VerticalOptions="Center" />
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding IsDarkTheme}"
+                                    OnColor="#4CAF50" />
+                        </Grid>
+                    </StackLayout>
+                </Border>
+                
+                <!-- Notifications Section -->
+                <Border BackgroundColor="#2B2A29"
+                        Stroke="#3B3A39"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <StackLayout Spacing="16">
+                        <Label Text="Notifications" 
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="Enable Notifications"
+                                   FontSize="16"
+                                   TextColor="White"
+                                   VerticalOptions="Center" />
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding EnableNotifications}"
+                                    OnColor="#4CAF50" />
+                        </Grid>
+                    </StackLayout>
+                </Border>
+                
+                <!-- Currency Section -->
+                <Border BackgroundColor="#2B2A29"
+                        Stroke="#3B3A39"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <StackLayout Spacing="16">
+                        <Label Text="Currency" 
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="Default Currency"
+                                   FontSize="16"
+                                   TextColor="White"
+                                   VerticalOptions="Center" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding Currency}"
+                                   FontSize="16"
+                                   TextColor="#A19F9D"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </StackLayout>
+                </Border>
+                
+                <!-- Actions Section -->
+                <StackLayout Spacing="12">
+                    <Button Text="Save Settings"
+                            Command="{Binding SaveCommand}"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            HeightRequest="50"
+                            CornerRadius="12" />
+                            
+                    <Button Text="Reset to Defaults"
+                            Command="{Binding ResetCommand}"
+                            BackgroundColor="#F44336"
+                            TextColor="White"
+                            FontSize="16"
+                            HeightRequest="50"
+                            CornerRadius="12" />
+                </StackLayout>
+                
+                <!-- App Info -->
+                <Border BackgroundColor="#2B2A29"
+                        Stroke="#3B3A39"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <StackLayout Spacing="8">
+                        <Label Text="App Information" 
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        
+                        <Label Text="{Binding AppVersion, StringFormat='Version: {0}'}"
+                               FontSize="14"
+                               TextColor="#A19F9D" />
+                               
+                        <Label Text="Budget Tracker .NET MAUI"
+                               FontSize="14"
+                               TextColor="#A19F9D" />
+                    </StackLayout>
+                </Border>
+                
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -40,6 +40,24 @@ To manage database migrations and updates, use the following commands:
   dotnet ef migrations remove --project BudgetTracker.Infrastructure --startup-project BudgetTracker.API
   ```
 
+## MAUI App Development Setup
+
+If you want to build and run the MAUI app (cross-platform UI), you must install the required .NET workloads and platform SDKs.
+
+**On your own computer with admin rights, run:**
+```sh
+dotnet workload install maui maui-android maui-ios maui-maccatalyst
+```
+
+- These workloads enable cross-platform development for Android, iOS, MacCatalyst, and Windows.
+- If you see missing references in the MAUI project, it likely means the workloads or platform SDKs are not installed.
+- On Windows, Android builds require the Android SDK, which is installed by the above command.
+- On Mac, iOS/MacCatalyst builds require Xcode.
+- If you do not have permission to install these at work, you can install them at home or on a machine where you have admin rights.
+
+See the official docs for more:
+- [Install .NET MAUI workloads](https://learn.microsoft.com/dotnet/maui/get-started/installation)
+
 ## Status
 🚧 Project is in the early development phase (planning & setup)
 

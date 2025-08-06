@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTracker.App.ViewModels"
+             x:Class="BudgetTracker.App.Components.RecentTransactionsComponent"
+             x:DataType="vm:DashboardViewModel">
+    
+    <Border BackgroundColor="#2D2C2A"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            Padding="16">
+        <StackLayout>
+            <Grid Margin="0,0,0,16">
+                <Label Text="Recent Transactions" 
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+                <Button Text="View All" 
+                        BackgroundColor="Transparent"
+                        TextColor="#0F6CBD"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        x:Name="ViewAllTransactionsButton" />
+            </Grid>
+
+            <CollectionView x:Name="RecentTransactionsCollection"
+                           ItemsSource="{Binding RecentTransactions}"
+                           HeightRequest="300">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TransactionItemViewModel">
+                        <Grid Padding="0,8" 
+                              ColumnDefinitions="Auto,*,Auto">
+                            
+                            <!-- Transaction Icon -->
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#3B3A39"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 20"
+                                    StrokeThickness="0"
+                                    WidthRequest="40" 
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    VerticalOptions="Center"
+                                    Margin="0,0,12,0">
+                                <Label Text="{Binding CategoryIcon}" 
+                                       FontSize="18" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Transaction Details -->
+                            <StackLayout Grid.Column="1" 
+                                        VerticalOptions="Center">
+                                <Label Text="{Binding Title}" 
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+                                <Label Text="{Binding Date, StringFormat='{0:MMM dd, yyyy}'}" 
+                                       FontSize="12"
+                                       TextColor="#A19F9D" />
+                            </StackLayout>
+
+                            <!-- Amount -->
+                            <Label Grid.Column="2" 
+                                   Text="{Binding FormattedAmount}" 
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding AmountColor}"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </Border>
+    
+</ContentView>

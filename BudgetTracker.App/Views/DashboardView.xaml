@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTracker.App.ViewModels"
+             xmlns:components="clr-namespace:BudgetTracker.App.Components"
+             x:Class="BudgetTracker.App.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel"
+             BackgroundColor="#1B1A19"
+             Shell.NavBarIsVisible="false">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+        
+        <!-- Navigation Header Component -->
+        <!-- <components:NavigationHeaderComponent Grid.Row="0"  -->
+        <!--                                     ActivePage="Dashboard" -->
+        <!--                                     x:Name="NavigationHeader" /> -->
+
+        <!-- Responsive Main Content -->
+        <Grid Grid.Row="1" BackgroundColor="#1B1A19" x:Name="MainContentGrid">
+        
+            <!-- Desktop Layout: Sidebar + Content -->
+            <Grid x:Name="DesktopLayout" IsVisible="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Left Sidebar -->
+                <StackLayout Grid.Column="0" 
+                            BackgroundColor="#1B1A19" 
+                            Padding="20,16" 
+                            Spacing="16">
+                    
+                    <!-- Month Navigation -->
+                    <StackLayout Spacing="12">
+                        <Label Text="Period" 
+                               FontSize="14" 
+                               FontAttributes="Bold" 
+                               TextColor="#A19F9D" 
+                               Margin="0,0,0,8" />
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" 
+                                    Text="‹" 
+                                    BackgroundColor="#2D2C2A"
+                                    TextColor="White"
+                                    FontSize="16"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    CornerRadius="18"
+                                    BorderWidth="0"
+                                    x:Name="PreviousMonthButton" />
+
+                            <Label Grid.Column="1" 
+                                   Text="{Binding CurrentMonth}" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center" />
+
+                            <Button Grid.Column="2" 
+                                    Text="›" 
+                                    BackgroundColor="#2D2C2A"
+                                    TextColor="White"
+                                    FontSize="16"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    CornerRadius="18"
+                                    BorderWidth="0"
+                                    x:Name="NextMonthButton" />
+                        </Grid>
+                    </StackLayout>
+                    
+                    <!-- Balance Overview -->
+                    <Border BackgroundColor="#2D2C2A" 
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            Padding="16">
+                        <StackLayout Spacing="12">
+                            <Label Text="Total Balance" 
+                                   FontSize="12" 
+                                   TextColor="#A19F9D" />
+                            <Label Text="{Binding TotalBalance, StringFormat='{0:C}'}" 
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="White" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding IncomeVsExpensesText}" 
+                                       FontSize="12" 
+                                       TextColor="#A19F9D" />
+                                <Label Text="{Binding IncomeVsExpensesPercentage}" 
+                                       FontSize="12" 
+                                       FontAttributes="Bold"
+                                       TextColor="{Binding IncomeVsExpensesColor}" 
+                                       Margin="4,0,0,0" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Border>
+                    
+                    <!-- Chart Component -->
+                    <components:ChartComponent />
+                    
+                </StackLayout>
+                
+                <!-- Right Content Area -->
+                <ScrollView Grid.Column="1">
+                    <StackLayout Padding="20,16" Spacing="16">
+
+                <!-- Income vs Expenses Cards -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Income Card -->
+                    <Border Grid.Column="0" 
+                            BackgroundColor="#2D2C2A"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            Padding="16"
+                            Margin="0,0,8,0">
+                        <StackLayout>
+                            <Label Text="Income" 
+                                   FontSize="14"
+                                   TextColor="#A19F9D" />
+                            <Label Text="{Binding TotalIncome, StringFormat='{0:C}'}" 
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#54D854"
+                                   Margin="0,4,0,0" />
+                            <Label Text="This Month +15%" 
+                                   FontSize="12"
+                                   TextColor="#A19F9D" 
+                                   Margin="0,4,0,0" />
+                        </StackLayout>
+                    </Border>
+
+                    <!-- Expenses Card -->
+                    <Border Grid.Column="1" 
+                            BackgroundColor="#2D2C2A"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            Padding="16"
+                            Margin="8,0,0,0">
+                        <StackLayout>
+                            <Label Text="Expenses" 
+                                   FontSize="14"
+                                   TextColor="#A19F9D" />
+                            <Label Text="{Binding TotalExpenses, StringFormat='{0:C}'}" 
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#F99B9B"
+                                   Margin="0,4,0,0" />
+                            <Label Text="This Month -8%" 
+                                   FontSize="12"
+                                   TextColor="#A19F9D" 
+                                   Margin="0,4,0,0" />
+                        </StackLayout>
+                    </Border>
+                </Grid>
+
+                    <!-- Recent Transactions Component -->
+                    <components:RecentTransactionsComponent BindingContext="{Binding}" />
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+        
+        <!-- Mobile/Tablet Layout: Top Header + Content -->
+        <Grid x:Name="MobileLayout" IsVisible="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <!-- Top Section: Month Selector + Balance -->
+            <StackLayout Grid.Row="0" 
+                        BackgroundColor="#1B1A19" 
+                        Padding="20,16" 
+                        Spacing="16">
+                
+                <!-- Month Navigation -->
+                <StackLayout Spacing="12">
+                    <Label Text="Period" 
+                           FontSize="14" 
+                           FontAttributes="Bold" 
+                           TextColor="#A19F9D" 
+                           Margin="0,0,0,8" />
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" 
+                                Text="‹" 
+                                BackgroundColor="#2D2C2A"
+                                TextColor="White"
+                                FontSize="16"
+                                WidthRequest="36"
+                                HeightRequest="36"
+                                CornerRadius="18"
+                                BorderWidth="0"
+                                x:Name="PreviousMonthButtonMobile" />
+
+                        <Label Grid.Column="1" 
+                               Text="{Binding CurrentMonth}" 
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" />
+
+                        <Button Grid.Column="2" 
+                                Text="›" 
+                                BackgroundColor="#2D2C2A"
+                                TextColor="White"
+                                FontSize="16"
+                                WidthRequest="36"
+                                HeightRequest="36"
+                                CornerRadius="18"
+                                BorderWidth="0"
+                                x:Name="NextMonthButtonMobile" />
+                    </Grid>
+                </StackLayout>
+                
+                <!-- Balance Overview -->
+                <Border BackgroundColor="#2D2C2A" 
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <StackLayout Spacing="12">
+                        <Label Text="Total Balance" 
+                               FontSize="12" 
+                               TextColor="#A19F9D" />
+                        <Label Text="{Binding TotalBalance, StringFormat='{0:C}'}" 
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding IncomeVsExpensesText}" 
+                                   FontSize="12" 
+                                   TextColor="#A19F9D" />
+                            <Label Text="{Binding IncomeVsExpensesPercentage}" 
+                                   FontSize="12" 
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding IncomeVsExpensesColor}" 
+                                   Margin="4,0,0,0" />
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+            </StackLayout>
+            
+            <!-- Main Content Area -->
+            <ScrollView Grid.Row="1">
+                <StackLayout Padding="20,16" Spacing="16">
+                    
+                    <!-- Chart Component -->
+                    <components:ChartComponent />
+                    
+                    <!-- Income vs Expenses Cards -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Income Card -->
+                        <Border Grid.Column="0" 
+                                BackgroundColor="#2D2C2A"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 12"
+                                StrokeThickness="0"
+                                Padding="16"
+                                Margin="0,0,8,0">
+                            <StackLayout>
+                                <Label Text="Income" 
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+                                <Label Text="{Binding TotalIncome, StringFormat='{0:C}'}" 
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#54D854"
+                                       Margin="0,4,0,0" />
+                                <Label Text="This Month +12%" 
+                                       FontSize="12"
+                                       TextColor="#A19F9D" 
+                                       Margin="0,4,0,0" />
+                            </StackLayout>
+                        </Border>
+
+                        <!-- Expenses Card -->
+                        <Border Grid.Column="1" 
+                                BackgroundColor="#2D2C2A"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 12"
+                                StrokeThickness="0"
+                                Padding="16"
+                                Margin="8,0,0,0">
+                            <StackLayout>
+                                <Label Text="Expenses" 
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+                                <Label Text="{Binding TotalExpenses, StringFormat='{0:C}'}" 
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#F99B9B"
+                                       Margin="0,4,0,0" />
+                                <Label Text="This Month -8%" 
+                                       FontSize="12"
+                                       TextColor="#A19F9D" 
+                                       Margin="0,4,0,0" />
+                            </StackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- Recent Transactions Component -->
+                    <components:RecentTransactionsComponent BindingContext="{Binding}" />
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+    </Grid>
+</ContentPage>

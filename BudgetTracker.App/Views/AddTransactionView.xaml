@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTracker.App.ViewModels"
+             xmlns:models="clr-namespace:BudgetTracker.Infrastructure.Models;assembly=BudgetTracker.Infrastructure"
+             x:Class="BudgetTracker.App.Views.AddTransactionView"
+             x:DataType="vm:AddTransactionViewModel"
+             Title="Add Transaction"
+             BackgroundColor="#80000000"
+             Shell.NavBarIsVisible="false">
+
+    <!-- Responsive Container -->
+    <Grid HorizontalOptions="Center" VerticalOptions="Center">
+        <Border BackgroundColor="#1B1A19"
+                Stroke="#3B3A39"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Padding="0"
+                MaximumWidthRequest="600"
+                MaximumHeightRequest="700">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding Source={x:Static Device.Idiom}}" Value="Desktop">
+                    <Setter Property="WidthRequest" Value="600" />
+                </DataTrigger>
+                <DataTrigger TargetType="Border" Binding="{Binding Source={x:Static Device.Idiom}}" Value="Tablet">
+                    <Setter Property="WidthRequest" Value="480" />
+                </DataTrigger>
+                <DataTrigger TargetType="Border" Binding="{Binding Source={x:Static Device.Idiom}}" Value="Phone">
+                    <Setter Property="WidthRequest" Value="350" />
+                </DataTrigger>
+            </Border.Triggers>
+            
+            <ScrollView Padding="20">
+                <StackLayout Spacing="20">
+                    
+                    <!-- Header -->
+                    <Grid>
+                        <Label Text="Add Transaction" 
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center" />
+                        <Button Text="✕" 
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                FontSize="18"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                HorizontalOptions="End"
+                                x:Name="CloseButton" />
+                    </Grid>
+
+            <!-- Transaction Form -->
+            <Border Style="{StaticResource ElevatedCard}">
+                <StackLayout Spacing="16">
+                    
+                    <!-- Transaction Type Toggle -->
+                    <StackLayout>
+                        <Label Text="Transaction Type" 
+                               Style="{StaticResource BodyMedium}" 
+                               Margin="0,0,0,8" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Button Grid.Column="0" 
+                                    Text="💰 Income" 
+                                    x:Name="IncomeButton"
+                                    Style="{StaticResource SecondaryButton}" />
+                            <Button Grid.Column="1" 
+                                    Text="💸 Expense" 
+                                    x:Name="ExpenseButton"
+                                    Style="{StaticResource PrimaryButton}" />
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- Title -->
+                    <StackLayout>
+                        <Label Text="Title" 
+                               Style="{StaticResource BodyMedium}" />
+                        <Entry x:Name="TitleEntry" 
+                               Placeholder="Enter transaction title"
+                               Style="{StaticResource FluentEntry}"
+                               Text="{Binding Title}" />
+                    </StackLayout>
+
+                    <!-- Amount -->
+                    <StackLayout>
+                        <Label Text="Amount" 
+                               Style="{StaticResource BodyMedium}" />
+                        <Entry x:Name="AmountEntry" 
+                               Placeholder="0.00"
+                               Keyboard="Numeric"
+                               Style="{StaticResource FluentEntry}"
+                               Text="{Binding Amount}" />
+                    </StackLayout>
+
+                    <!-- Category -->
+                    <StackLayout>
+                        <Label Text="Category" 
+                               Style="{StaticResource BodyMedium}" />
+                        <Picker x:Name="CategoryPicker" 
+                                Style="{StaticResource FluentPicker}"
+                                ItemsSource="{Binding Categories}"
+                                ItemDisplayBinding="{Binding Name, x:DataType=models:Category}"
+                                SelectedItem="{Binding SelectedCategory}" />
+                    </StackLayout>
+
+                    <!-- Date -->
+                    <StackLayout>
+                        <Label Text="Date" 
+                               Style="{StaticResource BodyMedium}" />
+                        <DatePicker x:Name="DatePicker" 
+                                    Date="{Binding Date}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                                                      Dark={StaticResource NeutralBackground3Dark}}"
+                                    TextColor="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                                                Dark={StaticResource NeutralForeground1Dark}}"
+                                    FontSize="14"
+                                    HeightRequest="32"
+                                    Margin="0,4" />
+                    </StackLayout>
+
+                    <!-- Time -->
+                    <StackLayout>
+                        <Label Text="Time" 
+                               Style="{StaticResource BodyMedium}" />
+                        <TimePicker x:Name="TimePicker" 
+                                    Time="{Binding Time}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                                                      Dark={StaticResource NeutralBackground3Dark}}"
+                                    TextColor="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                                                Dark={StaticResource NeutralForeground1Dark}}"
+                                    FontSize="14"
+                                    HeightRequest="32"
+                                    Margin="0,4" />
+                    </StackLayout>
+
+                    <!-- Notes (Optional) -->
+                    <StackLayout>
+                        <Label Text="Notes (Optional)" 
+                               Style="{StaticResource BodyMedium}" />
+                        <Editor x:Name="NotesEditor" 
+                                Placeholder="Add any additional notes..."
+                                HeightRequest="80"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource NeutralBackground3}, 
+                                                                  Dark={StaticResource NeutralBackground3Dark}}"
+                                TextColor="{AppThemeBinding Light={StaticResource NeutralForeground1}, 
+                                                            Dark={StaticResource NeutralForeground1Dark}}"
+                                PlaceholderColor="{AppThemeBinding Light={StaticResource NeutralForeground3}, 
+                                                                   Dark={StaticResource NeutralForeground3Dark}}"
+                                FontSize="14"
+                                Text="{Binding Notes}" />
+                    </StackLayout>
+
+                </StackLayout>
+            </Border>
+
+            <!-- Options -->
+            <Border Style="{StaticResource SurfaceCard}">
+                <StackLayout>
+                    <Label Text="Options" 
+                           Style="{StaticResource TitleMedium}" 
+                           Margin="0,0,0,12" />
+                    
+                    <!-- Keep form open after save -->
+                    <Grid ColumnDefinitions="Auto,*">
+                        <CheckBox Grid.Column="0" 
+                                  x:Name="KeepOpenCheckBox"
+                                  IsChecked="{Binding KeepFormOpen}"
+                                  Color="{StaticResource BrandBackground1}" />
+                        <Label Grid.Column="1" 
+                               Text="Keep form open after saving" 
+                               Style="{StaticResource BodyMedium}"
+                               VerticalOptions="Center"
+                               Margin="12,0,0,0" />
+                    </Grid>
+                </StackLayout>
+            </Border>
+
+            <!-- Action Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Grid.Column="0" 
+                        Text="Cancel" 
+                        Style="{StaticResource SecondaryButton}"
+                        HeightRequest="48"
+                        x:Name="CancelButton" />
+                <Button Grid.Column="1" 
+                        Text="Save Transaction" 
+                        Style="{StaticResource PrimaryButton}"
+                        HeightRequest="48"
+                        x:Name="SaveButton" />
+            </Grid>
+
+                </StackLayout>
+            </ScrollView>
+        </Border>
+    </Grid>
+</ContentPage>

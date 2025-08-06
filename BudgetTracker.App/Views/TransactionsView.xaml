@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTracker.App.ViewModels"
+             xmlns:components="clr-namespace:BudgetTracker.App.Components"
+             xmlns:models="clr-namespace:BudgetTracker.Infrastructure.Models;assembly=BudgetTracker.Infrastructure"
+             x:Class="BudgetTracker.App.Views.TransactionsView"
+             x:DataType="vm:TransactionsViewModel"
+             BackgroundColor="#1B1A19"
+             Shell.NavBarIsVisible="false">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="0">
+        
+        <!-- Navigation Header Component -->
+        <!-- <components:NavigationHeaderComponent Grid.Row="0"  -->
+        <!--                                     ActivePage="Transactions" -->
+        <!--                                     x:Name="NavigationHeader" /> -->
+        
+        <!-- Filters Section -->
+        <Border Grid.Row="1" 
+                Style="{StaticResource SurfaceCard}"
+                Margin="16,16,16,16">
+            <StackLayout Spacing="12">
+                <Label Text="Filters" Style="{StaticResource TitleMedium}" />
+                
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <!-- Date Range -->
+                    <StackLayout Grid.Column="0">
+                        <Label Text="Date Range" Style="{StaticResource BodySmall}" />
+                        <Picker x:Name="DateRangePicker" 
+                                Style="{StaticResource FluentPicker}">
+                            <Picker.Items>
+                                <x:String>This Month</x:String>
+                                <x:String>Last Month</x:String>
+                                <x:String>Last 3 Months</x:String>
+                                <x:String>This Year</x:String>
+                                <x:String>Custom Range</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                    
+                    <!-- Category Filter -->
+                    <StackLayout Grid.Column="1">
+                        <Label Text="Category" Style="{StaticResource BodySmall}" />
+                        <Picker x:Name="CategoryPicker" 
+                                Style="{StaticResource FluentPicker}"
+                                ItemsSource="{Binding Categories}"
+                                ItemDisplayBinding="{Binding Name, x:DataType=models:Category}" />
+                    </StackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <!-- Type Filter -->
+                    <StackLayout Grid.Column="0">
+                        <Label Text="Type" Style="{StaticResource BodySmall}" />
+                        <Picker x:Name="TypePicker" 
+                                Style="{StaticResource FluentPicker}">
+                            <Picker.Items>
+                                <x:String>All</x:String>
+                                <x:String>Income</x:String>
+                                <x:String>Expense</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                    
+                    <!-- Sort -->
+                    <StackLayout Grid.Column="1">
+                        <Label Text="Sort" Style="{StaticResource BodySmall}" />
+                        <Picker x:Name="SortPicker" 
+                                Style="{StaticResource FluentPicker}">
+                            <Picker.Items>
+                                <x:String>Date (Newest)</x:String>
+                                <x:String>Date (Oldest)</x:String>
+                                <x:String>Amount (High to Low)</x:String>
+                                <x:String>Amount (Low to High)</x:String>
+                                <x:String>Title (A-Z)</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </Border>
+
+        <!-- Transactions List -->
+        <CollectionView Grid.Row="2" 
+                       x:Name="TransactionsCollection"
+                       ItemsSource="{Binding GroupedTransactions}"
+                       IsGrouped="True">
+            
+            <!-- Group Header Template -->
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="vm:TransactionGroup">
+                    <Grid BackgroundColor="{AppThemeBinding Light={StaticResource NeutralBackground2}, 
+                                                            Dark={StaticResource NeutralBackground2Dark}}"
+                          Padding="16,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Column="0" 
+                               Text="{Binding GroupName}" 
+                               Style="{StaticResource TitleMedium}" 
+                               VerticalOptions="Center" />
+                        
+                        <Label Grid.Column="1" 
+                               Text="{Binding TotalAmount, StringFormat='{0:C}'}" 
+                               Style="{StaticResource BodyMedium}"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0" />
+                        
+                        <Button Grid.Column="2" 
+                                Text="{Binding IsExpanded, Converter={StaticResource BoolToExpandIconConverter}}"
+                                Style="{StaticResource IconButton}"
+                                Command="{Binding ToggleExpandCommand}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+
+            <!-- Item Template -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:TransactionItemViewModel">
+                    <Border Style="{StaticResource SurfaceCard}" 
+                            Margin="16,4">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            
+                            <!-- Transaction Icon -->
+                            <Border Grid.Column="0"
+                                    Style="{StaticResource NeutralBadge}"
+                                    WidthRequest="48" 
+                                    HeightRequest="48"
+                                    StrokeShape="RoundRectangle 24"
+                                    VerticalOptions="Center"
+                                    Margin="0,0,16,0">
+                                <Label Text="{Binding CategoryIcon}" 
+                                       FontSize="20" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Transaction Details -->
+                            <StackLayout Grid.Column="1" 
+                                        VerticalOptions="Center"
+                                        Spacing="4">
+                                <Label Text="{Binding Title}" 
+                                       Style="{StaticResource BodyMedium}" />
+                                <Label Text="{Binding CategoryName}" 
+                                       Style="{StaticResource BodySmall}" />
+                                <Label Text="{Binding Date, StringFormat='{0:MMM dd, yyyy - HH:mm}'}" 
+                                       Style="{StaticResource BodySmall}" />
+                            </StackLayout>
+
+                            <!-- Amount and Actions -->
+                            <StackLayout Grid.Column="2" 
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="End"
+                                        Spacing="8">
+                                <Label Text="{Binding FormattedAmount}" 
+                                       Style="{StaticResource BodyMedium}"
+                                       TextColor="{Binding AmountColor}"
+                                       HorizontalOptions="End" />
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                            HorizontalOptions="End"
+                                            Spacing="4">
+                                    <Button Text="✏️" 
+                                            Style="{StaticResource IconButton}"
+                                            WidthRequest="32" 
+                                            HeightRequest="32"
+                                            FontSize="12"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditTransactionCommand}"
+                                            CommandParameter="{Binding}" />
+                                    <Button Text="🗑️" 
+                                            Style="{StaticResource IconButton}"
+                                            WidthRequest="32" 
+                                            HeightRequest="32"
+                                            FontSize="12"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteTransactionCommand}"
+                                            CommandParameter="{Binding}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
