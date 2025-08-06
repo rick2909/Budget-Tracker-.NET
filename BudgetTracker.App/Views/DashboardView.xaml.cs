@@ -16,56 +16,67 @@ public partial class DashboardView : ContentPage
     {
         InitializeComponent();
         BindingContext = new DashboardViewModel();
-        ConfigureTitleBar();
     }
     
     protected override void OnAppearing()
     {
         base.OnAppearing();
         
-        // Wire up events after the page appears and controls are available
-        if (AddTransactionButton != null)
-            AddTransactionButton.Clicked += OnAddTransactionClicked;
-        if (ViewAllTransactionsButton != null)
-            ViewAllTransactionsButton.Clicked += OnViewAllTransactionsClicked;
-        if (PreviousMonthButton != null)
-            PreviousMonthButton.Clicked += OnPreviousMonthClicked;
-        if (NextMonthButton != null)
-            NextMonthButton.Clicked += OnNextMonthClicked;
-        if (SettingsButton != null)
-            SettingsButton.Clicked += OnSettingsClicked;
-    }
-
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-        ConfigureTitleBar();
-    }
-
-    private void ConfigureTitleBar()
-    {
-#if WINDOWS
-        if (Handler?.PlatformView is Microsoft.UI.Xaml.Window window)
+        // Wire up events safely with null checks
+        try
         {
-            var windowHandle = WindowNative.GetWindowHandle(window);
-            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-            var appWindow = AppWindow.GetFromWindowId(windowId);
-            
-            if (appWindow?.TitleBar is not null)
-            {
-                var titleBar = appWindow.TitleBar;
-                titleBar.ExtendsContentIntoTitleBar = true;
-                titleBar.ButtonBackgroundColor = Microsoft.UI.Colors.Transparent;
-                titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Microsoft.UI.ColorHelper.FromArgb(30, 255, 255, 255);
-                titleBar.ButtonPressedBackgroundColor = Microsoft.UI.ColorHelper.FromArgb(50, 255, 255, 255);
+            var addButton = this.FindByName<Button>("AddTransactionButton");
+            if (addButton != null)
+                addButton.Clicked += OnAddTransactionClicked;
                 
-                // Set the title bar as non-client area
-                window.ExtendsContentIntoTitleBar = true;
-            }
+            var viewAllButton = this.FindByName<Button>("ViewAllTransactionsButton");
+            if (viewAllButton != null)
+                viewAllButton.Clicked += OnViewAllTransactionsClicked;
+                
+            var prevButton = this.FindByName<Button>("PreviousMonthButton");
+            if (prevButton != null)
+                prevButton.Clicked += OnPreviousMonthClicked;
+                
+            var nextButton = this.FindByName<Button>("NextMonthButton");
+            if (nextButton != null)
+                nextButton.Clicked += OnNextMonthClicked;
+                
+            var settingsButton = this.FindByName<Button>("SettingsButton");
+            if (settingsButton != null)
+                settingsButton.Clicked += OnSettingsClicked;
         }
-#endif
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error wiring events: {ex.Message}");
+        }
     }
+    
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        var addButton = this.FindByName<Button>("AddTransactionButton");
+        if (addButton != null)
+            addButton.Clicked -= OnAddTransactionClicked;
+
+        var viewAllButton = this.FindByName<Button>("ViewAllTransactionsButton");
+        if (viewAllButton != null)
+            viewAllButton.Clicked -= OnViewAllTransactionsClicked;
+
+        var prevButton = this.FindByName<Button>("PreviousMonthButton");
+        if (prevButton != null)
+            prevButton.Clicked -= OnPreviousMonthClicked;
+
+        var nextButton = this.FindByName<Button>("NextMonthButton");
+        if (nextButton != null)
+            nextButton.Clicked -= OnNextMonthClicked;
+
+        var settingsButton = this.FindByName<Button>("SettingsButton");
+        if (settingsButton != null)
+            settingsButton.Clicked -= OnSettingsClicked;
+    }
+
+    // Title bar configuration is now handled at the AppShell level
 
     private async void OnAddTransactionClicked(object? sender, EventArgs e)
     {
@@ -75,8 +86,7 @@ public partial class DashboardView : ContentPage
 
     private async void OnViewAllTransactionsClicked(object? sender, EventArgs e)
     {
-        var transactionsView = new TransactionsView();
-        await Navigation.PushAsync(transactionsView);
+        await Shell.Current.GoToAsync(nameof(TransactionsView));
     }
 
     private void OnPreviousMonthClicked(object? sender, EventArgs e)
@@ -97,7 +107,7 @@ public partial class DashboardView : ContentPage
 
     private async void OnSettingsClicked(object? sender, EventArgs e)
     {
-        var settingsView = new SettingsView();
-        await Navigation.PushAsync(settingsView);
+        // var settingsView = new SettingsView();
+        await Shell.Current.GoToAsync(nameof(SettingsView));
     }
 }

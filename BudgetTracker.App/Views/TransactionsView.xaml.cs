@@ -8,18 +8,73 @@ public partial class TransactionsView : ContentPage
     {
         InitializeComponent();
         BindingContext = new TransactionsViewModel();
+    }
+    
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
         
-        // Wire up events
-        AddTransactionButton.Clicked += OnAddTransactionClicked;
-        DateRangePicker.SelectedIndexChanged += OnFilterChanged;
-        CategoryPicker.SelectedIndexChanged += OnFilterChanged;
-        TypePicker.SelectedIndexChanged += OnFilterChanged;
-        SortPicker.SelectedIndexChanged += OnFilterChanged;
+        // Wire up events safely
+        try
+        {
+            var addButton = this.FindByName<Button>("AddTransactionButton");
+            if (addButton != null)
+                addButton.Clicked += OnAddTransactionClicked;
+                
+            var dateRangePicker = this.FindByName<Picker>("DateRangePicker");
+            if (dateRangePicker != null)
+            {
+                dateRangePicker.SelectedIndexChanged += OnFilterChanged;
+                dateRangePicker.SelectedIndex = 0; // This Month
+            }
+            
+            var categoryPicker = this.FindByName<Picker>("CategoryPicker");
+            if (categoryPicker != null)
+                categoryPicker.SelectedIndexChanged += OnFilterChanged;
+                
+            var typePicker = this.FindByName<Picker>("TypePicker");
+            if (typePicker != null)
+            {
+                typePicker.SelectedIndexChanged += OnFilterChanged;
+                typePicker.SelectedIndex = 0; // All
+            }
+            
+            var sortPicker = this.FindByName<Picker>("SortPicker");
+            if (sortPicker != null)
+            {
+                sortPicker.SelectedIndexChanged += OnFilterChanged;
+                sortPicker.SelectedIndex = 0; // Date (Newest)
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error wiring TransactionsView events: {ex.Message}");
+        }
+    }
+    
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        var addButton = this.FindByName<Button>("AddTransactionButton");
+        if (addButton != null)
+            addButton.Clicked -= OnAddTransactionClicked;
         
-        // Set default values
-        DateRangePicker.SelectedIndex = 0; // This Month
-        TypePicker.SelectedIndex = 0; // All
-        SortPicker.SelectedIndex = 0; // Date (Newest)
+        var dateRangePicker = this.FindByName<Picker>("DateRangePicker");
+        if (dateRangePicker != null)
+            dateRangePicker.SelectedIndexChanged -= OnFilterChanged;
+        
+        var categoryPicker = this.FindByName<Picker>("CategoryPicker");
+        if (categoryPicker != null)
+            categoryPicker.SelectedIndexChanged -= OnFilterChanged;
+        
+        var typePicker = this.FindByName<Picker>("TypePicker");
+        if (typePicker != null)
+            typePicker.SelectedIndexChanged -= OnFilterChanged;
+        
+        var sortPicker = this.FindByName<Picker>("SortPicker");
+        if (sortPicker != null)
+            sortPicker.SelectedIndexChanged -= OnFilterChanged;
     }
 
     private async void OnAddTransactionClicked(object? sender, EventArgs e)

@@ -18,10 +18,10 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        var window = new Window(new DashboardView());
+        var window = new Window(new AppShell());
         
 #if WINDOWS
-        // Configure native Windows styling
+        // Set initial window size
         if (window.Handler?.PlatformView is Microsoft.UI.Xaml.Window nativeWindow)
         {
             var windowHandle = WindowNative.GetWindowHandle(nativeWindow);
@@ -32,17 +32,14 @@ public partial class App : Application
             {
                 // Set window size
                 appWindow.Resize(new SizeInt32(1200, 800));
-                
-                // Configure title bar
-                var titleBar = appWindow.TitleBar;
-                titleBar.ExtendsContentIntoTitleBar = true;
-                titleBar.ButtonBackgroundColor = Microsoft.UI.Colors.Transparent;
-                titleBar.ButtonForegroundColor = Microsoft.UI.Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Microsoft.UI.ColorHelper.FromArgb(20, 255, 255, 255);
-                titleBar.ButtonPressedBackgroundColor = Microsoft.UI.ColorHelper.FromArgb(30, 255, 255, 255);
             }
         }
 #endif
+        
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+        {
+            System.Diagnostics.Debug.WriteLine($"Unhandled: {e.ExceptionObject}");
+        };
         
         return window;
     }

@@ -15,20 +15,61 @@ public partial class AddTransactionView : ContentPage
     {
         base.OnAppearing();
         
-        // Wire up events after the page appears
-        if (CloseButton != null)
-            CloseButton.Clicked += OnCloseClicked;
-        if (CancelButton != null)
-            CancelButton.Clicked += OnCancelClicked;
-        if (SaveButton != null)
-            SaveButton.Clicked += OnSaveClicked;
-        if (IncomeButton != null)
-            IncomeButton.Clicked += OnIncomeClicked;
-        if (ExpenseButton != null)
-            ExpenseButton.Clicked += OnExpenseClicked;
+        // Wire up events safely
+        try
+        {
+            var closeButton = this.FindByName<Button>("CloseButton");
+            if (closeButton != null)
+                closeButton.Clicked += OnCloseClicked;
+                
+            var cancelButton = this.FindByName<Button>("CancelButton");
+            if (cancelButton != null)
+                cancelButton.Clicked += OnCancelClicked;
+                
+            var saveButton = this.FindByName<Button>("SaveButton");
+            if (saveButton != null)
+                saveButton.Clicked += OnSaveClicked;
+                
+            var incomeButton = this.FindByName<Button>("IncomeButton");
+            if (incomeButton != null)
+                incomeButton.Clicked += OnIncomeClicked;
+                
+            var expenseButton = this.FindByName<Button>("ExpenseButton");
+            if (expenseButton != null)
+                expenseButton.Clicked += OnExpenseClicked;
         
-        // Set default transaction type to Expense
-        SetTransactionType(TransactionType.Expense);
+            // Set default transaction type to Expense
+            SetTransactionType(TransactionType.Expense);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error wiring AddTransactionView events: {ex.Message}");
+        }
+    }
+    
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+    
+        var closeButton = this.FindByName<Button>("CloseButton");
+        if (closeButton != null)
+            closeButton.Clicked -= OnCloseClicked;
+        
+        var cancelButton = this.FindByName<Button>("CancelButton");
+        if (cancelButton != null)
+            cancelButton.Clicked -= OnCancelClicked;
+        
+        var saveButton = this.FindByName<Button>("SaveButton");
+        if (saveButton != null)
+            saveButton.Clicked -= OnSaveClicked;
+        
+        var incomeButton = this.FindByName<Button>("IncomeButton");
+        if (incomeButton != null)
+            incomeButton.Clicked -= OnIncomeClicked;
+        
+        var expenseButton = this.FindByName<Button>("ExpenseButton");
+        if (expenseButton != null)
+            expenseButton.Clicked -= OnExpenseClicked;
     }
 
     private async void OnCloseClicked(object? sender, EventArgs e)
