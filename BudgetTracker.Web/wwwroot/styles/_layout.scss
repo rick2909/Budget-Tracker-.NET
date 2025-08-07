@@ -8,7 +8,7 @@
     background: var(--background-color);
     padding-bottom: 0; // Remove bottom padding on desktop
     
-    @media (max-width: 768px) {
+    @include variables.tablet {
         padding-bottom: 80px; // Add space for bottom nav on mobile
     }
 }
@@ -17,12 +17,14 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--surface-color);
-    border-bottom: 1px solid var(--border-color);
-    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-    box-shadow: var(--shadow-sm);
+    background: color-mix(in oklab, var(--surface-3) 94%, transparent);
+    border-bottom: 1px solid var(--outline-color);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    box-shadow: var(--elev-1);
+    backdrop-filter: var(--backdrop-filter);
+    -webkit-backdrop-filter: var(--backdrop-filter);
     
-    @media (max-width: 768px) {
+    @include variables.tablet {
         display: none; // Hide top navbar completely on mobile
     }
 }
@@ -31,13 +33,14 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-md);
+    min-height: var(--toolbar-height);
 }
 
 .main-content {
     flex: 1;
     padding: var(--spacing-lg) 0;
     
-    @media (max-width: 768px) {
+    @include variables.tablet {
         padding-top: var(--spacing-lg); // Add top padding back since no top bar
     }
 }
@@ -46,6 +49,27 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-md);
+}
+
+// FAB backdrop animation overlay (global)
+.fab-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    animation: fab-backdrop-in var(--duration-medium) var(--ease-standard) forwards;
+    z-index: 190;
+}
+
+@keyframes fab-backdrop-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+// FAB open micro-animation (scale + translate origin)
+@keyframes fab-open-bounce {
+    0% { transform: translate(-50%, -30%) scale(1); }
+    60% { transform: translate(-50%, -38%) scale(1.06); }
+    100% { transform: translate(-50%, -36%) scale(1); }
 }
 
 // Desktop Navigation Header
@@ -74,17 +98,22 @@
     
     .nav-horizontal {
         display: flex;
-        gap: var(--spacing-sm);
+        gap: var(--spacing-xs);
+        padding: 6px;
+        background: var(--surface-2);
+        border: 1px solid var(--outline-color);
+        border-radius: var(--radius-pill);
+        box-shadow: var(--elev-1);
         
         .nav-link {
             display: flex;
             align-items: center;
             gap: var(--spacing-xs);
-            padding: var(--spacing-sm) var(--spacing-md);
+            padding: 8px 12px;
             color: var(--text-secondary);
             text-decoration: none;
-            border-radius: var(--border-radius);
-            transition: all 0.2s ease;
+            border-radius: var(--radius-pill);
+            transition: all var(--duration-fast) var(--ease-standard);
             font-size: var(--font-size-sm);
             font-weight: var(--font-weight-medium);
             
@@ -93,13 +122,13 @@
             }
             
             &:hover {
-                background: var(--hover-color);
+                background: var(--brand-primary-8);
                 color: var(--text-primary);
             }
             
             &.active {
-                background: rgba(0, 123, 255, 0.2) !important;
-                color: #66b3ff !important;
+                background: var(--brand-primary-16) !important;
+                color: var(--accent-blue) !important;
             }
         }
     }
@@ -110,18 +139,21 @@
         
         .settings-btn,
         .profile-btn {
-            background: none;
-            border: none;
+            background: var(--surface-2);
+            border: 1px solid var(--outline-color);
             color: var(--text-secondary);
-            font-size: 1.2rem;
-            padding: var(--spacing-xs);
-            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 9999px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background var(--duration-fast) var(--ease-standard),
+                        transform var(--duration-fast) var(--ease-standard),
+                        color var(--duration-fast) var(--ease-standard);
             
             &:hover {
                 background: var(--hover-color);
                 color: var(--text-primary);
+                transform: translateY(-1px);
             }
         }
     }
@@ -132,24 +164,42 @@
     display: none;
 }
 
-// Mobile only - show bottom navigation (768px and below)
-@media (max-width: 768px) {
+// Mobile and tablet - show bottom navigation (≤900px)
+@include variables.tablet {
     .bottom-nav {
         display: flex !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        z-index: 100 !important;
+        z-index: 200 !important;
         width: 100% !important;
-        background: var(--surface-color) !important;
-        border-top: 1px solid var(--border-color) !important;
-        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0 !important;
-        padding: 8px 12px !important;
-        box-shadow: var(--shadow-sm) !important;
+        background: var(--surface-2) !important; // Material surface-2 for nav bar
+        border-top: 1px solid var(--outline-color) !important;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
+        padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+        box-shadow: var(--elev-3) !important; // a bit more elevation like M3
         transform: none !important;
         transition: none !important;
-        min-height: 64px !important;
+        min-height: 72px !important; // Material bottom bar height
+        justify-content: space-between !important;
+        align-items: center !important;
+        
+        // Cutout for center FAB
+        &::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: calc(36px - 24px); // align with FAB radius
+            width: 88px;
+            height: 44px;
+            background: transparent;
+            border-top-left-radius: 44px;
+            border-top-right-radius: 44px;
+            box-shadow: 0 -8px 0 0 var(--surface-2);
+            pointer-events: none;
+        }
         
         .bottom-nav-link,
         .profile-nav-btn {
@@ -159,24 +209,27 @@
             align-items: center !important;
             justify-content: center !important;
             gap: 3px !important;
-            padding: 6px 4px !important;
+            padding: 8px 6px !important; // touch-friendly
             color: var(--text-secondary) !important;
             text-decoration: none !important;
-            border-radius: 12px !important;
-            transition: all 0.2s ease !important;
+            border-radius: 14px !important; // indicator shape
+            transition: background var(--duration-fast) var(--ease-standard),
+                        color var(--duration-fast) var(--ease-standard),
+                        transform var(--duration-fast) var(--ease-standard) !important;
             background: none !important;
             border: none !important;
             cursor: pointer !important;
             min-height: 44px !important;
+            position: relative !important;
             
             .nav-icon {
-                font-size: 1.2rem !important;
+                font-size: 1.25rem !important; // ~20px
                 display: block !important;
                 line-height: 1 !important;
             }
             
             .nav-label {
-                font-size: 0.7rem !important;
+                font-size: 0.72rem !important;
                 font-weight: 500 !important;
                 display: block !important;
                 line-height: 1 !important;
@@ -184,59 +237,76 @@
             }
             
             &:hover {
-                background: var(--hover-color) !important;
+                background: var(--brand-primary-8) !important; // state layer
                 color: var(--text-primary) !important;
                 transform: scale(1.02) !important;
             }
             
             &.active {
-                background: rgba(0, 123, 255, 0.2) !important;
-                color: #66b3ff !important;
-                border-radius: 12px !important;
+                background: var(--brand-primary-16) !important; // active indicator tonal
+                color: var(--accent-blue) !important;
+                border-radius: 14px !important;
                 
                 .nav-icon {
-                    color: #66b3ff !important;
+                    color: var(--accent-blue) !important;
                 }
                 
                 .nav-label {
-                    color: #66b3ff !important;
+                    color: var(--accent-blue) !important;
+                    font-weight: var(--font-weight-semibold) !important;
                 }
             }
+            
+            &:focus-visible {
+                outline: none !important;
+                box-shadow: var(--focus-ring) !important;
+            }
+        }
+        
+        .bottom-nav-spacer {
+            width: 88px !important; // reserve space for FAB cutout
+            height: 1px !important;
+        }
+        
+        // Center Floating Action Button
+        .bottom-fab {
+            position: absolute !important;
+            left: 50% !important;
+            transform: translate(-50%, -30%) !important;
+            bottom: 36px !important;
+            width: 64px !important;
+            height: 64px !important;
+            border-radius: 50% !important;
+            background: var(--brand-primary) !important;
+            color: var(--brand-on-primary) !important;
+            border: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 1.5rem !important;
+            box-shadow: var(--elev-5) !important;
+            cursor: pointer !important;
+            transition: transform var(--duration-fast) var(--ease-standard),
+                        box-shadow var(--duration-fast) var(--ease-standard) !important;
+            will-change: transform;
+        }
+        
+        .bottom-fab.is-opening {
+            animation: fab-open-bounce var(--duration-medium) var(--ease-standard);
+        }
+        
+        .bottom-fab:active {
+            transform: translate(-50%, -28%) scale(0.98) !important;
+            box-shadow: var(--elev-4) !important;
         }
     }
     
-    // Ensure FAB button appears above bottom navigation
+    // Hide legacy page-level FABs on tablet/phone (we have center FAB now)
     .fab-button,
     .add-transaction-fab,
     .add-transaction-btn,
     .floating-action-button {
-        z-index: 200 !important;
-        bottom: 84px !important; // Position above bottom nav (64px + 20px margin)
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: fixed !important;
-        right: var(--spacing-xl, 24px) !important;
-    }
-    
-    // General mobile FAB styles if not defined elsewhere
-    .add-transaction-btn {
-        width: 56px !important;
-        height: 56px !important;
-        background: var(--primary-color, #007bff) !important;
-        border: none !important;
-        border-radius: 50% !important;
-        color: white !important;
-        font-size: 1.5rem !important;
-        cursor: pointer !important;
-        box-shadow: var(--shadow-lg, 0 8px 16px rgba(0,0,0,0.2)) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        
-        &:hover {
-            transform: scale(1.05) !important;
-        }
+        display: none !important;
     }
 }
 
@@ -261,7 +331,7 @@
 }
 
 // Responsive Design
-@media (max-width: 768px) {
+@include variables.tablet {
     // Hide desktop navigation
     .nav-header.desktop-nav {
         display: none;

@@ -25,6 +25,9 @@
         </nav>
         
         <div class="header-right">
+            <button class="btn btn--filled btn--sm" @onclick="OnAddTransaction">
+                ➕ Add
+            </button>
             <button class="settings-btn" @onclick="OnSettingsClick">
                 ⚙️
             </button>
@@ -36,6 +39,11 @@
 </div>
 
 @code {
+    private async Task OnAddTransaction()
+    {
+        // Navigate to add transaction or open modal
+        await Task.CompletedTask;
+    }
     private async Task OnSettingsClick()
     {
         // Navigate to settings page

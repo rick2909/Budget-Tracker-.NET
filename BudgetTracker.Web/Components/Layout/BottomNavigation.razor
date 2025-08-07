@@ -1,4 +1,4 @@
-<!-- Mobile Bottom Navigation -->
+<!-- Mobile Bottom Navigation with center FAB and cutout -->
 <nav class="bottom-nav">
     <NavLink class="bottom-nav-link" href="" Match="NavLinkMatch.All">
         <span class="nav-icon">🏠</span>
@@ -15,6 +15,8 @@
         <span class="nav-label">Categories</span>
     </NavLink>
 
+    <span class="bottom-nav-spacer" aria-hidden="true"></span>
+
     <NavLink class="bottom-nav-link" href="reports">
         <span class="nav-icon">📈</span>
         <span class="nav-label">Reports</span>
@@ -29,12 +31,41 @@
         <span class="nav-icon">👤</span>
         <span class="nav-label">Profile</span>
     </button>
+
+    <!-- Center Floating Action Button -->
+    <button class="bottom-fab @( _fabBackdropVisible ? "is-opening" : string.Empty)" @onclick="OnFabClick" aria-label="Add Transaction">
+        ➕
+    </button>
 </nav>
 
+<!-- FAB Backdrop animation overlay -->
+@if (_fabBackdropVisible)
+{
+    <div class="fab-backdrop" @onclick="OnBackdropClick"></div>
+}
+
 @code {
+    private bool _fabBackdropVisible;
+    
+    private async Task OnFabClick()
+    {
+        // Show a brief backdrop animation to mimic modal opening
+        _fabBackdropVisible = true;
+        StateHasChanged();
+        await Task.Delay(250);
+        _fabBackdropVisible = false;
+        StateHasChanged();
+        // TODO: trigger navigation or open modal here
+    }
     private async Task OnProfileClick()
     {
         // Navigate to profile or show profile modal
+        await Task.CompletedTask;
+    }
+    
+    private async Task OnBackdropClick()
+    {
+        _fabBackdropVisible = false;
         await Task.CompletedTask;
     }
 }

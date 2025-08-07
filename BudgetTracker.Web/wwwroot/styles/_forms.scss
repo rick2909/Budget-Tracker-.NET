@@ -1,0 +1,54 @@
+@use 'variables';
+
+// Fluent2 + Material3 hybrid form controls
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  border: 1px solid var(--outline-color);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: var(--font-size-base);
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              background var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: color-mix(in oklab, var(--accent-blue) 40%, var(--outline-color));
+  box-shadow: var(--focus-ring);
+}
+
+// Density utilities
+.field--dense input,
+.field--dense select,
+.field--dense textarea { padding: 8px 10px; }
+
+.field--lg input,
+.field--lg select,
+.field--lg textarea { padding: 12px 14px; }
+

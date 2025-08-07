@@ -17,10 +17,10 @@
 // Balance Card
 .balance-card {
     grid-column: 1 / -1;
-    background: var(--surface-color);
-    border-radius: var(--border-radius-lg);
+    background: var(--surface-3);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--elev-2);
     text-align: center;
     
     .balance-label {
@@ -40,10 +40,10 @@
 // Income vs Expenses Section
 .income-expenses-section {
     grid-column: 1 / -1;
-    background: var(--surface-color);
-    border-radius: var(--border-radius-lg);
+    background: var(--surface-3);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--elev-2);
     
     .section-header {
         display: flex;
@@ -71,8 +71,21 @@
             
             span:last-child {
                 font-weight: var(--font-weight-semibold);
+                color: var(--accent-green);
+                background: color-mix(in oklab, var(--accent-green) 16%, transparent);
+                border: 1px solid color-mix(in oklab, var(--accent-green) 26%, transparent);
+                padding: 2px 8px;
+                border-radius: var(--radius-pill);
             }
         }
+    }
+    
+    .amount-display {
+        font-size: var(--font-size-3xl);
+        font-weight: var(--font-weight-bold);
+        letter-spacing: 0.3px;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-md);
     }
     
     .chart-container {
@@ -84,6 +97,7 @@
         canvas {
             max-width: 100%;
             max-height: 100%;
+            filter: drop-shadow(0 0 1px rgba(0,0,0,0.2));
         }
     }
 }
@@ -91,10 +105,10 @@
 // Recent Transactions
 .recent-transactions {
     grid-column: 1 / -1;
-    background: var(--surface-color);
-    border-radius: var(--border-radius-lg);
+    background: var(--surface-3);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--elev-2);
     
     .section-title {
         color: var(--text-primary);
@@ -103,7 +117,7 @@
         margin: 0 0 var(--spacing-md) 0;
     }
     
-    .transactions-list {
+    .transaction-list {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-sm);
@@ -114,11 +128,13 @@
         align-items: center;
         gap: var(--spacing-sm);
         padding: var(--spacing-sm);
-        border-radius: var(--border-radius);
-        transition: background-color 0.2s ease;
+        border-radius: var(--radius-md);
+        transition: background-color var(--duration-fast) var(--ease-standard),
+                    transform var(--duration-fast) var(--ease-standard);
         
         &:hover {
-            background: var(--hover-color);
+            background: var(--brand-primary-8);
+            transform: translateY(-1px);
         }
         
         .transaction-icon {
@@ -130,10 +146,10 @@
             justify-content: center;
             font-size: 1.2rem;
             
-            &.food { background: rgba(255, 193, 7, 0.2); }
-            &.transport { background: rgba(0, 123, 255, 0.2); }
-            &.shopping { background: rgba(220, 53, 69, 0.2); }
-            &.income { background: rgba(40, 167, 69, 0.2); }
+            &.food { background: color-mix(in oklab, #ffc107 20%, transparent); }
+            &.transport { background: color-mix(in oklab, #3b82f6 22%, transparent); }
+            &.shopping { background: color-mix(in oklab, #ef4444 22%, transparent); }
+            &.income { background: color-mix(in oklab, #10b981 22%, transparent); }
         }
         
         .transaction-details {
@@ -167,7 +183,7 @@
 }
 
 // Responsive Design
-@media (max-width: 768px) {
+@include variables.tablet {
     .dashboard-container {
         grid-template-columns: 1fr;
         gap: var(--spacing-sm);
