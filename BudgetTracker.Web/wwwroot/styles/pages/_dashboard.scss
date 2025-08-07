@@ -1,216 +1,189 @@
-@import '../variables';
+@use '../variables';
 
-.dashboard {
-    background: var(--bg-primary);
-    min-height: 100vh;
-    width: 100%;
-    padding: var(--spacing-lg);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
-                 Roboto, sans-serif;
-    color: var(--text-primary);
-    margin: 0;
-    box-sizing: border-box;
+.dashboard-page {
+    background: var(--background-color);
+    min-height: calc(100vh - 120px); // Account for navbar height
 }
 
 .dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: var(--spacing-md);
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    gap: var(--spacing-lg);
-    width: 100%;
 }
 
-// Header Component Styles
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-    
-    .header-left {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
-        
-        .logo {
-            font-size: var(--font-size-2xl);
-        }
-        
-        .title {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-semibold);
-            color: var(--text-primary);
-        }
-    }
-    
-    .header-right {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
-    }
-}
-
-// Balance Card Styles
+// Balance Card
 .balance-card {
-    background: var(--bg-card);
+    grid-column: 1 / -1;
+    background: var(--surface-color);
     border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-lg);
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
     
     .balance-label {
-        font-size: var(--font-size-base);
         color: var(--text-secondary);
-        margin-bottom: var(--spacing-sm);
-        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-xs);
     }
     
     .balance-amount {
-        font-size: var(--font-size-4xl);
-        font-weight: var(--font-weight-bold);
         color: var(--text-primary);
+        font-size: 2.5rem;
+        font-weight: var(--font-weight-bold);
+        margin: 0;
     }
 }
 
-// Income vs Expenses Styles
+// Income vs Expenses Section
 .income-expenses-section {
-    background: var(--bg-card);
+    grid-column: 1 / -1;
+    background: var(--surface-color);
     border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-lg);
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
     
     .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
         
         .section-title {
+            color: var(--text-primary);
             font-size: var(--font-size-lg);
             font-weight: var(--font-weight-semibold);
-            color: var(--text-primary);
+            margin: 0;
         }
         
         .growth-indicator {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-end;
             gap: var(--spacing-xs);
-            font-size: var(--font-size-sm);
-            color: var(--accent-green);
-            font-weight: var(--font-weight-medium);
+            
+            span:first-child {
+                color: var(--text-secondary);
+                font-size: var(--font-size-sm);
+            }
+            
+            span:last-child {
+                font-weight: var(--font-weight-semibold);
+            }
         }
-    }
-    
-    .amount-display {
-        font-size: var(--font-size-3xl);
-        font-weight: var(--font-weight-bold);
-        color: var(--text-primary);
-        margin-bottom: var(--spacing-lg);
     }
     
     .chart-container {
         height: 200px;
-        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
     }
 }
 
-// Recent Transactions Styles
+// Recent Transactions
 .recent-transactions {
-    background: var(--bg-card);
+    grid-column: 1 / -1;
+    background: var(--surface-color);
     border-radius: var(--border-radius-lg);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
     
     .section-title {
+        color: var(--text-primary);
         font-size: var(--font-size-lg);
         font-weight: var(--font-weight-semibold);
-        color: var(--text-primary);
-        margin-bottom: var(--spacing-lg);
+        margin: 0 0 var(--spacing-md) 0;
     }
     
-    .transaction-list {
+    .transactions-list {
         display: flex;
         flex-direction: column;
-        gap: var(--spacing-md);
+        gap: var(--spacing-sm);
     }
     
     .transaction-item {
         display: flex;
         align-items: center;
-        gap: var(--spacing-md);
-        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm);
         border-radius: var(--border-radius);
         transition: background-color 0.2s ease;
         
         &:hover {
-            background: var(--bg-card-hover);
+            background: var(--hover-color);
         }
         
         .transaction-icon {
             width: 40px;
             height: 40px;
-            border-radius: var(--border-radius);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--font-size-lg);
+            font-size: 1.2rem;
             
-            &.groceries { background: var(--accent-blue); }
-            &.salary { background: var(--accent-green); }
-            &.utilities { background: var(--accent-purple); }
-            &.dining { background: var(--accent-red); }
-            &.rent { background: var(--bg-secondary); }
+            &.food { background: rgba(255, 193, 7, 0.2); }
+            &.transport { background: rgba(0, 123, 255, 0.2); }
+            &.shopping { background: rgba(220, 53, 69, 0.2); }
+            &.income { background: rgba(40, 167, 69, 0.2); }
         }
         
         .transaction-details {
             flex: 1;
             
             .transaction-name {
-                font-size: var(--font-size-base);
-                font-weight: var(--font-weight-medium);
                 color: var(--text-primary);
-                margin-bottom: 2px;
+                font-weight: var(--font-weight-medium);
+                margin: 0;
             }
             
             .transaction-category {
-                font-size: var(--font-size-sm);
                 color: var(--text-secondary);
+                font-size: var(--font-size-sm);
+                margin: 0;
             }
         }
         
         .transaction-amount {
-            font-size: var(--font-size-base);
             font-weight: var(--font-weight-semibold);
             
-            &.positive { color: var(--accent-green); }
-            &.negative { color: var(--text-primary); }
+            &.positive {
+                color: var(--accent-green);
+            }
+            
+            &.negative {
+                color: var(--accent-red);
+            }
         }
     }
 }
 
 // Responsive Design
 @media (max-width: 768px) {
-    .dashboard {
-        padding: var(--spacing-md);
-    }
-    
-    .dashboard-header {
-        .title {
-            font-size: var(--font-size-xl);
-        }
+    .dashboard-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm);
     }
     
     .balance-card {
-        padding: var(--spacing-lg);
+        padding: var(--spacing-md);
         
         .balance-amount {
-            font-size: var(--font-size-3xl);
+            font-size: 2rem;
         }
     }
     
     .income-expenses-section,
     .recent-transactions {
-        padding: var(--spacing-lg);
+        padding: var(--spacing-md);
     }
 }

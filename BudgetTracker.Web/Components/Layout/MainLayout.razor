@@ -1,29 +1,24 @@
+@using Microsoft.AspNetCore.Components.Routing
 @inherits LayoutComponentBase
 @inject NavigationManager Navigation
 
-<div class="layout">
-    @if (!IsDashboardPage())
-    {
-        <nav class="sidebar">
-            <h2>Budget Tracker</h2>
-            <NavLink href="/" Match="NavLinkMatch.All">Dashboard</NavLink>
-            <NavLink href="/transactions">Transactions</NavLink>
-            <NavLink href="/summary">Summary</NavLink>
-        </nav>
-        <main>
+<div class="app-layout">
+    <header class="top-navbar">
+        <NavMenu />
+    </header>
+    
+    <main class="main-content">
+        <article class="content">
             @Body
-        </main>
-    }
-    else
-    {
-        @Body
-    }
+        </article>
+    </main>
 </div>
 
-@code {
-    private bool IsDashboardPage()
-    {
-        var uri = Navigation.ToBaseRelativePath(Navigation.Uri);
-        return uri == "" || uri == "/";
-    }
-}
+<!-- Mobile Bottom Navigation (outside of app-layout) -->
+<BottomNavigation />
+
+<div id="blazor-error-ui">
+    Something went wrong.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

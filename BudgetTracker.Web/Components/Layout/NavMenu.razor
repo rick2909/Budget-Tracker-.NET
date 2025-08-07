@@ -1,29 +1,50 @@
-<div class="top-row">
-    <div class="nav-brand">
-        <a href="">Budget Tracker</a>
+<div class="navbar-container">
+    <!-- Desktop/Tablet Top Navigation -->
+    <div class="nav-header desktop-nav">
+        <div class="header-left">
+            <span class="logo">💎</span>
+            <h1 class="title">Financer</h1>
+        </div>
+        
+        <nav class="nav-horizontal">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="nav-icon">🏠</span> Dashboard
+            </NavLink>
+
+            <NavLink class="nav-link" href="transactions">
+                <span class="nav-icon">💳</span> Transactions
+            </NavLink>
+
+            <NavLink class="nav-link" href="categories">
+                <span class="nav-icon">📊</span> Categories
+            </NavLink>
+
+            <NavLink class="nav-link" href="reports">
+                <span class="nav-icon">📈</span> Reports
+            </NavLink>
+        </nav>
+        
+        <div class="header-right">
+            <button class="settings-btn" @onclick="OnSettingsClick">
+                ⚙️
+            </button>
+            <button class="profile-btn" @onclick="OnProfileClick">
+                👤
+            </button>
+        </div>
     </div>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav">
-        <div class="nav-item">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Dashboard
-            </NavLink>
-        </div>
-
-        <div class="nav-item">
-            <NavLink class="nav-link" href="transactions">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Transactions
-            </NavLink>
-        </div>
-
-        <div class="nav-item">
-            <NavLink class="nav-link" href="summary">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Summary
-            </NavLink>
-        </div>
-    </nav>
-</div>
+@code {
+    private async Task OnSettingsClick()
+    {
+        // Navigate to settings page
+        await Task.CompletedTask;
+    }
+    
+    private async Task OnProfileClick()
+    {
+        // Navigate to profile or show profile modal
+        await Task.CompletedTask;
+    }
+}

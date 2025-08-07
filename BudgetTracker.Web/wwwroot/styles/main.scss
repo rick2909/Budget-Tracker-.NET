@@ -9,6 +9,8 @@
 // Base styles
 body {
   font-family: 'Segoe UI Variable', sans-serif;
-  background-color: #f3f3f3;
-  color: #1b1b1b;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
 }
