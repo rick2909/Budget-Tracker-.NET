@@ -289,6 +289,8 @@
             transition: transform var(--duration-fast) var(--ease-standard),
                         box-shadow var(--duration-fast) var(--ease-standard) !important;
             will-change: transform;
+            pointer-events: auto !important;
+            z-index: 500 !important; // ensure above nav surface for click
         }
         
         .bottom-fab.is-opening {

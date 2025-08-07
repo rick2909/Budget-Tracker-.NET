@@ -4,7 +4,7 @@
 
 <div class="app-layout">
     <header class="top-navbar">
-        <NavMenu />
+        <NavMenu @rendermode="InteractiveServer" />
     </header>
     
     <main class="main-content">
@@ -15,7 +15,10 @@
 </div>
 
 <!-- Mobile Bottom Navigation (outside of app-layout) -->
-<BottomNavigation />
+<BottomNavigation @rendermode="InteractiveServer" />
+
+<!-- Global Modal markup (JS-controlled) -->
+<AddTransactionModal />
 
 <div id="blazor-error-ui">
     Something went wrong.

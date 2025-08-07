@@ -1,3 +1,5 @@
+@inject IJSRuntime JS
+
 <!-- Mobile Bottom Navigation with center FAB and cutout -->
 <nav class="bottom-nav">
     <NavLink class="bottom-nav-link" href="" Match="NavLinkMatch.All">
@@ -33,7 +35,7 @@
     </button>
 
     <!-- Center Floating Action Button -->
-    <button class="bottom-fab @( _fabBackdropVisible ? "is-opening" : string.Empty)" @onclick="OnFabClick" aria-label="Add Transaction">
+    <button class="bottom-fab @( _fabBackdropVisible ? "is-opening" : string.Empty)" onclick="openMorphModalFromElement(this)" aria-label="Add Transaction">
         ➕
     </button>
 </nav>
@@ -44,19 +46,11 @@
     <div class="fab-backdrop" @onclick="OnBackdropClick"></div>
 }
 
+@* App-level modal host is mounted in App.razor. No local modal instance here. *@
+
 @code {
     private bool _fabBackdropVisible;
     
-    private async Task OnFabClick()
-    {
-        // Show a brief backdrop animation to mimic modal opening
-        _fabBackdropVisible = true;
-        StateHasChanged();
-        await Task.Delay(250);
-        _fabBackdropVisible = false;
-        StateHasChanged();
-        // TODO: trigger navigation or open modal here
-    }
     private async Task OnProfileClick()
     {
         // Navigate to profile or show profile modal

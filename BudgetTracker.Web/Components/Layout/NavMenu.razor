@@ -1,3 +1,5 @@
+@inject IJSRuntime JS
+
 <div class="navbar-container">
     <!-- Desktop/Tablet Top Navigation -->
     <div class="nav-header desktop-nav">
@@ -25,7 +27,7 @@
         </nav>
         
         <div class="header-right">
-            <button class="btn btn--filled btn--sm" @onclick="OnAddTransaction">
+            <button class="btn btn--filled btn--sm" @onclick="OnAddTransaction" @ref="_addBtnRef">
                 ➕ Add
             </button>
             <button class="settings-btn" @onclick="OnSettingsClick">
@@ -38,11 +40,14 @@
     </div>
 </div>
 
+@* App-level modal host is mounted in App.razor. No local modal instance here. *@
+
 @code {
+    private ElementReference _addBtnRef;
+    
     private async Task OnAddTransaction()
     {
-        // Navigate to add transaction or open modal
-        await Task.CompletedTask;
+        await JS.InvokeVoidAsync("openMorphModalFromElement", _addBtnRef);
     }
     private async Task OnSettingsClick()
     {

@@ -124,3 +124,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 100);
     });
 });
+
+// Returns the center point of an element (for morph origin)
+window.getElementCenter = (element) => {
+    if (!element) return { X: window.innerWidth / 2, Y: window.innerHeight / 2 };
+    const rect = element.getBoundingClientRect();
+    return {
+        X: rect.left + rect.width / 2,
+        Y: rect.top + rect.height / 2
+    };
+};
+
+// Convenience: open modal from an element by computing its center
+window.openMorphModalFromElement = (element) => {
+    try {
+        const rect = element.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        window.openMorphModal(x, y);
+    } catch {
+        window.openMorphModal(0, 0);
+    }
+};
+
+// Morph modal open/close controlled via JS only
+window.openMorphModal = (originX, originY) => {
+    const modal = document.getElementById('morphModal');
+    if (!modal) return;
+    modal.style.setProperty('--origin-x', `${originX}px`);
+    modal.style.setProperty('--origin-y', `${originY}px`);
+    modal.classList.add('is-visible');
+    modal.classList.remove('is-closing');
+    // Next tick to allow display to apply
+    requestAnimationFrame(() => {
+        modal.classList.add('is-open');
+    });
+};
+
+window.closeMorphModal = () => {
+    const modal = document.getElementById('morphModal');
+    if (!modal) return;
+    modal.classList.add('is-closing');
+    modal.classList.remove('is-open');
+    setTimeout(() => {
+        modal.classList.remove('is-visible');
+        modal.classList.remove('is-closing');
+    }, 320); // match CSS duration
+};
