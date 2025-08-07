@@ -1,0 +1,29 @@
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="layout">
+    @if (!IsDashboardPage())
+    {
+        <nav class="sidebar">
+            <h2>Budget Tracker</h2>
+            <NavLink href="/" Match="NavLinkMatch.All">Dashboard</NavLink>
+            <NavLink href="/transactions">Transactions</NavLink>
+            <NavLink href="/summary">Summary</NavLink>
+        </nav>
+        <main>
+            @Body
+        </main>
+    }
+    else
+    {
+        @Body
+    }
+</div>
+
+@code {
+    private bool IsDashboardPage()
+    {
+        var uri = Navigation.ToBaseRelativePath(Navigation.Uri);
+        return uri == "" || uri == "/";
+    }
+}

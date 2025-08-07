@@ -1,0 +1,22 @@
+@page "/"
+@using BudgetTracker.Web.Components.Dashboard
+
+<PageTitle>Dashboard - Budget Tracker</PageTitle>
+
+<div class="dashboard">
+    <div class="dashboard-container">
+        <DashboardHeader />
+        <BalanceCard />
+        <IncomeExpensesChart />
+        <RecentTransactions />
+        <AddTransactionButton />
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize dashboard data
+        await base.OnInitializedAsync();
+    }
+}

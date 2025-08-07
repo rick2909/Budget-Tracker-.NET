@@ -1,0 +1,14 @@
+@use 'variables';
+@use 'layout';
+@use 'buttons';
+@use 'forms';
+
+// Pages
+@use 'pages/dashboard';
+
+// Base styles
+body {
+  font-family: 'Segoe UI Variable', sans-serif;
+  background-color: #f3f3f3;
+  color: #1b1b1b;
+}

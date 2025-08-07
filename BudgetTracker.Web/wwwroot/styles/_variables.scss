@@ -1,0 +1,49 @@
+// Color Variables
+:root {
+    // Dark Theme Colors
+    --bg-primary: #1a1d29;
+    --bg-secondary: #252836;
+    --bg-card: #2a2d3e;
+    --bg-card-hover: #2f3241;
+    
+    // Text Colors
+    --text-primary: #ffffff;
+    --text-secondary: #a0a3bd;
+    --text-muted: #6b7280;
+    
+    // Accent Colors
+    --accent-blue: #3b82f6;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    
+    // Border and Shadow
+    --border-radius: 16px;
+    --border-radius-lg: 24px;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    
+    // Spacing
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    // Typography
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+}

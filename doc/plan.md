@@ -12,9 +12,9 @@
 - [x] Create ASP.NET Core Web API project
 - [x] Install and configure EF Core with SQLite or SQL Server LocalDB
 - [x] Create `Transaction` model with properties:
-    - Id, Title, Amount, Date, Type (Income/Expense), CategoryId
+  - Id, Title, Amount, Date, Type (Income/Expense), CategoryId
 - [x] Create `Category` model with properties:
-    - Id, Name
+  - Id, Name
 - [x] Configure `ApplicationDbContext` and register DbSets
 - [x] Create initial migration and apply it to the database
 - [x] Add CRUD endpoints for transactions
@@ -39,7 +39,7 @@
 - SqlLiteContext set up for EF Core and SQLite.
 - Ready for CRUD and filtering features.
 - Improvements needed:
-    - Consider using an enum for Transaction.Type instead of string.
+  - Consider using an enum for Transaction.Type instead of string.
 
 ## Next Steps
 - Fix Category model access modifiers.
@@ -51,16 +51,62 @@
 
 ### New: CRUD Logic Layer for Transaction
 - Create folders in `.Logic`:
-    - `Services/Interfaces`
-    - `Services/Implementations`
-    - `Dtos`
-    - `Results`
+  - `Services/Interfaces`
+  - `Services/Implementations`
+  - `Dtos`
+  - `Results`
 - Define `ITransactionService` interface in `Services/Interfaces`.
 - Implement `TransactionService` in `Services/Implementations`.
 - Create DTOs for Transaction (e.g., `CreateTransactionDto`, `UpdateTransactionDto`) in `Dtos`.
 - Create result classes for Transaction (e.g., `TransactionResult`) in `Results`.
 - Ensure all CRUD logic for Transaction is in `.Logic` and uses DTOs for input and result classes for output.
 
-## Current Goal
-Start by setting up the project and building the Transaction model.
-(Optional, for later) Build the Category model and add Category CRUD endpoints.
+---
+
+## Blazor Web Frontend Setup (SCSS + Fluent 2 style)
+
+### Goals
+- Use **Blazor Web App (ASP.NET Core hosted)**
+- Use **SCSS** for styling (no UI framework)
+- Follow **Fluent 2 design principles**
+- Prepare structure for reusability and scaling
+
+### Task List
+- [X] Create a new Blazor Web App project in Rider (`.Client`)
+- [X] Add SCSS support via `sass` CLI or build tool
+- [X] Create `styles/main.scss` and import partials (`_variables.scss`, `_layout.scss`, `_components.scss`)
+- [ ] Configure `Program.cs` and `App.razor` for routing
+- [ ] Setup basic layout: Sidebar + TopBar (like Fluent design shell)
+- [ ] Create shared components:
+  - [ ] `<Header />`
+  - [ ] `<SidebarNavigation />`
+  - [ ] `<PageContainer />`
+- [ ] Use `@inject` to connect to backend services
+- [ ] Create pages:
+  - [ ] `/transactions` (list + filter)
+  - [ ] `/summary`
+  - [ ] `/settings` (optional)
+- [ ] Use a **clean component structure** in `Pages` and `Components` folders
+- [ ] Follow Fluent 2 design principles in SCSS:
+  - Use `border-radius: 8px`, soft shadows, spacing tokens
+  - Use `Segoe UI Variable`, light gray backgrounds, soft hover/focus transitions
+  - Responsive layout (CSS Grid / Flexbox)
+- [ ] Optional: add light/dark mode toggle via class or custom theme
+
+### Styling (SCSS Setup)
+- Create `/wwwroot/styles/`:
+  - `main.scss`
+  - `_variables.scss`
+  - `_buttons.scss`
+  - `_layout.scss`
+  - `_forms.scss`
+- Compile using:
+    ```bash
+    sass wwwroot/styles/main.scss wwwroot/css/main.css --watch
+    ```
+- Link `main.css` in `index.html` or `_Host.cshtml`
+
+---
+
+## Current Goal (Frontend)
+Set up the base Blazor Web App structure and SCSS styling using Fluent 2 design principles. Get routing and shared layout working, then begin with the Transactions page UI.
