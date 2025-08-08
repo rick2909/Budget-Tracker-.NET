@@ -60,3 +60,6 @@ nunit-*.xml
 
 # SQLite Database
 *.db
+
+# web page
+*/wwwroot/css/

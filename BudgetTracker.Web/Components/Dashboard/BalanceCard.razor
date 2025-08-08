@@ -1,0 +1,13 @@
+<div class="balance-card">
+    <div class="balance-label">Total Balance</div>
+    <div class="balance-amount">@FormatCurrency(TotalBalance)</div>
+</div>
+
+@code {
+    [Parameter] public decimal TotalBalance { get; set; } = 12345.67m;
+    
+    private string FormatCurrency(decimal amount)
+    {
+        return amount.ToString("C2");
+    }
+}

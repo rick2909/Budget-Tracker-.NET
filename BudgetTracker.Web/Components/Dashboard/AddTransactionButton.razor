@@ -1,0 +1,22 @@
+<button class="add-transaction-btn" @onclick="OnAddTransactionClick" 
+        title="Add Transaction">
+    +
+</button>
+
+@code {
+    [Parameter] public EventCallback OnAddTransaction { get; set; }
+    
+    private async Task OnAddTransactionClick()
+    {
+        if (OnAddTransaction.HasDelegate)
+        {
+            await OnAddTransaction.InvokeAsync();
+        }
+        else
+        {
+            // Default behavior - could navigate to add transaction page
+            // or show a modal
+            await Task.CompletedTask;
+        }
+    }
+}

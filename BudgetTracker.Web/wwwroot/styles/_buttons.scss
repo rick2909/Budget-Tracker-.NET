@@ -1,0 +1,88 @@
+@use 'variables';
+
+// Icon buttons (header/profile/settings)
+.settings-btn, .profile-btn {
+    background: var(--surface-2);
+    border: 1px solid var(--outline-color);
+    border-radius: 9999px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-standard),
+                transform var(--duration-fast) var(--ease-standard),
+                color var(--duration-fast) var(--ease-standard);
+    
+    &:hover {
+        background: var(--hover-color);
+        color: var(--text-primary);
+        transform: translateY(-1px);
+    }
+}
+
+// Add Transaction Button
+.add-transaction-btn {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    width: 56px;
+    height: 56px;
+    background: var(--brand-primary);
+    border: none;
+    border-radius: 50%;
+    color: var(--brand-on-primary);
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    box-shadow: var(--elev-4);
+    transition: transform var(--duration-fast) var(--ease-standard),
+                box-shadow var(--duration-fast) var(--ease-standard);
+    
+    &:hover {
+        transform: translateY(-1px) scale(1.03);
+        box-shadow: var(--elev-5);
+    }
+}
+
+// Button patterns (Filled, Tonal, Outline)
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-standard),
+                color var(--duration-fast) var(--ease-standard),
+                border-color var(--duration-fast) var(--ease-standard),
+                transform var(--duration-fast) var(--ease-standard);
+}
+
+.btn:focus-visible { box-shadow: var(--focus-ring); }
+
+.btn--filled {
+    background: var(--brand-primary);
+    color: var(--brand-on-primary);
+}
+
+.btn--filled:hover { filter: brightness(1.05); }
+
+.btn--tonal {
+    background: var(--brand-primary-8);
+    color: var(--accent-blue);
+    border-color: var(--brand-primary-16);
+}
+
+.btn--outline {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--outline-color);
+}
+
+.btn--sm { padding: 8px 12px; }
+.btn--lg { padding: 12px 18px; }

@@ -1,0 +1,77 @@
+<div class="recent-transactions">
+    <h2 class="section-title">Recent Transactions</h2>
+    
+    <div class="transaction-list">
+        @foreach (var transaction in Transactions)
+        {
+            <div class="transaction-item">
+                <div class="transaction-icon @GetIconClass(transaction.Category)">
+                    @GetCategoryIcon(transaction.Category)
+                </div>
+                <div class="transaction-details">
+                    <div class="transaction-name">@transaction.Name</div>
+                    <div class="transaction-category">@transaction.Category</div>
+                </div>
+                <div class="transaction-amount @GetAmountClass(transaction.Amount)">
+                    @FormatAmount(transaction.Amount)
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<Transaction> Transactions { get; set; } = new();
+    
+    protected override void OnInitialized()
+    {
+        // Sample data matching the design
+        Transactions = new List<Transaction>
+        {
+            new("Fresh Foods Market", "Groceries", -75.25m),
+            new("Acme Corp", "Salary", 3500.00m),
+            new("Power & Light Co.", "Utilities", -150.00m),
+            new("The Italian Place", "Dining", -45.50m),
+            new("Apartment Complex", "Rent", -1200.00m)
+        };
+    }
+    
+    private string GetIconClass(string category)
+    {
+        return category.ToLower() switch
+        {
+            "groceries" => "groceries",
+            "salary" => "salary",
+            "utilities" => "utilities",
+            "dining" => "dining",
+            "rent" => "rent",
+            _ => "groceries"
+        };
+    }
+    
+    private string GetCategoryIcon(string category)
+    {
+        return category.ToLower() switch
+        {
+            "groceries" => "🛒",
+            "salary" => "$",
+            "utilities" => "💡",
+            "dining" => "🍽️",
+            "rent" => "🏠",
+            _ => "💰"
+        };
+    }
+    
+    private string GetAmountClass(decimal amount)
+    {
+        return amount >= 0 ? "positive" : "negative";
+    }
+    
+    private string FormatAmount(decimal amount)
+    {
+        var prefix = amount >= 0 ? "+" : "";
+        return prefix + amount.ToString("C2");
+    }
+    
+    public record Transaction(string Name, string Category, decimal Amount);
+}
