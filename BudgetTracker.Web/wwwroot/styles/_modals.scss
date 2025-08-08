@@ -22,7 +22,7 @@
 
 // During closing, drop modal behind FAB to create absorption illusion
 .morph-modal.is-closing {
-  z-index: 300; // lower than FAB (which is >= 500)
+  z-index: 300 !important; // lower than FAB (which is >= 500)
 }
 
 .morph-sheet {
