@@ -72,6 +72,60 @@
     100% { transform: translate(-50%, -36%) scale(1); }
 }
 
+// Morph modal header tweaks
+.morph-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--outline-color);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: var(--spacing-md);
+    
+    .header-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+}
+
+// Modal content layout: keep actions at bottom on desktop
+.morph-sheet {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    background: var(--surface-3);
+    border-radius: var(--radius-xl);
+    overflow: hidden; // ensures header/footer divider lines have curved corners
+}
+
+.morph-content {
+    overflow: auto;
+    padding: var(--spacing-md);
+}
+
+.morph-footer {
+    margin-top: auto;
+    background: var(--surface-2);
+    border-top: 1px solid var(--outline-color);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.morph-footer .morph-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+    padding: var(--spacing-md);
+}
+
+// Ensure no outer gaps on mobile too
+@include variables.tablet {
+    .morph-header { border-radius: 0; }
+    .morph-sheet { border-radius: 0; max-height: 100vh; }
+    .morph-footer { border-radius: 0; }
+}
+
 // Desktop Navigation Header
 .nav-header.desktop-nav {
     display: flex;
