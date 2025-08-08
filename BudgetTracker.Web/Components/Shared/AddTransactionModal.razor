@@ -45,7 +45,7 @@
             if (!resp.IsSuccessStatusCode)
             {
                 var msg = await resp.Content.ReadAsStringAsync();
-                await JS.InvokeVoidAsync("console.error", $"Save failed: {(int)resp.StatusCode} {resp.ReasonPhrase} - {msg}");
+                // TODO: Show user-friendly error message
                 return;
             }
 
@@ -53,7 +53,7 @@
         }
         catch (Exception ex)
         {
-            await JS.InvokeVoidAsync("console.error", $"Save threw: {ex}");
+            // TODO: Show user-friendly error message
         }
     }
 
@@ -67,7 +67,7 @@
             }
             catch (Exception ex)
             {
-                await JS.InvokeVoidAsync("console.error", $"Init JS failed: {ex.Message}");
+                // JS init failed silently
             }
         }
     }

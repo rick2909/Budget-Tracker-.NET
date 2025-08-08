@@ -2,7 +2,7 @@
 window.initializeIncomeExpensesChart = (canvasId, chartData) => {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {
-        console.error(`Canvas with id '${canvasId}' not found`);
+        // Canvas not found - chart will not render
         return;
     }
     
