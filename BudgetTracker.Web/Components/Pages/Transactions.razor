@@ -1,0 +1,232 @@
+@page "/transactions"
+@using BudgetTracker.Logic.Dtos
+@using BudgetTracker.Infrastructure.Models
+@using BudgetTracker.Infrastructure.Enums
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ITransactionService TransactionService
+@inject ICategoryService CategoryService
+
+<PageTitle>Transactions</PageTitle>
+
+<div class="transactions-page">
+    <div class="page-header">
+        <h1>Transactions</h1>
+        <button class="btn btn-primary" onclick="openMorphModal()">
+            <i class="icon-plus"></i>
+            Add Transaction
+        </button>
+    </div>
+
+    <div class="filters-section">
+        <div class="filters-row">
+            <div class="filter-group">
+                <label>Date From</label>
+                <input type="date" @bind="dateFrom" />
+            </div>
+            <div class="filter-group">
+                <label>Date To</label>
+                <input type="date" @bind="dateTo" />
+            </div>
+            <div class="filter-group">
+                <label>Type</label>
+                <select @bind="selectedType">
+                    <option value="">All Types</option>
+                    <option value="@TransactionType.Income">Income</option>
+                    <option value="@TransactionType.Expense">Expense</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Category</label>
+                <select @bind="selectedCategoryId">
+                    <option value="0">All Categories</option>
+                    @foreach (var category in categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+            <button class="btn btn-secondary" @onclick="ApplyFilters">Apply Filters</button>
+            <button class="btn btn-secondary" @onclick="ClearFilters">Clear Filters</button>
+        </div>
+    </div>
+
+    <div class="transactions-content">
+        @if (isLoading)
+        {
+            <div class="loading-state">
+                <p>Loading transactions...</p>
+            </div>
+        }
+        else if (filteredTransactions.Any())
+        {
+            <div class="transactions-list">
+                @foreach (var transaction in filteredTransactions)
+                {
+                    <div class="transaction-item">
+                        <div class="transaction-icon @GetIconClass(transaction.Category?.Name ?? "")">
+                            @GetCategoryIcon(transaction.Category?.Name ?? "")
+                        </div>
+                        <div class="transaction-details">
+                            <div class="transaction-name">@transaction.Title</div>
+                            <div class="transaction-category">@(transaction.Category?.Name ?? "Unknown")</div>
+                            <div class="transaction-date">@transaction.Date.ToString("MMM dd, yyyy")</div>
+                        </div>
+                        <div class="transaction-amount @GetAmountClass(transaction.Type)">
+                            @FormatAmount(transaction.Type, transaction.Amount)
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-icon">📊</div>
+                <h3>No transactions found</h3>
+                <p>@(hasFilters ? "Try adjusting your filters or add some transactions to get started." : "Add your first transaction to get started.")</p>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Transaction> allTransactions = new();
+    private List<Transaction> filteredTransactions = new();
+    private List<Category> categories = new();
+    private bool isLoading = true;
+    private bool hasFilters = false;
+
+    // Filter properties
+    private DateTime? dateFrom;
+    private DateTime? dateTo;
+    private string selectedType = "";
+    private int selectedCategoryId = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            // Load transactions
+            var transactionResults = await TransactionService.GetAllTransactionsAsync();
+            allTransactions = transactionResults
+                .Where(r => r.IsSuccess && r.Transaction != null)
+                .Select(r => r.Transaction!)
+                .ToList();
+
+            // Load categories
+            var categoryResults = await CategoryService.GetAllCategoriesAsync();
+            categories = categoryResults
+                .Where(r => r.IsSuccess && r.Category != null)
+                .Select(r => r.Category!)
+                .ToList();
+
+            // Apply initial filters
+            ApplyFilters();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading data: {ex.Message}");
+            allTransactions = new List<Transaction>();
+            categories = new List<Category>();
+            filteredTransactions = new List<Transaction>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ApplyFilters()
+    {
+        var filtered = allTransactions.AsEnumerable();
+
+        // Apply date filters
+        if (dateFrom.HasValue)
+        {
+            filtered = filtered.Where(t => t.Date >= dateFrom.Value);
+        }
+
+        if (dateTo.HasValue)
+        {
+            filtered = filtered.Where(t => t.Date <= dateTo.Value);
+        }
+
+        // Apply type filter
+        if (!string.IsNullOrEmpty(selectedType) && Enum.TryParse<TransactionType>(selectedType, out var type))
+        {
+            filtered = filtered.Where(t => t.Type == type);
+        }
+
+        // Apply category filter
+        if (selectedCategoryId > 0)
+        {
+            filtered = filtered.Where(t => t.CategoryId == selectedCategoryId);
+        }
+
+        filteredTransactions = filtered
+            .OrderByDescending(t => t.Date)
+            .ToList();
+
+        hasFilters = dateFrom.HasValue || dateTo.HasValue || !string.IsNullOrEmpty(selectedType) || selectedCategoryId > 0;
+        StateHasChanged();
+    }
+
+    private void ClearFilters()
+    {
+        dateFrom = null;
+        dateTo = null;
+        selectedType = "";
+        selectedCategoryId = 0;
+        ApplyFilters();
+    }
+
+    private string GetIconClass(string category)
+    {
+        return category.ToLower() switch
+        {
+            var name when name.Contains("food") || name.Contains("groceries") => "groceries",
+            var name when name.Contains("salary") || name.Contains("income") => "salary",
+            var name when name.Contains("utility") || name.Contains("bill") => "utilities",
+            var name when name.Contains("dining") || name.Contains("restaurant") => "dining",
+            var name when name.Contains("rent") || name.Contains("housing") => "rent",
+            var name when name.Contains("transport") || name.Contains("gas") => "transport",
+            _ => "general"
+        };
+    }
+
+    private string GetCategoryIcon(string category)
+    {
+        return category.ToLower() switch
+        {
+            var name when name.Contains("food") || name.Contains("groceries") => "🛒",
+            var name when name.Contains("salary") || name.Contains("income") => "💰",
+            var name when name.Contains("utility") || name.Contains("bill") => "💡",
+            var name when name.Contains("dining") || name.Contains("restaurant") => "🍽️",
+            var name when name.Contains("rent") || name.Contains("housing") => "🏠",
+            var name when name.Contains("transport") || name.Contains("gas") => "🚗",
+            var name when name.Contains("entertainment") => "🎬",
+            var name when name.Contains("health") => "💊",
+            _ => "📄"
+        };
+    }
+
+    private string GetAmountClass(TransactionType type)
+    {
+        return type == TransactionType.Income ? "positive" : "negative";
+    }
+
+    private string FormatAmount(TransactionType type, decimal amount)
+    {
+        var prefix = type == TransactionType.Income ? "+" : "-";
+        return prefix + amount.ToString("C2");
+    }
+}

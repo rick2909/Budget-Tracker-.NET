@@ -1,0 +1,95 @@
+@inject IJSRuntime JSRuntime
+
+<div class="income-expenses-section">
+    <div class="section-header">
+        <h2 class="section-title">Income vs Expenses</h2>
+        <div class="growth-indicator">
+            <span>This Month</span>
+            <span style="color: var(--accent-green);">+@GrowthPercentage%</span>
+        </div>
+    </div>
+    
+    <div class="amount-display">
+        @FormatCurrency(IncomeVsExpenses)
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="incomeExpensesChart"></canvas>
+    </div>
+</div>
+
+@code {
+    [Parameter] public decimal IncomeVsExpenses { get; set; } = 5678m;
+    [Parameter] public decimal GrowthPercentage { get; set; } = 12m;
+    
+    // Reduced to 5 months for better readability and spacing
+    private readonly List<ChartDataPoint> _chartData = new()
+    {
+        new("Mar", 3200, 3100),
+        new("Apr", 4800, 4200),
+        new("May", 3600, 3400),
+        new("Jun", 5200, 4800),
+        new("Jul", 5400, 5000)
+    };
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeChart();
+            
+            // Add resize handler to redraw chart when window resizes
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        const canvas = document.getElementById('incomeExpensesChart');
+                        const container = canvas?.parentElement;
+                        if (canvas && container) {
+                            const rect = container.getBoundingClientRect();
+                            canvas.width = rect.width;
+                            canvas.height = 240;
+                            // Redraw chart with current data
+                            if (window.initializeIncomeExpensesChart) {
+                                const chartData = [
+                                    {month: 'Mar', income: 3200, expenses: 3100},
+                                    {month: 'Apr', income: 4800, expenses: 4200},
+                                    {month: 'May', income: 3600, expenses: 3400},
+                                    {month: 'Jun', income: 5200, expenses: 4800},
+                                    {month: 'Jul', income: 5400, expenses: 5000}
+                                ];
+                                window.initializeIncomeExpensesChart('incomeExpensesChart', chartData);
+                            }
+                        }
+                    }, 250);
+                });
+            ");
+        }
+    }
+    
+    private async Task InitializeChart()
+    {
+        // Set canvas size to match container for full width
+        await JSRuntime.InvokeVoidAsync("eval", @"
+            const canvas = document.getElementById('incomeExpensesChart');
+            const container = canvas.parentElement;
+            if (canvas && container) {
+                const rect = container.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = 240; // Increased height for better visibility
+            }
+        ");
+        
+        await JSRuntime.InvokeVoidAsync("initializeIncomeExpensesChart", 
+            "incomeExpensesChart", _chartData);
+    }
+    
+    private string FormatCurrency(decimal amount)
+    {
+        return amount.ToString("C0");
+    }
+    
+    public record ChartDataPoint(string Month, decimal Income, 
+                                decimal Expenses);
+}

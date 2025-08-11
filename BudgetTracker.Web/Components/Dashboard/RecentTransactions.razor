@@ -1,0 +1,91 @@
+@using BudgetTracker.Infrastructure.Models
+@using BudgetTracker.Infrastructure.Enums
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ITransactionService TransactionService
+
+<div class="recent-transactions">
+    <h2 class="section-title">Recent Transactions</h2>
+    
+    <div class="transaction-list">
+        @if (isLoading)
+        {
+            <div class="loading-state">
+                <p>Loading recent transactions...</p>
+            </div>
+        }
+        else if (transactions.Any())
+        {
+            @foreach (var transaction in transactions)
+            {
+                <div class="transaction-item">
+                    <CategoryIcon Category="@transaction.Category" CssClass="large" />
+                    <div class="transaction-details">
+                        <div class="transaction-name">@transaction.Title</div>
+                        <div class="transaction-category">@(transaction.Category?.Name ?? "Unknown")</div>
+                    </div>
+                    <div class="transaction-amount @GetAmountClass(transaction.Type, transaction.Amount)">
+                        @FormatAmount(transaction.Type, transaction.Amount)
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <p>No recent transactions found.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Transaction> transactions = new();
+    private bool isLoading = true;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRecentTransactions();
+    }
+    
+    private async Task LoadRecentTransactions()
+    {
+        isLoading = true;
+        StateHasChanged();
+        
+        try
+        {
+            var transactionResults = await TransactionService.GetAllTransactionsAsync();
+            var allTransactions = transactionResults
+                .Where(r => r.IsSuccess && r.Transaction != null)
+                .Select(r => r.Transaction!)
+                .ToList();
+            
+            // Get the 5 most recent transactions
+            transactions = allTransactions
+                .OrderByDescending(t => t.Date)
+                .Take(5)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading recent transactions: {ex.Message}");
+            transactions = new List<Transaction>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+    
+    private string GetAmountClass(TransactionType type, decimal amount)
+    {
+        return type == TransactionType.Income ? "positive" : "negative";
+    }
+    
+    private string FormatAmount(TransactionType type, decimal amount)
+    {
+        var prefix = type == TransactionType.Income ? "+" : "-";
+        return prefix + amount.ToString("C2");
+    }
+}

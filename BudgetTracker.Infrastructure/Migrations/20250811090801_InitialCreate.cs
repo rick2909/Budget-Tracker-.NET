@@ -66,7 +66,7 @@ namespace BudgetTracker.Infrastructure.Migrations
                     Type = table.Column<int>(type: "INTEGER", maxLength: 20, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     RecurringTransactionId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -91,21 +91,29 @@ namespace BudgetTracker.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Food and supermarket purchases", "Groceries" },
-                    { 2, "Electricity, water, gas, etc.", "Utilities" },
-                    { 3, "Public transport, fuel, etc.", "Transport" },
-                    { 4, "Entertainment and hobbies", "Leisure" },
-                    { 5, "Miscellaneous expenses", "Other" },
-                    { 6, "Trips, vacations, hotels, flights", "Travel" },
-                    { 7, "Medical, pharmacy, insurance", "Health" },
-                    { 8, "Professional and personal services", "Services" },
-                    { 9, "Insurance premiums and payments", "Insurance" },
-                    { 10, "Crypto, shares, investments", "Assets" },
-                    { 11, "Loan payments and repayments", "Loan" },
-                    { 12, "Charity and donations", "Donation" },
-                    { 13, "Income from employment", "Salary" },
-                    { 14, "Received or given gifts", "Gifts" },
-                    { 15, "Interest income or expenses", "Interest" }
+                    { 1, "Food, drinks, and supermarket purchases", "Groceries" },
+                    { 2, "Restaurants, cafes, takeaways, bars", "Dining Out" },
+                    { 3, "Electricity, water, gas, internet, phone", "Utilities" },
+                    { 4, "Rent, mortgage, property maintenance", "Housing" },
+                    { 5, "Public transport, fuel, tolls", "Transport" },
+                    { 6, "Car payments, repairs, insurance", "Vehicle" },
+                    { 7, "Movies, hobbies, games, streaming services", "Entertainment" },
+                    { 8, "Trips, vacations, hotels, flights", "Travel" },
+                    { 9, "Medical, dental, pharmacy, health insurance", "Health" },
+                    { 10, "Haircuts, beauty, grooming", "Personal Care" },
+                    { 11, "Courses, books, learning materials", "Education" },
+                    { 12, "Professional, repair, or cleaning services", "Services" },
+                    { 13, "Premiums for health, life, property", "Insurance" },
+                    { 14, "Crypto, shares, bonds, assets", "Investments" },
+                    { 15, "Loan payments and repayments", "Loan" },
+                    { 16, "Charity and contributions", "Donations" },
+                    { 17, "Income from employment", "Salary" },
+                    { 18, "Freelance or business earnings", "Business Income" },
+                    { 19, "Received or given gifts", "Gifts" },
+                    { 20, "Interest income or loan interest paid", "Interest" },
+                    { 21, "Income tax, property tax, other taxes", "Taxes" },
+                    { 22, "Transfers to savings or emergency funds", "Savings" },
+                    { 23, "Miscellaneous expenses", "Other" }
                 });
 
             migrationBuilder.CreateIndex(

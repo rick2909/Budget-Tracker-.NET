@@ -1,0 +1,23 @@
+@page "/"
+@rendermode InteractiveServer
+@inject IJSRuntime JS
+
+<PageTitle>Dashboard - Budget Tracker</PageTitle>
+
+<div class="dashboard-page">
+    <div class="dashboard-container">
+        <BalanceCard />
+        <IncomeExpensesChart />
+        <RecentTransactions />
+    </div>
+</div>
+
+<AddTransactionModal @rendermode="InteractiveServer" />
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize dashboard data
+        await base.OnInitializedAsync();
+    }
+}

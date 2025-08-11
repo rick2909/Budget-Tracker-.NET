@@ -1,0 +1,27 @@
+@typeparam TEnum where TEnum : struct, Enum
+
+<FormField Label="@Label">
+    <InputSelect @bind-Value="Value" TValue="TEnum" @bind-Value:after="NotifyValueChanged">
+        @foreach (var enumValue in Enum.GetValues<TEnum>())
+        {
+            <option value="@enumValue">@GetDisplayText(enumValue)</option>
+        }
+    </InputSelect>
+</FormField>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public TEnum Value { get; set; }
+    [Parameter] public EventCallback<TEnum> ValueChanged { get; set; }
+    [Parameter] public Func<TEnum, string>? DisplayTextSelector { get; set; }
+
+    private async Task NotifyValueChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private string GetDisplayText(TEnum enumValue)
+    {
+        return DisplayTextSelector?.Invoke(enumValue) ?? enumValue.ToString();
+    }
+}

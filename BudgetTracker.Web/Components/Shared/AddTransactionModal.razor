@@ -1,0 +1,215 @@
+@using BudgetTracker.Logic.Dtos
+@using BudgetTracker.Infrastructure.Models
+@using BudgetTracker.Infrastructure.Enums
+@using BudgetTracker.Web.Components.Forms
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ITransactionService TransactionService
+@inject ICategoryService CategoryService
+@inject IRecurringTransactionService RecurringTransactionService
+@inject IJSRuntime JS
+
+@code {
+    private bool IsRecurring { get; set; }
+    private CreateTransactionDto TransactionModel { get; set; } = new()
+    {
+        Title = "",
+        Amount = 0,
+        Type = TransactionType.Expense,
+        CategoryId = 1,
+        Date = DateTime.Today
+    };
+    private CreateRecurringTransactionDto RecurringModel { get; set; } = new()
+    {
+        Title = "",
+        Amount = 0,
+        Type = TransactionType.Expense,
+        CategoryId = 1,
+        StartDate = DateTime.Today,
+        EndDate = null,
+        RecurrencePattern = RecurrencePattern.Monthly
+    };
+    
+    private List<Category> categories = new();
+    private bool isSubmitting = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+    }
+
+    private async Task LoadCategories()
+    {
+        try
+        {
+            var categoryResults = await CategoryService.GetAllCategoriesAsync();
+            categories = categoryResults
+                .Where(r => r.IsSuccess && r.Category != null)
+                .Select(r => r.Category!)
+                .ToList();
+            
+            // Set default category if available
+            if (categories.Any())
+            {
+                TransactionModel.CategoryId = categories.First().Id;
+                RecurringModel.CategoryId = categories.First().Id;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading categories: {ex.Message}");
+        }
+    }
+
+    private async Task CloseModal()
+    {
+        await JS.InvokeVoidAsync("closeMorphModal");
+    }
+
+    private async Task SubmitAsync()
+    {
+        if (isSubmitting) return;
+        
+        isSubmitting = true;
+        StateHasChanged();
+        
+        try
+        {
+            if (IsRecurring)
+            {
+                var result = await RecurringTransactionService.CreateRecurringTransactionAsync(RecurringModel);
+                if (result.IsSuccess)
+                {
+                    // Success - close modal and reset form
+                    await CloseModal();
+                    ResetForm();
+                    
+                    // Optionally trigger a refresh of the parent component
+                    await JS.InvokeVoidAsync("console.log", "Recurring transaction created successfully");
+                }
+                else
+                {
+                    // Show error message
+                    await JS.InvokeVoidAsync("alert", $"Failed to create recurring transaction: {result.Message}");
+                }
+            }
+            else
+            {
+                var result = await TransactionService.CreateTransactionAsync(TransactionModel);
+                if (result.IsSuccess)
+                {
+                    // Success - close modal and reset form
+                    await CloseModal();
+                    ResetForm();
+                    
+                    // Optionally trigger a refresh of the parent component
+                    await JS.InvokeVoidAsync("console.log", "Transaction created successfully");
+                }
+                else
+                {
+                    // Show error message
+                    await JS.InvokeVoidAsync("alert", $"Failed to create transaction: {result.Message}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating transaction: {ex.Message}");
+            await JS.InvokeVoidAsync("alert", "An error occurred while creating the transaction.");
+        }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ResetForm()
+    {
+        TransactionModel = new CreateTransactionDto
+        {
+            Title = "",
+            Amount = 0,
+            Type = TransactionType.Expense,
+            CategoryId = categories.Any() ? categories.First().Id : 1,
+            Date = DateTime.Today
+        };
+        RecurringModel = new CreateRecurringTransactionDto
+        {
+            Title = "",
+            Amount = 0,
+            Type = TransactionType.Expense,
+            CategoryId = categories.Any() ? categories.First().Id : 1,
+            StartDate = DateTime.Today,
+            EndDate = null,
+            RecurrencePattern = RecurrencePattern.Monthly
+        };
+        IsRecurring = false;
+    }
+
+    private void ToggleRecurring()
+    {
+        IsRecurring = !IsRecurring;
+        StateHasChanged();
+    }
+}
+
+<div id="morphModal" class="morph-modal" style="--origin-x: 0px; --origin-y: 0px;">
+    <div class="morph-scrim" @onclick="CloseModal"></div>
+    <div class="morph-sheet" @onclick:stopPropagation="true">
+        <header class="morph-header">
+            <h3>Add Transaction</h3>
+            <div class="header-actions">
+                <div class="toggle-inline" title="Make this a recurring transaction">
+                    <span class="toggle-label">Recurring</span>
+                    <label class="switch switch--sm">
+                        <input type="checkbox"
+                               aria-label="Recurring transaction"
+                               @bind="IsRecurring"
+                               @bind:event="oninput"
+                               @onclick:stopPropagation />
+                        <span class="switch-track"></span>
+                    </label>
+                </div>
+                <button type="button" class="btn btn--outline btn--sm" @onclick="CloseModal">✕</button>
+            </div>
+        </header>
+        <section class="morph-content">
+            <!-- Hidden input bound to Blazor state; updated by JS -->
+            <input type="checkbox" id="isRecurringHidden" style="display:none" @bind="IsRecurring" />
+
+            <!-- Always render both sections; JS controls visibility -->
+            <div id="recurringForm" class="form-grid" style="display:@(IsRecurring ? "" : "none")">
+                <FormField Label="Title">
+                    <input type="text" @bind="RecurringModel.Title" placeholder="e.g., Coffee" />
+                </FormField>
+                <FormField Label="Amount">
+                    <input type="number" @bind="RecurringModel.Amount" @bind:event="oninput" placeholder="e.g., 3.50" />
+                </FormField>
+                <CategorySelect @bind-Value="RecurringModel.CategoryId" />
+                <EnumSelect TEnum="TransactionType" Label="Type" @bind-Value="RecurringModel.Type" />
+                <DateField Label="Start Date" @bind-Value="RecurringModel.StartDate" />
+                <NullableDateField Label="End Date" @bind-Value="RecurringModel.EndDate" />
+                <EnumSelect TEnum="RecurrencePattern" Label="Recurrence Pattern" @bind-Value="RecurringModel.RecurrencePattern" />
+            </div>
+
+            <div id="singleForm" class="form-grid" style="display:@(IsRecurring ? "none" : "")">
+                <FormField Label="Title">
+                    <input type="text" @bind="TransactionModel.Title" placeholder="e.g., Coffee" />
+                </FormField>
+                <FormField Label="Amount">
+                    <input type="number" @bind="TransactionModel.Amount" @bind:event="oninput" placeholder="e.g., 3.50" />
+                </FormField>
+                <CategorySelect @bind-Value="TransactionModel.CategoryId" />
+                <EnumSelect TEnum="TransactionType" Label="Type" @bind-Value="TransactionModel.Type" />
+                <DateField Label="Date" @bind-Value="TransactionModel.Date" />
+            </div>
+        </section>
+        <footer class="morph-footer">
+            <div class="morph-actions">
+                <button type="button" class="btn btn--outline btn--sm" @onclick="CloseModal">Cancel</button>
+                <button type="button" class="btn btn--filled btn--sm" @onclick="SubmitAsync">Save</button>
+            </div>
+        </footer>
+    </div>
+</div>
+<script src="/js/add-transaction-modal.js"></script>

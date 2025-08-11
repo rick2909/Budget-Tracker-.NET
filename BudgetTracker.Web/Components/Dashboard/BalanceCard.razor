@@ -1,0 +1,66 @@
+@using BudgetTracker.Infrastructure.Models
+@using BudgetTracker.Infrastructure.Enums
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ITransactionService TransactionService
+
+<div class="balance-card">
+    <div class="balance-label">Total Balance</div>
+    @if (isLoading)
+    {
+        <div class="balance-amount">Loading...</div>
+    }
+    else
+    {
+        <div class="balance-amount">@FormatCurrency(TotalBalance)</div>
+    }
+</div>
+
+@code {
+    private decimal TotalBalance { get; set; } = 0;
+    private bool isLoading = true;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await CalculateBalance();
+    }
+    
+    private async Task CalculateBalance()
+    {
+        isLoading = true;
+        StateHasChanged();
+        
+        try
+        {
+            var transactionResults = await TransactionService.GetAllTransactionsAsync();
+            var transactions = transactionResults
+                .Where(r => r.IsSuccess && r.Transaction != null)
+                .Select(r => r.Transaction!)
+                .ToList();
+            
+            var income = transactions
+                .Where(t => t.Type == TransactionType.Income)
+                .Sum(t => t.Amount);
+                
+            var expenses = transactions
+                .Where(t => t.Type == TransactionType.Expense)
+                .Sum(t => t.Amount);
+                
+            TotalBalance = income - expenses;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error calculating balance: {ex.Message}");
+            TotalBalance = 0;
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+    
+    private string FormatCurrency(decimal amount)
+    {
+        return amount.ToString("C2");
+    }
+}

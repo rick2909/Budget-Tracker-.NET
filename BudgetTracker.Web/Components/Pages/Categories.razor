@@ -1,0 +1,131 @@
+@page "/categories"
+@using BudgetTracker.Infrastructure.Models
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ICategoryService CategoryService
+@inject IJSRuntime JS
+
+<PageTitle>Categories - Budget Tracker</PageTitle>
+
+<div class="categories-page">
+    <div class="page-header">
+        <h1>Categories</h1>
+        <button class="btn btn--filled" @onclick="OnAddCategory">
+            <strong>+</strong> Add Category
+        </button>
+    </div>
+
+    <div class="categories-container">
+        <div class="categories-grid">
+            @if (isLoading)
+            {
+                <div class="empty-state">
+                    <h3>Loading categories...</h3>
+                    <p>Please wait while we fetch your data.</p>
+                </div>
+            }
+            else if (categories.Any())
+            {
+                @foreach (var category in categories)
+                {
+                    <div class="category-card">
+                        <div class="category-header">
+                            <CategoryIcon Category="@category" CssClass="category-icon small" />
+                            <div class="category-info">
+                                <h3>@category.Name</h3>
+                                <p>@category.Description</p>
+                            </div>
+                        </div>
+                        
+                        <div class="category-stats">
+                            <div class="stat">
+                                <span class="stat-label">Transactions</span>
+                                <span class="stat-value">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">This Month</span>
+                                <span class="stat-value expense">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-actions">
+                            <button class="btn btn--outline btn--sm" @onclick="() => EditCategory(category)">
+                                Edit
+                            </button>
+                            <button class="btn btn--outline btn--sm btn--danger" @onclick="() => DeleteCategory(category)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">
+                    <h3>No categories found</h3>
+                    <p>Create your first category to organize your transactions.</p>
+                    <button class="btn btn--filled" @onclick="OnAddCategory">
+                        <strong>+</strong> Add Category
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Category> categories = new();
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+    }
+
+    private async Task LoadCategories()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            var categoryResults = await CategoryService.GetAllCategoriesAsync();
+            categories = categoryResults
+                .Where(r => r.IsSuccess && r.Category != null)
+                .Select(r => r.Category!)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading categories: {ex.Message}");
+            categories = new List<Category>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnAddCategory()
+    {
+        // TODO: Open add category modal
+        await JS.InvokeVoidAsync("alert", "Add Category functionality coming soon!");
+    }
+
+    private async Task EditCategory(Category category)
+    {
+        // TODO: Open edit category modal
+        await JS.InvokeVoidAsync("alert", $"Edit {category.Name} functionality coming soon!");
+    }
+
+    private async Task DeleteCategory(Category category)
+    {
+        // TODO: Implement delete with confirmation
+        var confirmed = await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete '{category.Name}'?");
+        if (confirmed)
+        {
+            // TODO: Call API to delete category
+            await JS.InvokeVoidAsync("alert", "Delete functionality coming soon!");
+        }
+    }
+}

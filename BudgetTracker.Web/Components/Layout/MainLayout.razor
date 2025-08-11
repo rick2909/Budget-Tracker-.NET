@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Components.Routing
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="app-layout">
+    <header class="top-navbar">
+        <NavMenu @rendermode="InteractiveServer" />
+    </header>
+    
+    <main class="main-content">
+        <article class="content">
+            @Body
+        </article>
+    </main>
+</div>
+
+<!-- Mobile Bottom Navigation (outside of app-layout) -->
+<BottomNavigation @rendermode="InteractiveServer" />
+
+<div id="blazor-error-ui">
+    Something went wrong.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

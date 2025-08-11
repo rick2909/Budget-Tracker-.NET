@@ -3,6 +3,7 @@ using System;
 using BudgetTracker.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetTracker.Infrastructure.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    partial class SqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20250811090801_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
@@ -26,11 +29,6 @@ namespace BudgetTracker.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -47,161 +45,138 @@ namespace BudgetTracker.Infrastructure.Migrations
                         {
                             Id = 1,
                             Description = "Food, drinks, and supermarket purchases",
-                            Icon = "shopping_cart",
                             Name = "Groceries"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Restaurants, cafes, takeaways, bars",
-                            Icon = "restaurant",
                             Name = "Dining Out"
                         },
                         new
                         {
                             Id = 3,
                             Description = "Electricity, water, gas, internet, phone",
-                            Icon = "flash_on",
                             Name = "Utilities"
                         },
                         new
                         {
                             Id = 4,
                             Description = "Rent, mortgage, property maintenance",
-                            Icon = "home",
                             Name = "Housing"
                         },
                         new
                         {
                             Id = 5,
                             Description = "Public transport, fuel, tolls",
-                            Icon = "commute",
                             Name = "Transport"
                         },
                         new
                         {
                             Id = 6,
                             Description = "Car payments, repairs, insurance",
-                            Icon = "directions_car",
                             Name = "Vehicle"
                         },
                         new
                         {
                             Id = 7,
                             Description = "Movies, hobbies, games, streaming services",
-                            Icon = "movie",
                             Name = "Entertainment"
                         },
                         new
                         {
                             Id = 8,
                             Description = "Trips, vacations, hotels, flights",
-                            Icon = "flight",
                             Name = "Travel"
                         },
                         new
                         {
                             Id = 9,
                             Description = "Medical, dental, pharmacy, health insurance",
-                            Icon = "local_hospital",
                             Name = "Health"
                         },
                         new
                         {
                             Id = 10,
                             Description = "Haircuts, beauty, grooming",
-                            Icon = "spa",
                             Name = "Personal Care"
                         },
                         new
                         {
                             Id = 11,
                             Description = "Courses, books, learning materials",
-                            Icon = "school",
                             Name = "Education"
                         },
                         new
                         {
                             Id = 12,
                             Description = "Professional, repair, or cleaning services",
-                            Icon = "build",
                             Name = "Services"
                         },
                         new
                         {
                             Id = 13,
                             Description = "Premiums for health, life, property",
-                            Icon = "security",
                             Name = "Insurance"
                         },
                         new
                         {
                             Id = 14,
                             Description = "Crypto, shares, bonds, assets",
-                            Icon = "trending_up",
                             Name = "Investments"
                         },
                         new
                         {
                             Id = 15,
                             Description = "Loan payments and repayments",
-                            Icon = "account_balance",
                             Name = "Loan"
                         },
                         new
                         {
                             Id = 16,
                             Description = "Charity and contributions",
-                            Icon = "volunteer_activism",
                             Name = "Donations"
                         },
                         new
                         {
                             Id = 17,
-                            Description = "Primary income from employment",
-                            Icon = "attach_money",
+                            Description = "Income from employment",
                             Name = "Salary"
                         },
                         new
                         {
                             Id = 18,
-                            Description = "Income from business or freelance work",
-                            Icon = "business_center",
-                            Name = "Business"
+                            Description = "Freelance or business earnings",
+                            Name = "Business Income"
                         },
                         new
                         {
                             Id = 19,
                             Description = "Received or given gifts",
-                            Icon = "card_giftcard",
                             Name = "Gifts"
                         },
                         new
                         {
                             Id = 20,
                             Description = "Interest income or loan interest paid",
-                            Icon = "trending_up",
                             Name = "Interest"
                         },
                         new
                         {
                             Id = 21,
                             Description = "Income tax, property tax, other taxes",
-                            Icon = "receipt_long",
                             Name = "Taxes"
                         },
                         new
                         {
                             Id = 22,
                             Description = "Transfers to savings or emergency funds",
-                            Icon = "savings",
                             Name = "Savings"
                         },
                         new
                         {
                             Id = 23,
                             Description = "Miscellaneous expenses",
-                            Icon = "category",
                             Name = "Other"
                         });
                 });

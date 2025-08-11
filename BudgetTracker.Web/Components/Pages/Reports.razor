@@ -1,0 +1,196 @@
+@page "/reports"
+@rendermode InteractiveServer
+@inject IJSRuntime JS
+
+<PageTitle>Reports - Budget Tracker</PageTitle>
+
+<div class="reports-page">
+    <div class="page-header">
+        <h1>Reports</h1>
+        <div class="report-controls">
+            <select @bind="SelectedPeriod">
+                <option value="month">This Month</option>
+                <option value="quarter">This Quarter</option>
+                <option value="year">This Year</option>
+                <option value="custom">Custom Range</option>
+            </select>
+            <button class="btn btn-secondary" @onclick="OnPeriodChanged">Update Report</button>
+            
+            @if (SelectedPeriod == "custom")
+            {
+                <div class="date-range">
+                    <input type="date" @bind="StartDate" />
+                    <span>to</span>
+                    <input type="date" @bind="EndDate" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="reports-container">
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card income">
+                <div class="card-header">
+                    <h3>Total Income</h3>
+                    <span class="card-icon">📈</span>
+                </div>
+                <div class="card-value">$@totalIncome.ToString("N2")</div>
+                <div class="card-change positive">+@incomeChange.ToString("N1")% from last period</div>
+            </div>
+            
+            <div class="summary-card expense">
+                <div class="card-header">
+                    <h3>Total Expenses</h3>
+                    <span class="card-icon">📉</span>
+                </div>
+                <div class="card-value">$@totalExpenses.ToString("N2")</div>
+                <div class="card-change negative">+@expenseChange.ToString("N1")% from last period</div>
+            </div>
+            
+            <div class="summary-card savings">
+                <div class="card-header">
+                    <h3>Net Savings</h3>
+                    <span class="card-icon">💰</span>
+                </div>
+                <div class="card-value">$@netSavings.ToString("N2")</div>
+                <div class="card-change @(savingsChange >= 0 ? "positive" : "negative")">
+                    @(savingsChange >= 0 ? "+" : "")@savingsChange.ToString("N1")% from last period
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Spending by Category</h3>
+                <canvas id="categoryChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Income vs Expenses Trend</h3>
+                <canvas id="trendChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="category-breakdown">
+            <h3>Category Breakdown</h3>
+            <div class="breakdown-list">
+                @foreach (var category in categoryBreakdown)
+                {
+                    <div class="breakdown-item">
+                        <div class="category-info">
+                            <span class="category-icon">@category.Icon</span>
+                            <span class="category-name">@category.Name</span>
+                        </div>
+                        <div class="category-stats">
+                            <div class="category-amount">$@category.Amount.ToString("N2")</div>
+                            <div class="category-percentage">@category.Percentage.ToString("N1")%</div>
+                        </div>
+                        <div class="category-bar">
+                            <div class="bar-fill" style="width: @category.Percentage%"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Export Options -->
+        <div class="export-section">
+            <h3>Export Data</h3>
+            <div class="export-buttons">
+                <button class="btn btn--outline" @onclick="ExportToCsv">
+                    📊 Export to CSV
+                </button>
+                <button class="btn btn--outline" @onclick="ExportToPdf">
+                    📄 Export to PDF
+                </button>
+                <button class="btn btn--outline" @onclick="PrintReport">
+                    🖨️ Print Report
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string SelectedPeriod = "month";
+    private DateTime StartDate = DateTime.Now.AddMonths(-1);
+    private DateTime EndDate = DateTime.Now;
+    
+    // Mock data - replace with API calls
+    private decimal totalIncome = 5000.00m;
+    private decimal totalExpenses = 3250.75m;
+    private decimal netSavings = 1749.25m;
+    private decimal incomeChange = 8.5m;
+    private decimal expenseChange = 12.3m;
+    private decimal savingsChange = -2.1m;
+    
+    private List<CategoryBreakdownModel> categoryBreakdown = new()
+    {
+        new() { Name = "Food & Dining", Icon = "🍽️", Amount = 850.50m, Percentage = 26.2m },
+        new() { Name = "Transportation", Icon = "🚗", Amount = 420.25m, Percentage = 12.9m },
+        new() { Name = "Bills & Utilities", Icon = "⚡", Amount = 680.00m, Percentage = 20.9m },
+        new() { Name = "Entertainment", Icon = "🎬", Amount = 320.75m, Percentage = 9.9m },
+        new() { Name = "Shopping", Icon = "🛍️", Amount = 580.25m, Percentage = 17.8m },
+        new() { Name = "Health & Fitness", Icon = "💪", Amount = 399.00m, Percentage = 12.3m }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadReportData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeCharts();
+        }
+    }
+
+    private async Task LoadReportData()
+    {
+        // TODO: Replace with actual API calls
+        // var response = await HttpClient.GetFromJsonAsync<ReportData>($"reports?period={SelectedPeriod}&startDate={StartDate:yyyy-MM-dd}&endDate={EndDate:yyyy-MM-dd}");
+        await Task.Delay(100); // Simulate API call
+    }
+
+    private async Task OnPeriodChanged()
+    {
+        await LoadReportData();
+        await InitializeCharts();
+    }
+
+    private async Task InitializeCharts()
+    {
+        // TODO: Initialize Chart.js charts
+        await JS.InvokeVoidAsync("console.log", "Charts would be initialized here");
+    }
+
+    private async Task ExportToCsv()
+    {
+        // TODO: Implement CSV export
+        await JS.InvokeVoidAsync("alert", "CSV export functionality coming soon!");
+    }
+
+    private async Task ExportToPdf()
+    {
+        // TODO: Implement PDF export
+        await JS.InvokeVoidAsync("alert", "PDF export functionality coming soon!");
+    }
+
+    private async Task PrintReport()
+    {
+        await JS.InvokeVoidAsync("window.print");
+    }
+
+    public class CategoryBreakdownModel
+    {
+        public string Name { get; set; } = "";
+        public string Icon { get; set; } = "";
+        public decimal Amount { get; set; }
+        public decimal Percentage { get; set; }
+    }
+}
