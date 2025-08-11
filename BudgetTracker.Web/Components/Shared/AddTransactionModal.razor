@@ -1,7 +1,11 @@
 @using BudgetTracker.Logic.Dtos
+@using BudgetTracker.Infrastructure.Models
 @using BudgetTracker.Infrastructure.Enums
 @using BudgetTracker.Web.Components.Forms
-@inject HttpClient Http
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ITransactionService TransactionService
+@inject ICategoryService CategoryService
+@inject IRecurringTransactionService RecurringTransactionService
 @inject IJSRuntime JS
 
 @code {
@@ -10,7 +14,7 @@
     {
         Title = "",
         Amount = 0,
-        Type = BudgetTracker.Infrastructure.Enums.TransactionType.Expense,
+        Type = TransactionType.Expense,
         CategoryId = 1,
         Date = DateTime.Today
     };
@@ -18,12 +22,43 @@
     {
         Title = "",
         Amount = 0,
-        Type = BudgetTracker.Infrastructure.Enums.TransactionType.Expense,
+        Type = TransactionType.Expense,
         CategoryId = 1,
         StartDate = DateTime.Today,
         EndDate = null,
-        RecurrencePattern = BudgetTracker.Infrastructure.Enums.RecurrencePattern.Monthly
+        RecurrencePattern = RecurrencePattern.Monthly
     };
+    
+    private List<Category> categories = new();
+    private bool isSubmitting = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+    }
+
+    private async Task LoadCategories()
+    {
+        try
+        {
+            var categoryResults = await CategoryService.GetAllCategoriesAsync();
+            categories = categoryResults
+                .Where(r => r.IsSuccess && r.Category != null)
+                .Select(r => r.Category!)
+                .ToList();
+            
+            // Set default category if available
+            if (categories.Any())
+            {
+                TransactionModel.CategoryId = categories.First().Id;
+                RecurringModel.CategoryId = categories.First().Id;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading categories: {ex.Message}");
+        }
+    }
 
     private async Task CloseModal()
     {
@@ -32,46 +67,83 @@
 
     private async Task SubmitAsync()
     {
+        if (isSubmitting) return;
+        
+        isSubmitting = true;
+        StateHasChanged();
+        
         try
         {
-            HttpResponseMessage resp;
             if (IsRecurring)
             {
-                resp = await Http.PostAsJsonAsync("/api/transactions/recurring", RecurringModel);
+                var result = await RecurringTransactionService.CreateRecurringTransactionAsync(RecurringModel);
+                if (result.IsSuccess)
+                {
+                    // Success - close modal and reset form
+                    await CloseModal();
+                    ResetForm();
+                    
+                    // Optionally trigger a refresh of the parent component
+                    await JS.InvokeVoidAsync("console.log", "Recurring transaction created successfully");
+                }
+                else
+                {
+                    // Show error message
+                    await JS.InvokeVoidAsync("alert", $"Failed to create recurring transaction: {result.Message}");
+                }
             }
             else
             {
-                resp = await Http.PostAsJsonAsync("/api/transactions", TransactionModel);
+                var result = await TransactionService.CreateTransactionAsync(TransactionModel);
+                if (result.IsSuccess)
+                {
+                    // Success - close modal and reset form
+                    await CloseModal();
+                    ResetForm();
+                    
+                    // Optionally trigger a refresh of the parent component
+                    await JS.InvokeVoidAsync("console.log", "Transaction created successfully");
+                }
+                else
+                {
+                    // Show error message
+                    await JS.InvokeVoidAsync("alert", $"Failed to create transaction: {result.Message}");
+                }
             }
-
-            if (!resp.IsSuccessStatusCode)
-            {
-                var msg = await resp.Content.ReadAsStringAsync();
-                // TODO: Show user-friendly error message
-                return;
-            }
-
-            await JS.InvokeVoidAsync("closeMorphModal");
         }
         catch (Exception ex)
         {
-            // TODO: Show user-friendly error message
+            Console.WriteLine($"Error creating transaction: {ex.Message}");
+            await JS.InvokeVoidAsync("alert", "An error occurred while creating the transaction.");
+        }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
         }
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private void ResetForm()
     {
-        if (firstRender)
+        TransactionModel = new CreateTransactionDto
         {
-            try
-            {
-                await JS.InvokeVoidAsync("AddTransactionModal.init");
-            }
-            catch (Exception ex)
-            {
-                // JS init failed silently
-            }
-        }
+            Title = "",
+            Amount = 0,
+            Type = TransactionType.Expense,
+            CategoryId = categories.Any() ? categories.First().Id : 1,
+            Date = DateTime.Today
+        };
+        RecurringModel = new CreateRecurringTransactionDto
+        {
+            Title = "",
+            Amount = 0,
+            Type = TransactionType.Expense,
+            CategoryId = categories.Any() ? categories.First().Id : 1,
+            StartDate = DateTime.Today,
+            EndDate = null,
+            RecurrencePattern = RecurrencePattern.Monthly
+        };
+        IsRecurring = false;
     }
 
     private void ToggleRecurring()
@@ -80,6 +152,7 @@
         StateHasChanged();
     }
 }
+
 <div id="morphModal" class="morph-modal" style="--origin-x: 0px; --origin-y: 0px;">
     <div class="morph-scrim" @onclick="CloseModal"></div>
     <div class="morph-sheet" @onclick:stopPropagation="true">

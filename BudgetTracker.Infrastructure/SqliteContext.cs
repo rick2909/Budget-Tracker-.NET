@@ -116,21 +116,29 @@ public class SqliteContext(DbContextOptions<SqliteContext> options) : DbContext(
             category.Property(c => c.Name).IsRequired().HasMaxLength(50);
             category.Property(c => c.Description).HasMaxLength(200);
             category.HasData(
-                new Category { Id = 1, Name = "Groceries", Description = "Food and supermarket purchases" },
-                new Category { Id = 2, Name = "Utilities", Description = "Electricity, water, gas, etc." },
-                new Category { Id = 3, Name = "Transport", Description = "Public transport, fuel, etc." },
-                new Category { Id = 4, Name = "Leisure", Description = "Entertainment and hobbies" },
-                new Category { Id = 5, Name = "Other", Description = "Miscellaneous expenses" },
-                new Category { Id = 6, Name = "Travel", Description = "Trips, vacations, hotels, flights" },
-                new Category { Id = 7, Name = "Health", Description = "Medical, pharmacy, insurance" },
-                new Category { Id = 8, Name = "Services", Description = "Professional and personal services" },
-                new Category { Id = 9, Name = "Insurance", Description = "Insurance premiums and payments" },
-                new Category { Id = 10, Name = "Assets", Description = "Crypto, shares, investments" },
-                new Category { Id = 11, Name = "Loan", Description = "Loan payments and repayments" },
-                new Category { Id = 12, Name = "Donation", Description = "Charity and donations" },
-                new Category { Id = 13, Name = "Salary", Description = "Income from employment" },
-                new Category { Id = 14, Name = "Gifts", Description = "Received or given gifts" },
-                new Category { Id = 15, Name = "Interest", Description = "Interest income or expenses" }
+                new Category { Id = 1, Name = "Groceries", Description = "Food, drinks, and supermarket purchases" },
+                new Category { Id = 2, Name = "Dining Out", Description = "Restaurants, cafes, takeaways, bars" },
+                new Category { Id = 3, Name = "Utilities", Description = "Electricity, water, gas, internet, phone" },
+                new Category { Id = 4, Name = "Housing", Description = "Rent, mortgage, property maintenance" },
+                new Category { Id = 5, Name = "Transport", Description = "Public transport, fuel, tolls" },
+                new Category { Id = 6, Name = "Vehicle", Description = "Car payments, repairs, insurance" },
+                new Category { Id = 7, Name = "Entertainment", Description = "Movies, hobbies, games, streaming services" },
+                new Category { Id = 8, Name = "Travel", Description = "Trips, vacations, hotels, flights" },
+                new Category { Id = 9, Name = "Health", Description = "Medical, dental, pharmacy, health insurance" },
+                new Category { Id = 10, Name = "Personal Care", Description = "Haircuts, beauty, grooming" },
+                new Category { Id = 11, Name = "Education", Description = "Courses, books, learning materials" },
+                new Category { Id = 12, Name = "Services", Description = "Professional, repair, or cleaning services" },
+                new Category { Id = 13, Name = "Insurance", Description = "Premiums for health, life, property" },
+                new Category { Id = 14, Name = "Investments", Description = "Crypto, shares, bonds, assets" },
+                new Category { Id = 15, Name = "Loan", Description = "Loan payments and repayments" },
+                new Category { Id = 16, Name = "Donations", Description = "Charity and contributions" },
+                new Category { Id = 17, Name = "Salary", Description = "Income from employment" },
+                new Category { Id = 18, Name = "Business Income", Description = "Freelance or business earnings" },
+                new Category { Id = 19, Name = "Gifts", Description = "Received or given gifts" },
+                new Category { Id = 20, Name = "Interest", Description = "Interest income or loan interest paid" },
+                new Category { Id = 21, Name = "Taxes", Description = "Income tax, property tax, other taxes" },
+                new Category { Id = 22, Name = "Savings", Description = "Transfers to savings or emergency funds" },
+                new Category { Id = 23, Name = "Other", Description = "Miscellaneous expenses" }
             );
         });
     }

@@ -41,92 +41,140 @@ namespace BudgetTracker.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Food and supermarket purchases",
+                            Description = "Food, drinks, and supermarket purchases",
                             Name = "Groceries"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Electricity, water, gas, etc.",
-                            Name = "Utilities"
+                            Description = "Restaurants, cafes, takeaways, bars",
+                            Name = "Dining Out"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Public transport, fuel, etc.",
-                            Name = "Transport"
+                            Description = "Electricity, water, gas, internet, phone",
+                            Name = "Utilities"
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Entertainment and hobbies",
-                            Name = "Leisure"
+                            Description = "Rent, mortgage, property maintenance",
+                            Name = "Housing"
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Miscellaneous expenses",
-                            Name = "Other"
+                            Description = "Public transport, fuel, tolls",
+                            Name = "Transport"
                         },
                         new
                         {
                             Id = 6,
+                            Description = "Car payments, repairs, insurance",
+                            Name = "Vehicle"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Movies, hobbies, games, streaming services",
+                            Name = "Entertainment"
+                        },
+                        new
+                        {
+                            Id = 8,
                             Description = "Trips, vacations, hotels, flights",
                             Name = "Travel"
                         },
                         new
                         {
-                            Id = 7,
-                            Description = "Medical, pharmacy, insurance",
+                            Id = 9,
+                            Description = "Medical, dental, pharmacy, health insurance",
                             Name = "Health"
                         },
                         new
                         {
-                            Id = 8,
-                            Description = "Professional and personal services",
-                            Name = "Services"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Description = "Insurance premiums and payments",
-                            Name = "Insurance"
-                        },
-                        new
-                        {
                             Id = 10,
-                            Description = "Crypto, shares, investments",
-                            Name = "Assets"
+                            Description = "Haircuts, beauty, grooming",
+                            Name = "Personal Care"
                         },
                         new
                         {
                             Id = 11,
+                            Description = "Courses, books, learning materials",
+                            Name = "Education"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Description = "Professional, repair, or cleaning services",
+                            Name = "Services"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Description = "Premiums for health, life, property",
+                            Name = "Insurance"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Description = "Crypto, shares, bonds, assets",
+                            Name = "Investments"
+                        },
+                        new
+                        {
+                            Id = 15,
                             Description = "Loan payments and repayments",
                             Name = "Loan"
                         },
                         new
                         {
-                            Id = 12,
-                            Description = "Charity and donations",
-                            Name = "Donation"
+                            Id = 16,
+                            Description = "Charity and contributions",
+                            Name = "Donations"
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 17,
                             Description = "Income from employment",
                             Name = "Salary"
                         },
                         new
                         {
-                            Id = 14,
+                            Id = 18,
+                            Description = "Freelance or business earnings",
+                            Name = "Business Income"
+                        },
+                        new
+                        {
+                            Id = 19,
                             Description = "Received or given gifts",
                             Name = "Gifts"
                         },
                         new
                         {
-                            Id = 15,
-                            Description = "Interest income or expenses",
+                            Id = 20,
+                            Description = "Interest income or loan interest paid",
                             Name = "Interest"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Description = "Income tax, property tax, other taxes",
+                            Name = "Taxes"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Description = "Transfers to savings or emergency funds",
+                            Name = "Savings"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Description = "Miscellaneous expenses",
+                            Name = "Other"
                         });
                 });
 
@@ -183,7 +231,7 @@ namespace BudgetTracker.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
@@ -232,7 +280,8 @@ namespace BudgetTracker.Infrastructure.Migrations
                     b.HasOne("BudgetTracker.Infrastructure.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("BudgetTracker.Infrastructure.Models.RecurringTransaction", "RecurringTransaction")
                         .WithMany("GeneratedTransactions")

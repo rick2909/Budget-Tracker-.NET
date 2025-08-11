@@ -1,51 +1,96 @@
+@using BudgetTracker.Infrastructure.Models
+@using BudgetTracker.Infrastructure.Enums
+@using BudgetTracker.Logic.Services.Interfaces
+@inject ITransactionService TransactionService
+
 <div class="recent-transactions">
     <h2 class="section-title">Recent Transactions</h2>
     
     <div class="transaction-list">
-        @foreach (var transaction in Transactions)
+        @if (isLoading)
         {
-            <div class="transaction-item">
-                <div class="transaction-icon @GetIconClass(transaction.Category)">
-                    @GetCategoryIcon(transaction.Category)
+            <div class="loading-state">
+                <p>Loading recent transactions...</p>
+            </div>
+        }
+        else if (transactions.Any())
+        {
+            @foreach (var transaction in transactions)
+            {
+                <div class="transaction-item">
+                    <div class="transaction-icon @GetIconClass(transaction.Category?.Name ?? "")">
+                        @GetCategoryIcon(transaction.Category?.Name ?? "")
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">@transaction.Title</div>
+                        <div class="transaction-category">@(transaction.Category?.Name ?? "Unknown")</div>
+                    </div>
+                    <div class="transaction-amount @GetAmountClass(transaction.Type, transaction.Amount)">
+                        @FormatAmount(transaction.Type, transaction.Amount)
+                    </div>
                 </div>
-                <div class="transaction-details">
-                    <div class="transaction-name">@transaction.Name</div>
-                    <div class="transaction-category">@transaction.Category</div>
-                </div>
-                <div class="transaction-amount @GetAmountClass(transaction.Amount)">
-                    @FormatAmount(transaction.Amount)
-                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <p>No recent transactions found.</p>
             </div>
         }
     </div>
 </div>
 
 @code {
-    [Parameter] public List<Transaction> Transactions { get; set; } = new();
+    private List<Transaction> transactions = new();
+    private bool isLoading = true;
     
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Sample data matching the design
-        Transactions = new List<Transaction>
+        await LoadRecentTransactions();
+    }
+    
+    private async Task LoadRecentTransactions()
+    {
+        isLoading = true;
+        StateHasChanged();
+        
+        try
         {
-            new("Fresh Foods Market", "Groceries", -75.25m),
-            new("Acme Corp", "Salary", 3500.00m),
-            new("Power & Light Co.", "Utilities", -150.00m),
-            new("The Italian Place", "Dining", -45.50m),
-            new("Apartment Complex", "Rent", -1200.00m)
-        };
+            var transactionResults = await TransactionService.GetAllTransactionsAsync();
+            var allTransactions = transactionResults
+                .Where(r => r.IsSuccess && r.Transaction != null)
+                .Select(r => r.Transaction!)
+                .ToList();
+            
+            // Get the 5 most recent transactions
+            transactions = allTransactions
+                .OrderByDescending(t => t.Date)
+                .Take(5)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading recent transactions: {ex.Message}");
+            transactions = new List<Transaction>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
     }
     
     private string GetIconClass(string category)
     {
         return category.ToLower() switch
         {
-            "groceries" => "groceries",
-            "salary" => "salary",
-            "utilities" => "utilities",
-            "dining" => "dining",
-            "rent" => "rent",
-            _ => "groceries"
+            var name when name.Contains("food") || name.Contains("groceries") => "groceries",
+            var name when name.Contains("salary") || name.Contains("income") => "salary",
+            var name when name.Contains("utility") || name.Contains("bill") => "utilities",
+            var name when name.Contains("dining") || name.Contains("restaurant") => "dining",
+            var name when name.Contains("rent") || name.Contains("housing") => "rent",
+            var name when name.Contains("transport") || name.Contains("gas") => "transport",
+            _ => "general"
         };
     }
     
@@ -53,25 +98,26 @@
     {
         return category.ToLower() switch
         {
-            "groceries" => "🛒",
-            "salary" => "$",
-            "utilities" => "💡",
-            "dining" => "🍽️",
-            "rent" => "🏠",
-            _ => "💰"
+            var name when name.Contains("food") || name.Contains("groceries") => "🛒",
+            var name when name.Contains("salary") || name.Contains("income") => "💰",
+            var name when name.Contains("utility") || name.Contains("bill") => "💡",
+            var name when name.Contains("dining") || name.Contains("restaurant") => "🍽️",
+            var name when name.Contains("rent") || name.Contains("housing") => "🏠",
+            var name when name.Contains("transport") || name.Contains("gas") => "🚗",
+            var name when name.Contains("entertainment") => "🎬",
+            var name when name.Contains("health") => "💊",
+            _ => "📄"
         };
     }
     
-    private string GetAmountClass(decimal amount)
+    private string GetAmountClass(TransactionType type, decimal amount)
     {
-        return amount >= 0 ? "positive" : "negative";
+        return type == TransactionType.Income ? "positive" : "negative";
     }
     
-    private string FormatAmount(decimal amount)
+    private string FormatAmount(TransactionType type, decimal amount)
     {
-        var prefix = amount >= 0 ? "+" : "";
+        var prefix = type == TransactionType.Income ? "+" : "-";
         return prefix + amount.ToString("C2");
     }
-    
-    public record Transaction(string Name, string Category, decimal Amount);
 }

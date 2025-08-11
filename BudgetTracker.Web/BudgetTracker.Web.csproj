@@ -42,7 +42,20 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\BudgetTracker.Logic\BudgetTracker.Logic.csproj" />
+      <ProjectReference Include="..\BudgetTracker.Infrastructure\BudgetTracker.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

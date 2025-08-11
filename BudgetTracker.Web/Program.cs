@@ -1,4 +1,8 @@
 using BudgetTracker.Web.Components;
+using BudgetTracker.Logic.Services.Interfaces;
+using BudgetTracker.Logic.Services.Implementations;
+using BudgetTracker.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient();
+
+// Add Entity Framework
+builder.Services.AddDbContext<SqliteContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=budget_tracker.db"));
+
+// Add scoped services from Logic layer
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IRecurringTransactionService, RecurringTransactionService>();
 
 var app = builder.Build();
 
@@ -19,7 +31,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
