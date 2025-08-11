@@ -1,0 +1,54 @@
+@using BudgetTracker.Infrastructure.Models
+
+<span class="material-icons category-icon @CssClass" style="@Style">@GetMaterialIcon()</span>
+
+@code {
+    [Parameter] public Category? Category { get; set; }
+    [Parameter] public string? IconName { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public string Style { get; set; } = "";
+
+    private string GetMaterialIcon()
+    {
+        // Use provided IconName or Category's Icon
+        var iconName = IconName ?? Category?.Icon;
+        
+        if (!string.IsNullOrEmpty(iconName))
+        {
+            return iconName;
+        }
+        
+        // If no icon specified, suggest one based on category name
+        if (Category != null)
+        {
+            return GetSuggestedIcon(Category.Name);
+        }
+        
+        return "help"; // Default fallback
+    }
+
+    private string GetSuggestedIcon(string categoryName)
+    {
+        return categoryName.ToLower() switch
+        {
+            var name when name.Contains("food") || name.Contains("groceries") => "shopping_cart",
+            var name when name.Contains("dining") || name.Contains("restaurant") => "restaurant",
+            var name when name.Contains("transport") || name.Contains("car") || name.Contains("gas") => "directions_car",
+            var name when name.Contains("home") || name.Contains("rent") || name.Contains("mortgage") => "home",
+            var name when name.Contains("utility") || name.Contains("bill") || name.Contains("electric") => "flash_on",
+            var name when name.Contains("entertainment") || name.Contains("movie") => "movie",
+            var name when name.Contains("health") || name.Contains("medical") || name.Contains("fitness") => "local_hospital",
+            var name when name.Contains("education") || name.Contains("book") || name.Contains("school") => "school",
+            var name when name.Contains("travel") || name.Contains("vacation") || name.Contains("flight") => "flight",
+            var name when name.Contains("shopping") || name.Contains("clothing") || name.Contains("retail") => "shopping_bag",
+            var name when name.Contains("salary") || name.Contains("income") || name.Contains("wage") => "attach_money",
+            var name when name.Contains("investment") || name.Contains("stock") => "trending_up",
+            var name when name.Contains("insurance") => "security",
+            var name when name.Contains("loan") || name.Contains("debt") => "account_balance",
+            var name when name.Contains("gift") || name.Contains("donation") => "card_giftcard",
+            var name when name.Contains("tax") => "receipt_long",
+            var name when name.Contains("saving") => "savings",
+            _ => "help"
+        };
+    }
+}
