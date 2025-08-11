@@ -2,7 +2,6 @@
 window.initializeIncomeExpensesChart = (canvasId, chartData) => {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {
-        // Canvas not found - chart will not render
         return;
     }
     
@@ -12,72 +11,113 @@ window.initializeIncomeExpensesChart = (canvasId, chartData) => {
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
     
-    // Chart configuration
-    const padding = 40;
-    const chartWidth = width - (padding * 2);
-    const chartHeight = height - (padding * 2);
-    const barWidth = chartWidth / (chartData.length * 2);
+    // Chart configuration - increased left padding for Y-axis labels
+    const padding = { left: 60, right: 30, top: 30, bottom: 40 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+    const barGroupWidth = chartWidth / chartData.length;
+    const barWidth = (barGroupWidth * 0.35); // Wider bars for better visibility
+    const barSpacing = barGroupWidth * 0.1; // Space between income/expense bars
     const maxValue = Math.max(...chartData.map(d => Math.max(d.income, d.expenses)));
     
-    // Colors
+    // Colors - enhanced for better contrast
     const incomeColor = '#10b981'; // green
-    const expenseColor = '#3b82f6'; // blue
+    const expenseColor = '#ef4444'; // red for better contrast
     const textColor = '#a0a3bd';
-    const gridColor = '#2a2d3e';
+    const gridColor = '#404040'; // Lighter grid color for better visibility
+    const labelColor = '#ffffff'; // white for value labels
     
-    // Draw grid lines
+    // Draw horizontal grid lines with better visibility
     ctx.strokeStyle = gridColor;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([2, 2]);
+    
     for (let i = 0; i <= 4; i++) {
-        const y = padding + (chartHeight / 4) * i;
+        const y = padding.top + (chartHeight / 4) * i;
         ctx.beginPath();
-        ctx.moveTo(padding, y);
-        ctx.lineTo(width - padding, y);
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(width - padding.right, y);
         ctx.stroke();
+        
+        // Add grid value labels on the left with better positioning
+        if (i < 4) {
+            const gridValue = maxValue - (maxValue / 4) * i;
+            ctx.fillStyle = textColor;
+            ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`$${(gridValue / 1000).toFixed(1)}k`, padding.left - 10, y);
+        }
     }
     
-    // Draw bars
+    ctx.setLineDash([]);
+    
+    // Draw bars with value labels
     chartData.forEach((dataPoint, index) => {
-        const x = padding + (index * barWidth * 2);
+        const groupCenterX = padding.left + (index * barGroupWidth) + (barGroupWidth / 2);
+        const incomeBarX = groupCenterX - barWidth - (barSpacing / 2);
+        const expenseBarX = groupCenterX + (barSpacing / 2);
         
         // Income bar (left)
         const incomeHeight = (dataPoint.income / maxValue) * chartHeight;
-        const incomeY = height - padding - incomeHeight;
+        const incomeY = padding.top + chartHeight - incomeHeight;
         
         ctx.fillStyle = incomeColor;
-        ctx.fillRect(x, incomeY, barWidth * 0.8, incomeHeight);
+        ctx.fillRect(incomeBarX, incomeY, barWidth, incomeHeight);
+        
+        // Income value label
+        if (incomeHeight > 20) {
+            ctx.fillStyle = labelColor;
+            ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            const incomeValue = `$${(dataPoint.income / 1000).toFixed(1)}k`;
+            ctx.fillText(incomeValue, incomeBarX + (barWidth / 2), incomeY - 6);
+        }
         
         // Expense bar (right)
         const expenseHeight = (dataPoint.expenses / maxValue) * chartHeight;
-        const expenseY = height - padding - expenseHeight;
+        const expenseY = padding.top + chartHeight - expenseHeight;
         
         ctx.fillStyle = expenseColor;
-        ctx.fillRect(x + barWidth, expenseY, barWidth * 0.8, expenseHeight);
+        ctx.fillRect(expenseBarX, expenseY, barWidth, expenseHeight);
         
-        // Month label
+        // Expense value label
+        if (expenseHeight > 20) {
+            ctx.fillStyle = labelColor;
+            ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            const expenseValue = `$${(dataPoint.expenses / 1000).toFixed(1)}k`;
+            ctx.fillText(expenseValue, expenseBarX + (barWidth / 2), expenseY - 6);
+        }
+        
+        // Month label at bottom
         ctx.fillStyle = textColor;
         ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.textAlign = 'center';
-        const labelX = x + barWidth;
-        ctx.fillText(dataPoint.month, labelX, height - 10);
+        ctx.textBaseline = 'top';
+        ctx.fillText(dataPoint.month, groupCenterX, height - padding.bottom + 8);
     });
     
-    // Add chart legend
-    const legendY = 20;
+    // Enhanced legend with better positioning
+    const legendY = 15;
+    const legendSpacing = 100;
     
     // Income legend
     ctx.fillStyle = incomeColor;
-    ctx.fillRect(padding, legendY, 12, 12);
+    ctx.fillRect(padding.left, legendY, 14, 14);
     ctx.fillStyle = textColor;
-    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.font = '13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText('Income', padding + 20, legendY + 9);
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Income', padding.left + 22, legendY + 7);
     
     // Expense legend
     ctx.fillStyle = expenseColor;
-    ctx.fillRect(padding + 80, legendY, 12, 12);
+    ctx.fillRect(padding.left + legendSpacing, legendY, 14, 14);
     ctx.fillStyle = textColor;
-    ctx.fillText('Expenses', padding + 100, legendY + 9);
+    ctx.fillText('Expenses', padding.left + legendSpacing + 22, legendY + 7);
 };
 
 // Utility functions for dashboard

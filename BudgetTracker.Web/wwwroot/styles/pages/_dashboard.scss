@@ -89,14 +89,21 @@
     }
     
     .chart-container {
-        height: 200px;
+        width: 100%;
+        height: 240px;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: var(--surface-2);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-sm);
+        margin-top: var(--spacing-md);
         
         canvas {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none;
+            max-height: none;
             filter: drop-shadow(0 0 1px rgba(0,0,0,0.2));
         }
     }
