@@ -135,3 +135,58 @@ a:hover {
         color: var(--text-secondary);
     }
 }
+
+/* Category Icons */
+.category-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface-color);
+  
+  &.small {
+    width: 24px;
+    height: 24px;
+    font-size: 16px !important;
+  }
+  
+  &.medium {
+    width: 32px;
+    height: 32px;
+    font-size: 20px !important;
+  }
+  
+  &.large {
+    width: 48px;
+    height: 48px;
+    font-size: 28px !important;
+  }
+  
+  &.xl {
+    width: 64px;
+    height: 64px;
+    font-size: 36px !important;
+  }
+}
+
+/* Material Icons styling */
+.material-icons.category-icon {
+  color: var(--primary-color);
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Emoji fallback styling */
+.emoji-icon.category-icon {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+}

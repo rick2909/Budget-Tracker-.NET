@@ -18,9 +18,7 @@
             @foreach (var transaction in transactions)
             {
                 <div class="transaction-item">
-                    <div class="transaction-icon @GetIconClass(transaction.Category?.Name ?? "")">
-                        @GetCategoryIcon(transaction.Category?.Name ?? "")
-                    </div>
+                    <CategoryIcon Category="@transaction.Category" CssClass="large" />
                     <div class="transaction-details">
                         <div class="transaction-name">@transaction.Title</div>
                         <div class="transaction-category">@(transaction.Category?.Name ?? "Unknown")</div>
@@ -78,36 +76,6 @@
             isLoading = false;
             StateHasChanged();
         }
-    }
-    
-    private string GetIconClass(string category)
-    {
-        return category.ToLower() switch
-        {
-            var name when name.Contains("food") || name.Contains("groceries") => "groceries",
-            var name when name.Contains("salary") || name.Contains("income") => "salary",
-            var name when name.Contains("utility") || name.Contains("bill") => "utilities",
-            var name when name.Contains("dining") || name.Contains("restaurant") => "dining",
-            var name when name.Contains("rent") || name.Contains("housing") => "rent",
-            var name when name.Contains("transport") || name.Contains("gas") => "transport",
-            _ => "general"
-        };
-    }
-    
-    private string GetCategoryIcon(string category)
-    {
-        return category.ToLower() switch
-        {
-            var name when name.Contains("food") || name.Contains("groceries") => "🛒",
-            var name when name.Contains("salary") || name.Contains("income") => "💰",
-            var name when name.Contains("utility") || name.Contains("bill") => "💡",
-            var name when name.Contains("dining") || name.Contains("restaurant") => "🍽️",
-            var name when name.Contains("rent") || name.Contains("housing") => "🏠",
-            var name when name.Contains("transport") || name.Contains("gas") => "🚗",
-            var name when name.Contains("entertainment") => "🎬",
-            var name when name.Contains("health") => "💊",
-            _ => "📄"
-        };
     }
     
     private string GetAmountClass(TransactionType type, decimal amount)

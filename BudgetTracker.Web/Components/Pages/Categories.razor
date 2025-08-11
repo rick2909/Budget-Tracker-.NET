@@ -29,7 +29,7 @@
                 {
                     <div class="category-card">
                         <div class="category-header">
-                            <div class="category-icon">@GetCategoryIcon(category.Name)</div>
+                            <CategoryIcon Category="@category" CssClass="category-icon small" />
                             <div class="category-info">
                                 <h3>@category.Name</h3>
                                 <p>@category.Description</p>
@@ -104,24 +104,6 @@
             isLoading = false;
             StateHasChanged();
         }
-    }
-
-    private string GetCategoryIcon(string categoryName)
-    {
-        return categoryName.ToLower() switch
-        {
-            var name when name.Contains("food") || name.Contains("dining") || name.Contains("restaurant") => "🍽️",
-            var name when name.Contains("transport") || name.Contains("car") || name.Contains("gas") => "🚗",
-            var name when name.Contains("entertainment") || name.Contains("movie") || name.Contains("game") => "🎬",
-            var name when name.Contains("bill") || name.Contains("utility") || name.Contains("electric") => "⚡",
-            var name when name.Contains("shop") || name.Contains("clothing") || name.Contains("retail") => "🛍️",
-            var name when name.Contains("health") || name.Contains("fitness") || name.Contains("medical") => "💪",
-            var name when name.Contains("education") || name.Contains("book") || name.Contains("course") => "📚",
-            var name when name.Contains("home") || name.Contains("rent") || name.Contains("mortgage") => "🏠",
-            var name when name.Contains("travel") || name.Contains("vacation") || name.Contains("hotel") => "✈️",
-            var name when name.Contains("salary") || name.Contains("income") || name.Contains("wage") => "💰",
-            _ => "📁"
-        };
     }
 
     private async Task OnAddCategory()
