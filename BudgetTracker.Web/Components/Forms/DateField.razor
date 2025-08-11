@@ -1,0 +1,16 @@
+<FormField Label="@Label" CssClass="date-field">
+    <div class="date-input">
+        <input type="date" @bind="Value" @bind:after="NotifyValueChanged" />
+    </div>
+</FormField>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public DateTime Value { get; set; }
+    [Parameter] public EventCallback<DateTime> ValueChanged { get; set; }
+
+    private async Task NotifyValueChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

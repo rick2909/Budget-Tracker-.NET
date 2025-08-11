@@ -1,5 +1,6 @@
 @using BudgetTracker.Logic.Dtos
 @using BudgetTracker.Infrastructure.Enums
+@using BudgetTracker.Web.Components.Forms
 @inject HttpClient Http
 @inject IJSRuntime JS
 
@@ -20,6 +21,7 @@
         Type = BudgetTracker.Infrastructure.Enums.TransactionType.Expense,
         CategoryId = 1,
         StartDate = DateTime.Today,
+        EndDate = null,
         RecurrencePattern = BudgetTracker.Infrastructure.Enums.RecurrencePattern.Monthly
     };
 
@@ -95,7 +97,7 @@
                         <span class="switch-track"></span>
                     </label>
                 </div>
-                <button type="button" class="btn btn--outline btn--sm" onclick="closeMorphModal()">✕</button>
+                <button type="button" class="btn btn--outline btn--sm" @onclick="CloseModal">✕</button>
             </div>
         </header>
         <section class="morph-content">
@@ -103,89 +105,30 @@
             <input type="checkbox" id="isRecurringHidden" style="display:none" @bind="IsRecurring" />
 
             <!-- Always render both sections; JS controls visibility -->
-            <div id="recurringForm" style="display:@(IsRecurring ? "block" : "none")">
-                <div class="form-field">
-                    <label class="form-label">Title</label>
+            <div id="recurringForm" class="form-grid" style="display:@(IsRecurring ? "" : "none")">
+                <FormField Label="Title">
                     <input type="text" @bind="RecurringModel.Title" placeholder="e.g., Coffee" />
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Amount</label>
+                </FormField>
+                <FormField Label="Amount">
                     <input type="number" @bind="RecurringModel.Amount" @bind:event="oninput" placeholder="e.g., 3.50" />
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Category</label>
-                    <InputSelect @bind-Value="RecurringModel.CategoryId" TValue="int">
-                        <option value="1">Dining</option>
-                        <option value="2">Groceries</option>
-                        <option value="3">Transport</option>
-                        <option value="4">Bills</option>
-                    </InputSelect>
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Type</label>
-                    <InputSelect @bind-Value="RecurringModel.Type" TValue="TransactionType">
-                        @foreach (var t in Enum.GetValues<TransactionType>())
-                        {
-                            <option value="@t">@t</option>
-                        }
-                    </InputSelect>
-                </div>
-                <div class="form-field date-field">
-                    <label class="form-label">Start Date</label>
-                    <div class="date-input">
-                        <input type="date" @bind="RecurringModel.StartDate" />
-                    </div>
-                </div>
-                <div class="form-field date-field">
-                    <label class="form-label">End Date</label>
-                    <div class="date-input">
-                        <input type="date" @bind="RecurringModel.EndDate" />
-                    </div>
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Recurrence Pattern</label>
-                    <InputSelect @bind-Value="RecurringModel.RecurrencePattern" TValue="RecurrencePattern">
-                        @foreach (var rp in Enum.GetValues<RecurrencePattern>())
-                        {
-                            <option value="@rp">@rp</option>
-                        }
-                    </InputSelect>
-                </div>
+                </FormField>
+                <CategorySelect @bind-Value="RecurringModel.CategoryId" />
+                <EnumSelect TEnum="TransactionType" Label="Type" @bind-Value="RecurringModel.Type" />
+                <DateField Label="Start Date" @bind-Value="RecurringModel.StartDate" />
+                <NullableDateField Label="End Date" @bind-Value="RecurringModel.EndDate" />
+                <EnumSelect TEnum="RecurrencePattern" Label="Recurrence Pattern" @bind-Value="RecurringModel.RecurrencePattern" />
             </div>
 
-            <div id="singleForm" style="display:@(IsRecurring ? "none" : "block")">
-                <div class="form-field">
-                    <label class="form-label">Title</label>
+            <div id="singleForm" class="form-grid" style="display:@(IsRecurring ? "none" : "")">
+                <FormField Label="Title">
                     <input type="text" @bind="TransactionModel.Title" placeholder="e.g., Coffee" />
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Amount</label>
+                </FormField>
+                <FormField Label="Amount">
                     <input type="number" @bind="TransactionModel.Amount" @bind:event="oninput" placeholder="e.g., 3.50" />
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Category</label>
-                    <InputSelect @bind-Value="TransactionModel.CategoryId" TValue="int">
-                        <option value="1">Dining</option>
-                        <option value="2">Groceries</option>
-                        <option value="3">Transport</option>
-                        <option value="4">Bills</option>
-                    </InputSelect>
-                </div>
-                <div class="form-field">
-                    <label class="form-label">Type</label>
-                    <InputSelect @bind-Value="TransactionModel.Type" TValue="TransactionType">
-                        @foreach (var t in Enum.GetValues<TransactionType>())
-                        {
-                            <option value="@t">@t</option>
-                        }
-                    </InputSelect>
-                </div>
-                <div class="form-field date-field">
-                    <label class="form-label">Date</label>
-                    <div class="date-input">
-                        <input type="date" @bind="TransactionModel.Date" />
-                    </div>
-                </div>
+                </FormField>
+                <CategorySelect @bind-Value="TransactionModel.CategoryId" />
+                <EnumSelect TEnum="TransactionType" Label="Type" @bind-Value="TransactionModel.Type" />
+                <DateField Label="Date" @bind-Value="TransactionModel.Date" />
             </div>
         </section>
         <footer class="morph-footer">

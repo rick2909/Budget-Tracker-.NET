@@ -11,8 +11,8 @@
     if(!headerToggle || !hiddenBind || !recurring || !single) return;
 
     function updateUI(isOn){
-      recurring.style.display = isOn ? 'block' : 'none';
-      single.style.display = isOn ? 'none' : 'block';
+      recurring.style.display = isOn ? '' : 'none';
+      single.style.display = isOn ? 'none' : '';
       // sync hidden bound input to notify Blazor state
       if(hiddenBind.checked !== !!isOn){
         hiddenBind.checked = !!isOn;
@@ -43,7 +43,7 @@
     },
     show: function(){
       var modal = document.getElementById('morphModal');
-      if(modal){ modal.style.display = 'block'; }
+      if(modal){ modal.style.display = ''; }
     }
   };
 })();

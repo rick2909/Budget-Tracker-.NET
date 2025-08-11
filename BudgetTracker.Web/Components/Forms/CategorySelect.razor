@@ -1,0 +1,18 @@
+<FormField Label="Category">
+    <InputSelect @bind-Value="Value" TValue="int" @bind-Value:after="NotifyValueChanged">
+        <option value="1">Dining</option>
+        <option value="2">Groceries</option>
+        <option value="3">Transport</option>
+        <option value="4">Bills</option>
+    </InputSelect>
+</FormField>
+
+@code {
+    [Parameter] public int Value { get; set; }
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+
+    private async Task NotifyValueChanged()
+    {
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

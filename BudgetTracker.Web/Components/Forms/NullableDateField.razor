@@ -1,0 +1,29 @@
+<FormField Label="@Label" CssClass="date-field">
+    <div class="date-input">
+        <input type="date" value="@DateString" @onchange="OnDateChanged" />
+    </div>
+</FormField>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public DateTime? Value { get; set; }
+    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+
+    private string DateString => Value?.ToString("yyyy-MM-dd") ?? "";
+
+    private async Task OnDateChanged(ChangeEventArgs e)
+    {
+        var dateString = e.Value?.ToString();
+        
+        if (string.IsNullOrWhiteSpace(dateString))
+        {
+            Value = null;
+        }
+        else if (DateTime.TryParse(dateString, out var date))
+        {
+            Value = date;
+        }
+        
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

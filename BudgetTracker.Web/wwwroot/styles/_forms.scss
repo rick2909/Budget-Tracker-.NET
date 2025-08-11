@@ -235,3 +235,20 @@ input[type="date"]::-webkit-datetime-edit-year-field { color: var(--text-primary
   user-select: none;
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  @include variables.phone {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-grid > * {
+  grid-column: span 1;
+}
+
+.form-grid > .form-field.Wide {
+  grid-column: span 2;
+}
